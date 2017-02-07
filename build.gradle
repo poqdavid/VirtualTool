@@ -1,0 +1,73 @@
+buildscript {
+    project.gradle.startParameter.setLogLevel(LogLevel.INFO)
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven {
+            name = 'gradle-plugins'
+            url = 'https://plugins.gradle.org/m2'
+        }
+        maven {
+            name = 'sponge'
+            url = 'https://repo.spongepowered.org/maven'
+        }
+        maven {
+            name = 'forge'
+            url = 'http://files.minecraftforge.net/maven'
+        }
+    }
+    dependencies {
+        classpath 'gradle.plugin.net.minecrell:licenser:0.3'
+        classpath "gradle.plugin.org.spongepowered:spongegradle:0.8.1"
+    }
+}
+apply plugin: 'idea'
+apply plugin: 'groovy'
+apply plugin: 'java'
+apply plugin: "net.minecrell.licenser"
+apply plugin: "org.spongepowered.plugin"
+
+group = pluginGroup
+version = pluginVersion
+
+dependencies {
+    compile 'org.spongepowered:spongeapi:5.0.0'
+}
+
+sponge.plugin.id = pluginId
+
+processResources {
+    inputs.property "version",
+            project.version
+    inputs.property "mcversion",
+            minecraft_version
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version': project.version,
+                'mcversion': minecraft_version
+    }
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+    from 'LICENSE.txt'
+}
+license {
+    header = file('HEADER.txt')
+    newLine = false
+    ext {
+        name = project.name
+        organization = project.organization
+        url = project.url
+    }
+    include '**/*.java'
+    include '**/*.groovy'
+}
+jar {
+    version = "${project.minecraft_version}-${project.version}"
+}
+idea {
+    module {
+        inheritOutputDirs = true
+    }
+}
+build.dependsOn(jar)
