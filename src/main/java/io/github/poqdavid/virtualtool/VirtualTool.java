@@ -24,56 +24,82 @@
  */
 package io.github.poqdavid.virtualtool;
 
-import com.google.inject.Inject;
 import io.github.poqdavid.virtualtool.Commands.CommandManager;
-import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.loader.ConfigurationLoader;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.spongepowered.api.Game;
-import org.spongepowered.api.config.DefaultConfig;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.game.GameReloadEvent;
+import org.spongepowered.api.event.game.state.GameInitializationEvent;
+import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.game.state.GameStartingServerEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 
-import java.io.File;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @Plugin(id = PluginData.id, name = PluginData.name, version = PluginData.version, description = PluginData.description, url = PluginData.url, authors = {PluginData.author1})
 public class VirtualTool {
-
-    private static Logger logger2;
-    private static VirtualTool vigui;
-    @Inject
+    private VirtualTool virtualtool;
     private Logger logger;
-    private ConfigurationNode config = null;
-
-    @Inject
+    private Path configpath;
+    private Path dataDir;
     private PluginContainer pluginContainer;
-
-    @Inject
-    @DefaultConfig(sharedRoot = true)
-    private File defaultConfig;
     private Game game;
+    //private File defaultConfig;
     private CommandManager cmdManager;
 
-    @Inject
-    @DefaultConfig(sharedRoot = true)
-    private ConfigurationLoader<CommentedConfigurationNode> configManager;
+    //@DefaultConfig(sharedRoot = true)
+    //private ConfigurationLoader<CommentedConfigurationNode> configManager;
 
-    public static VirtualTool getInstance() {
-        return vigui;
+    @Inject
+    public VirtualTool(@ConfigDir(sharedRoot = true) Path path, Logger logger, PluginContainer container) {
+        this.dataDir = Sponge.getGame().getSavesDirectory().resolve(PluginData.id);
+        this.pluginContainer = container;
+        this.logger = LoggerFactory.getLogger(PluginData.name);
+        this.configpath = path.resolve(PluginData.id);
+        this.setVirtualTool(this);
     }
 
-    public static String getVersion() {
+    public void setVirtualTool(VirtualTool virtualtool) {
+        if (this.virtualtool == null) {
+            this.virtualtool = virtualtool;
+        }
+    }
+
+    public VirtualTool getNucleus() {
+        return this.virtualtool;
+    }
+
+    @Nonnull
+    public VirtualTool getInstance() {
+        return this.virtualtool;
+    }
+
+    @Nonnull
+    public PluginContainer getPluginContainer() {
+        return this.pluginContainer;
+    }
+
+    @Nonnull
+    public String getVersion() {
         return PluginData.version;
     }
 
-    public static Logger getLogger() {
-        return logger2;
+    @Nonnull
+    public Logger getLogger() {
+        return logger;
     }
 
+    @Nonnull
     public Game getGame() {
         return game;
     }
@@ -84,13 +110,42 @@ public class VirtualTool {
     }
 
     @Listener
-    public void ServerStarting(GameStartingServerEvent event) {
-        cmdManager = new CommandManager(game, this);
-        vigui = this;
+    public void onGamePreInit(@Nullable final GamePreInitializationEvent event) {
+        // this.logger.info("Plugin PreInitialization...");
+       /* TODO Implement it XD */
+        //this.logger.info("Plugin PreInitialized!");
+    }
+
+    @Listener
+    public void onGameInit(@Nullable final GameInitializationEvent event) {
+        this.logger.info("Plugin Initializing...");
+
+        try {
+            if (!Files.exists(this.configpath)) {
+                Files.createDirectories(this.configpath);
+            }
+        } catch (final IOException ex) {
+            this.logger.error("Error on creating root plugin directory: {}", ex);
+        }
+
+        this.logger.info("Plugin Initialized successfully!");
+    }
+
+    @Listener
+    public void onServerStarting(GameStartingServerEvent event) {
+        this.logger.info("Loading...");
+        this.cmdManager = new CommandManager(game, this);
+        this.logger.info("Loaded!");
     }
 
     @Listener
     public void onServerStart(GameStartedServerEvent event) {
+        //this.logger.info("Game Server  Started...");
+    }
 
+    @Listener
+    public void onGameReload(@Nullable final GameReloadEvent event) {
+        //this.logger.info("Reloading...");
+        //this.logger.info("Reloaded!");
     }
 }

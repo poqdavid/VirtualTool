@@ -25,6 +25,7 @@
 package io.github.poqdavid.virtualtool.Commands;
 
 
+import io.github.poqdavid.virtualtool.Utils.Inventory;
 import io.github.poqdavid.virtualtool.VirtualTool;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.command.spec.CommandSpec;
@@ -37,10 +38,12 @@ import org.spongepowered.api.text.Text;
 public class CommandManager {
     private Game game;
     private VirtualTool vt;
+    private Inventory inv;
 
     public CommandManager(Game game, VirtualTool vt) {
         this.game = game;
         this.vt = vt;
+        this.inv = new Inventory(game, vt);
         registerCommands();
     }
 
@@ -48,46 +51,50 @@ public class CommandManager {
     public void registerCommands() {
         CommandSpec helpCmd = CommandSpec.builder()
                 .description(Text.of("/vt help"))
-                .executor(new HelpCMD())
-                .permission("VirtualTool.command.help")
+                .executor(new HelpCMD(this.game, this.inv, this.vt))
+                .permission(HelpCMD.getPermission())
                 .build();
+
         CommandSpec enderchestCmd = CommandSpec.builder()
-                .description(Text.of("/ec or /vt ec"))
-                .executor(new EnderChestCMD())
-                .permission("VirtualTool.command.enderchest")
+                .description(EnderChestCMD.getDescription())
+                .executor(new EnderChestCMD(this.game, this.inv, this.vt))
+                .permission(EnderChestCMD.getPermission())
                 .build();
+
         CommandSpec anvilCmd = CommandSpec.builder()
-                .description(Text.of("/anvil or /vt av"))
-                .executor(new AnvilCMD())
-                .permission("VirtualTool.command.anvil")
+                .description(AnvilCMD.getDescription())
+                .executor(new AnvilCMD(this.game, this.inv, this.vt))
+                .permission(AnvilCMD.getPermission())
                 .build();
+
         CommandSpec workbenchCmd = CommandSpec.builder()
-                .description(Text.of("/workbench or /wb"))
-                .executor(new WorkbenchCMD())
-                .permission("VirtualTool.command.workbench")
+                .description(WorkbenchCMD.getDescription())
+                .executor(new WorkbenchCMD(this.game, this.inv, this.vt))
+                .permission(WorkbenchCMD.getPermission())
                 .build();
+
         CommandSpec enchantingtableCmd = CommandSpec.builder()
-                .description(Text.of("/enchantingtable or /et"))
-                .executor(new EnchantingTableCMD())
-                .permission("VirtualTool.command.enchantingtable")
+                .description(EnchantingTableCMD.getDescription())
+                .executor(new EnchantingTableCMD(this.game, this.inv, this.vt))
+                .permission(EnchantingTableCMD.getPermission())
                 .build();
+
         CommandSpec vtCommand = CommandSpec.builder()
-                .description(Text.of("/vt"))
-                .permission("VirtualTool.command.main")
-                .child(helpCmd, "help")
-                .child(helpCmd, "")
-                .child(enderchestCmd, "enderchest", "ec")
-                .child(anvilCmd, "anvil", "av")
-                .child(workbenchCmd, "workbench", "wb")
-                .child(enchantingtableCmd, "enchantingtable", "et")
+                .description(MainCMD.getDescription())
+                .permission(MainCMD.getPermission())
+                .executor(new HelpCMD(this.game, this.inv, this.vt))
+                .child(helpCmd, HelpCMD.getAlias())
+                .child(enderchestCmd, EnderChestCMD.getAlias())
+                .child(anvilCmd, AnvilCMD.getAlias())
+                .child(workbenchCmd, WorkbenchCMD.getAlias())
+                .child(enchantingtableCmd, EnchantingTableCMD.getAlias())
                 .build();
 
-
-        game.getCommandManager().register(vt, vtCommand, "virtualtool", "vt");
-        game.getCommandManager().register(vt, enderchestCmd, "enderchest", "ec");
-        game.getCommandManager().register(vt, anvilCmd, "anvil");
-        game.getCommandManager().register(vt, workbenchCmd, "workbench", "wb");
-        game.getCommandManager().register(vt, enchantingtableCmd, "enchantingtable", "et");
+        game.getCommandManager().register(vt, vtCommand, MainCMD.getAlias());
+        game.getCommandManager().register(vt, enderchestCmd, EnderChestCMD.getAlias());
+        game.getCommandManager().register(vt, anvilCmd, AnvilCMD.getAlias());
+        game.getCommandManager().register(vt, workbenchCmd, WorkbenchCMD.getAlias());
+        game.getCommandManager().register(vt, enchantingtableCmd, EnchantingTableCMD.getAlias());
     }
 
 }

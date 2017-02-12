@@ -25,13 +25,15 @@
 package io.github.poqdavid.virtualtool.Utils;
 
 import io.github.poqdavid.virtualtool.VirtualTool;
+import org.spongepowered.api.Game;
+import org.spongepowered.api.Server;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.NamedCause;
-import org.spongepowered.api.item.inventory.InventoryArchetypes;
+import org.spongepowered.api.item.inventory.InventoryArchetype;
 import org.spongepowered.api.item.inventory.property.InventoryTitle;
 import org.spongepowered.api.text.Text;
 
@@ -39,34 +41,42 @@ import org.spongepowered.api.text.Text;
  * Created by David on 2/7/2017.
  */
 public class Inventory {
-    public static CommandResult Open(CommandSource src, CommandContext args, String open) {
-        if (src.getCommandSource().isPresent() && src.getCommandSource().get() instanceof Player) {
-            final Player player = (Player) src.getCommandSource().get();
+    private Game game;
+    private VirtualTool vt;
 
+    public Inventory(Game game, VirtualTool vt) {
+        this.game = game;
+        this.vt = vt;
+    }
 
-            if (open == "enderchest") {
-                player.openInventory(player.getEnderChestInventory(), Cause.of(NamedCause.of("plugin", VirtualTool.getInstance()), NamedCause.source(player)));
-                return CommandResult.success();
-            }
+    public CommandResult Open(CommandSource src, CommandContext args, InventoryArchetype invArch, Text inventorytitle) {
 
-            if (open == "anvil") {
-                org.spongepowered.api.item.inventory.Inventory i = org.spongepowered.api.item.inventory.Inventory.builder().of(InventoryArchetypes.ANVIL).property(InventoryTitle.PROPERTY_NAME, new InventoryTitle(Text.of("Virtual Anvil"))).build(VirtualTool.getInstance());
-                player.openInventory(i, Cause.of(NamedCause.of("plugin", VirtualTool.getInstance()), NamedCause.source(player)));
-                return CommandResult.success();
-            }
+        return this.Open(src, args, org.spongepowered.api.item.inventory.Inventory.builder().of(invArch).property(InventoryTitle.PROPERTY_NAME, new InventoryTitle(inventorytitle)).build(vt));
 
-            if (open == "workbench") {
-                org.spongepowered.api.item.inventory.Inventory i = org.spongepowered.api.item.inventory.Inventory.builder().of(InventoryArchetypes.WORKBENCH).build(VirtualTool.getInstance());
-                player.openInventory(i, Cause.of(NamedCause.of("plugin", VirtualTool.getInstance()), NamedCause.source(player)));
-                return CommandResult.success();
-            }
+    }
 
-            if (open == "enchantingtable") {
-                org.spongepowered.api.item.inventory.Inventory i = org.spongepowered.api.item.inventory.Inventory.builder().of(InventoryArchetypes.ENCHANTING_TABLE).build(VirtualTool.getInstance());
-                player.openInventory(i, Cause.of(NamedCause.of("plugin", VirtualTool.getInstance()), NamedCause.source(player)));
-                return CommandResult.success();
-            }
+    public CommandResult Open(CommandSource src, CommandContext args, String invArch) {
+        if (invArch == "enderchest") {
+            final Server server = vt.getGame().getServer();
+            final Player player = server.getPlayer(((Player) src.getCommandSource().get()).getUniqueId()).get();
+            return this.Open(src, args, player.getEnderChestInventory());
         }
         return CommandResult.empty();
     }
+
+    public CommandResult Open(CommandSource src, CommandContext args, InventoryArchetype invArch) {
+        return this.Open(src, args, org.spongepowered.api.item.inventory.Inventory.builder().of(invArch).build(vt));
+    }
+
+    public CommandResult Open(CommandSource src, CommandContext args, org.spongepowered.api.item.inventory.Inventory i) {
+
+        if (src.getCommandSource().isPresent() && src.getCommandSource().get() instanceof Player) {
+            final Server server = vt.getGame().getServer();
+            final Player player = server.getPlayer(((Player) src.getCommandSource().get()).getUniqueId()).get();
+            player.openInventory(i, Cause.of(NamedCause.of("plugin", vt), NamedCause.source(player)));
+            return CommandResult.success();
+        }
+        return CommandResult.empty();
+    }
+
 }

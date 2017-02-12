@@ -25,18 +25,44 @@
 package io.github.poqdavid.virtualtool.Commands;
 
 import io.github.poqdavid.virtualtool.Utils.Inventory;
+import io.github.poqdavid.virtualtool.VirtualTool;
+import org.spongepowered.api.Game;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.item.inventory.InventoryArchetypes;
+import org.spongepowered.api.text.Text;
 
 /**
  * Created by David on 2/7/2017.
  */
 public class WorkbenchCMD implements CommandExecutor {
+    private Game game;
+    private VirtualTool vt;
+    private Inventory inv;
+
+    public WorkbenchCMD(Game game, Inventory inv, VirtualTool vt) {
+        this.game = game;
+        this.vt = vt;
+        this.inv = inv;
+    }
+
+    public static String getPermission() {
+        return "VirtualTool.command.workbench";
+    }
+
+    public static Text getDescription() {
+        return Text.of("/workbench or /wb");
+    }
+
+    public static String[] getAlias() {
+        return new String[]{"workbench", "wb"};
+    }
+
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        return Inventory.Open(src, args, "workbench"); //CommandResult.success();
+        return inv.Open(src, args, InventoryArchetypes.WORKBENCH);
     }
 }

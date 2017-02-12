@@ -32,57 +32,36 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
-import org.spongepowered.api.service.pagination.PaginationList;
-import org.spongepowered.api.service.pagination.PaginationService;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.text.format.TextStyles;
 
 /**
- * Created by David on 10/23/2016.
+ * Created by David on 2/12/2017.
  */
-public class HelpCMD implements CommandExecutor {
+public class MainCMD implements CommandExecutor {
     private Game game;
     private VirtualTool vt;
     private Inventory inv;
 
-    public HelpCMD(Game game, Inventory inv, VirtualTool vt) {
+    public MainCMD(Game game, Inventory inv, VirtualTool vt) {
         this.game = game;
         this.vt = vt;
         this.inv = inv;
     }
 
     public static String getPermission() {
-        return "VirtualTool.command.help";
+        return "VirtualTool.command.main";
+    }
+
+    public static Text getDescription() {
+        return Text.of("/vt");
     }
 
     public static String[] getAlias() {
-        return new String[]{"help", "?"};
+        return new String[]{"virtualtool", "vt"};
     }
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        PaginationService paginationService = vt.getInstance().getGame().getServiceManager().provide(PaginationService.class).get();
-        PaginationList.Builder builder = paginationService.builder();
-        builder.title(Text.of(TextColors.DARK_AQUA, "VirtualTool - V" + vt.getVersion()))
-                .contents(
-                        Text.of(TextColors.BLUE, TextStyles.UNDERLINE, "GitHub - https://github.com/POQDavid/VirtualTool/"),
-                        Text.of(TextColors.BLUE, TextStyles.UNDERLINE, "Post - https://forums.spongepowered.org/"),
-                        Text.of(TextColors.BLUE, TextStyles.ITALIC, ""),
-                        Text.of(TextColors.BLUE, TextStyles.BOLD, "Commands"),
-                        Text.of(TextColors.BLUE, TextStyles.NONE, "- /anvil"),
-                        Text.of(TextColors.BLUE, TextStyles.NONE, "- /enderchest or /ec"),
-                        Text.of(TextColors.BLUE, TextStyles.NONE, "- /enchantingtable or /et"),
-                        Text.of(TextColors.BLUE, TextStyles.NONE, "- /workbench or /wb"),
-                        Text.of(TextColors.BLUE, TextStyles.NONE, "- /vt enderchest"),
-                        Text.of(TextColors.BLUE, TextStyles.NONE, "- /vt anvil")
-                )
-                .header(Text.of(TextColors.BLUE, TextStyles.BOLD, "Author - POQDavid"))
-                .padding(Text.of("="))
-                .sendTo(src);
         return CommandResult.success();
     }
-
 }
-
-
