@@ -25,7 +25,7 @@
 package io.github.poqdavid.virtualtool.Commands;
 
 
-import io.github.poqdavid.virtualtool.Utils.Inventory;
+import io.github.poqdavid.virtualtool.Utils.Invs;
 import io.github.poqdavid.virtualtool.VirtualTool;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.command.spec.CommandSpec;
@@ -36,65 +36,77 @@ import org.spongepowered.api.text.Text;
  * Created by David on 10/23/2016.
  */
 public class CommandManager {
+    public static CommandSpec enderchestCmd;
+    public static CommandSpec anvilCmd;
+    public static CommandSpec workbenchCmd;
+    public static CommandSpec enchantingtableCmd;
+    public static CommandSpec backpackCmd;
     private Game game;
     private VirtualTool vt;
-    private Inventory inv;
+    private Invs inv;
 
     public CommandManager(Game game, VirtualTool vt) {
         this.game = game;
         this.vt = vt;
-        this.inv = new Inventory(game, vt);
+        this.inv = new Invs(game, vt);
         registerCommands();
     }
-
 
     public void registerCommands() {
         CommandSpec helpCmd = CommandSpec.builder()
                 .description(Text.of("/vt help"))
                 .executor(new HelpCMD(this.game, this.inv, this.vt))
-                .permission(HelpCMD.getPermission())
                 .build();
 
-        CommandSpec enderchestCmd = CommandSpec.builder()
+        enderchestCmd = CommandSpec.builder()
                 .description(EnderChestCMD.getDescription())
                 .executor(new EnderChestCMD(this.game, this.inv, this.vt))
-                .permission(EnderChestCMD.getPermission())
                 .build();
 
-        CommandSpec anvilCmd = CommandSpec.builder()
+        anvilCmd = CommandSpec.builder()
                 .description(AnvilCMD.getDescription())
                 .executor(new AnvilCMD(this.game, this.inv, this.vt))
-                .permission(AnvilCMD.getPermission())
                 .build();
 
-        CommandSpec workbenchCmd = CommandSpec.builder()
+        workbenchCmd = CommandSpec.builder()
                 .description(WorkbenchCMD.getDescription())
                 .executor(new WorkbenchCMD(this.game, this.inv, this.vt))
-                .permission(WorkbenchCMD.getPermission())
                 .build();
 
-        CommandSpec enchantingtableCmd = CommandSpec.builder()
+        enchantingtableCmd = CommandSpec.builder()
                 .description(EnchantingTableCMD.getDescription())
                 .executor(new EnchantingTableCMD(this.game, this.inv, this.vt))
-                .permission(EnchantingTableCMD.getPermission())
+                .build();
+
+        backpackCmd = CommandSpec.builder()
+                .description(BackpackCMD.getDescription())
+                .executor(new BackpackCMD(this.game, this.inv, this.vt))
                 .build();
 
         CommandSpec vtCommand = CommandSpec.builder()
                 .description(MainCMD.getDescription())
-                .permission(MainCMD.getPermission())
-                .executor(new HelpCMD(this.game, this.inv, this.vt))
+                .executor(new MainCMD(this.game, this.inv, this.vt))
                 .child(helpCmd, HelpCMD.getAlias())
-                .child(enderchestCmd, EnderChestCMD.getAlias())
-                .child(anvilCmd, AnvilCMD.getAlias())
-                .child(workbenchCmd, WorkbenchCMD.getAlias())
-                .child(enchantingtableCmd, EnchantingTableCMD.getAlias())
                 .build();
 
+        //--Main---
         game.getCommandManager().register(vt, vtCommand, MainCMD.getAlias());
-        game.getCommandManager().register(vt, enderchestCmd, EnderChestCMD.getAlias());
-        game.getCommandManager().register(vt, anvilCmd, AnvilCMD.getAlias());
-        game.getCommandManager().register(vt, workbenchCmd, WorkbenchCMD.getAlias());
-        game.getCommandManager().register(vt, enchantingtableCmd, EnchantingTableCMD.getAlias());
+        //--Tools--
+        if (vt.getSettings().getCommands().isEnderchestEnabled()) {
+            game.getCommandManager().register(vt, enderchestCmd, EnderChestCMD.getAlias());
+        }
+        if (vt.getSettings().getCommands().isAnvilEnabled()) {
+            game.getCommandManager().register(vt, anvilCmd, AnvilCMD.getAlias());
+        }
+        if (vt.getSettings().getCommands().isWorkbenchEnabled()) {
+            game.getCommandManager().register(vt, workbenchCmd, WorkbenchCMD.getAlias());
+        }
+        if (vt.getSettings().getCommands().isEnchantingtableEnabled()) {
+            game.getCommandManager().register(vt, enchantingtableCmd, EnchantingTableCMD.getAlias());
+        }
+        if (vt.getSettings().getCommands().isBackpackEnabled()) {
+            game.getCommandManager().register(vt, backpackCmd, BackpackCMD.getAlias());
+        }
     }
 
 }

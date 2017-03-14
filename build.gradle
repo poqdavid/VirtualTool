@@ -15,6 +15,7 @@ buildscript {
             name = 'forge'
             url = 'http://files.minecraftforge.net/maven'
         }
+
     }
     dependencies {
         classpath 'gradle.plugin.net.minecrell:licenser:0.3'
@@ -31,7 +32,8 @@ group = pluginGroup
 version = pluginVersion
 
 dependencies {
-    compile 'org.spongepowered:spongeapi:5.1.0-SNAPSHOT'
+    compile 'org.spongepowered:spongeapi:6.0.0-SNAPSHOT'
+    compile group: 'javax.validation', name: 'validation-api', version: '1.1.0.Final'
 }
 
 sponge.plugin.id = pluginId

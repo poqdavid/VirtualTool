@@ -24,14 +24,17 @@
  */
 package io.github.poqdavid.virtualtool.Commands;
 
-import io.github.poqdavid.virtualtool.Utils.Inventory;
+import io.github.poqdavid.virtualtool.Permission.VTPermissions;
+import io.github.poqdavid.virtualtool.Utils.Invs;
 import io.github.poqdavid.virtualtool.VirtualTool;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.command.CommandException;
+import org.spongepowered.api.command.CommandPermissionException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 /**
@@ -40,16 +43,12 @@ import org.spongepowered.api.text.Text;
 public class EnderChestCMD implements CommandExecutor {
     private Game game;
     private VirtualTool vt;
-    private Inventory inv;
+    private Invs inv;
 
-    public EnderChestCMD(Game game, Inventory inv, VirtualTool vt) {
+    public EnderChestCMD(Game game, Invs inv, VirtualTool vt) {
         this.game = game;
         this.vt = vt;
         this.inv = inv;
-    }
-
-    public static String getPermission() {
-        return "VirtualTool.command.enderchest";
     }
 
     public static Text getDescription() {
@@ -62,6 +61,14 @@ public class EnderChestCMD implements CommandExecutor {
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        return inv.Open(src, args, "enderchest");
+        if (src instanceof Player) {
+            if (src.hasPermission(VTPermissions.COMMAND_ENDERCHEST)) {
+                return inv.Open(src, args, "enderchest");
+            } else {
+                throw new CommandPermissionException(Text.of("You don't have permission to use this command."));
+            }
+        } else {
+            throw new CommandException(Text.of("You can't use this command if you are not a player!"));
+        }
     }
 }

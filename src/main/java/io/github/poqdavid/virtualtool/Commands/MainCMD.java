@@ -24,10 +24,12 @@
  */
 package io.github.poqdavid.virtualtool.Commands;
 
-import io.github.poqdavid.virtualtool.Utils.Inventory;
+import io.github.poqdavid.virtualtool.Permission.VTPermissions;
+import io.github.poqdavid.virtualtool.Utils.Invs;
 import io.github.poqdavid.virtualtool.VirtualTool;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.command.CommandException;
+import org.spongepowered.api.command.CommandPermissionException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
@@ -40,17 +42,14 @@ import org.spongepowered.api.text.Text;
 public class MainCMD implements CommandExecutor {
     private Game game;
     private VirtualTool vt;
-    private Inventory inv;
+    private Invs inv;
 
-    public MainCMD(Game game, Inventory inv, VirtualTool vt) {
+    public MainCMD(Game game, Invs inv, VirtualTool vt) {
         this.game = game;
         this.vt = vt;
         this.inv = inv;
     }
 
-    public static String getPermission() {
-        return "VirtualTool.command.main";
-    }
 
     public static Text getDescription() {
         return Text.of("/vt");
@@ -62,6 +61,11 @@ public class MainCMD implements CommandExecutor {
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
+        if (src.hasPermission(VTPermissions.COMMAND_MAIN)) {
+        } else {
+            throw new CommandPermissionException(Text.of("You don't have permission to use this command."));
+        }
+
         return CommandResult.success();
     }
 }

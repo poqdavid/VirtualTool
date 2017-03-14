@@ -24,9 +24,93 @@
  */
 package io.github.poqdavid.virtualtool.Utils;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import io.github.poqdavid.virtualtool.VirtualTool;
+import ninja.leaping.configurate.gson.GsonConfigurationLoader;
+import org.spongepowered.api.Server;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.DataContainer;
+import org.spongepowered.api.data.DataManager;
+import org.spongepowered.api.data.DataView;
+import org.spongepowered.api.data.persistence.DataTranslators;
+import org.spongepowered.api.entity.living.player.Player;
+
+import java.io.*;
+import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 /**
  * Created by David on 2/12/2017.
  */
 public class Plugin {
+
+    public static String serializeToJson(DataContainer container) throws IOException {
+        StringWriter writer = new StringWriter();
+        GsonConfigurationLoader.builder().build().saveInternal(DataTranslators.CONFIGURATION_NODE.translate(container), writer);
+        return writer.toString();
+    }
+
+    public static DataContainer deSerializeJson(String json) {
+        DataView target = null;
+        try {
+            target = DataTranslators.CONFIGURATION_NODE.translate(GsonConfigurationLoader.builder().setSource(() -> new BufferedReader(new StringReader(json))).build().load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        DataManager manager = Sponge.getGame().getDataManager();
+        return target.getContainer();
+    }
+
+    public static Player getPlayer(CommandSource src, VirtualTool vt) {
+        final Server server = vt.getGame().getServer();
+        return server.getPlayer(((Player) src.getCommandSource().get()).getUniqueId()).get();
+    }
+
+    public static void savetojson(Path file, Settings jsonob) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(jsonob, jsonob.getClass());
+        if (!Files.exists(file)) {
+            try {
+                Files.createFile(file);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        try (FileWriter filew = new FileWriter(file.toString())) {
+            if (jsonob == null) {
+                filew.write("{}");
+            } else {
+                filew.write(json.toString());
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Settings loadfromjson(Path file ,Settings defob) {
+        if (!Files.exists(file)) {
+            try {
+                savetojson(file, defob);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        Gson gson = new Gson();
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(file.toString()));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return gson.fromJson(br, defob.getClass());
+    }
 
 }

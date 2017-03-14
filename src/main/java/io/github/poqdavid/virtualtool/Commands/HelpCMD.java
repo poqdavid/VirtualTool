@@ -24,10 +24,12 @@
  */
 package io.github.poqdavid.virtualtool.Commands;
 
-import io.github.poqdavid.virtualtool.Utils.Inventory;
+import io.github.poqdavid.virtualtool.Permission.VTPermissions;
+import io.github.poqdavid.virtualtool.Utils.Invs;
 import io.github.poqdavid.virtualtool.VirtualTool;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.command.CommandException;
+import org.spongepowered.api.command.CommandPermissionException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
@@ -44,16 +46,12 @@ import org.spongepowered.api.text.format.TextStyles;
 public class HelpCMD implements CommandExecutor {
     private Game game;
     private VirtualTool vt;
-    private Inventory inv;
+    private Invs inv;
 
-    public HelpCMD(Game game, Inventory inv, VirtualTool vt) {
+    public HelpCMD(Game game, Invs inv, VirtualTool vt) {
         this.game = game;
         this.vt = vt;
         this.inv = inv;
-    }
-
-    public static String getPermission() {
-        return "VirtualTool.command.help";
     }
 
     public static String[] getAlias() {
@@ -62,24 +60,26 @@ public class HelpCMD implements CommandExecutor {
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        PaginationService paginationService = vt.getInstance().getGame().getServiceManager().provide(PaginationService.class).get();
-        PaginationList.Builder builder = paginationService.builder();
-        builder.title(Text.of(TextColors.DARK_AQUA, "VirtualTool - V" + vt.getVersion()))
-                .contents(
-                        Text.of(TextColors.BLUE, TextStyles.UNDERLINE, "GitHub - https://github.com/POQDavid/VirtualTool/"),
-                        Text.of(TextColors.BLUE, TextStyles.UNDERLINE, "Post - https://forums.spongepowered.org/"),
-                        Text.of(TextColors.BLUE, TextStyles.ITALIC, ""),
-                        Text.of(TextColors.BLUE, TextStyles.BOLD, "Commands"),
-                        Text.of(TextColors.BLUE, TextStyles.NONE, "- /anvil"),
-                        Text.of(TextColors.BLUE, TextStyles.NONE, "- /enderchest or /ec"),
-                        Text.of(TextColors.BLUE, TextStyles.NONE, "- /enchantingtable or /et"),
-                        Text.of(TextColors.BLUE, TextStyles.NONE, "- /workbench or /wb"),
-                        Text.of(TextColors.BLUE, TextStyles.NONE, "- /vt enderchest"),
-                        Text.of(TextColors.BLUE, TextStyles.NONE, "- /vt anvil")
-                )
-                .header(Text.of(TextColors.BLUE, TextStyles.BOLD, "Author - POQDavid"))
-                .padding(Text.of("="))
-                .sendTo(src);
+        if (src.hasPermission(VTPermissions.COMMAND_HELP)) {
+            PaginationService paginationService = vt.getInstance().getGame().getServiceManager().provide(PaginationService.class).get();
+            PaginationList.Builder builder = paginationService.builder();
+            builder.title(Text.of(TextColors.DARK_AQUA, "VirtualTool - V" + vt.getVersion()))
+                    .contents(
+                            Text.of(TextColors.BLUE, TextStyles.ITALIC, ""),
+                            Text.of(TextColors.BLUE, TextStyles.BOLD, "Commands"),
+                            Text.of(TextColors.BLUE, TextStyles.NONE, "- /anvil"),
+                            Text.of(TextColors.BLUE, TextStyles.NONE, "- /enderchest or /ec"),
+                            Text.of(TextColors.BLUE, TextStyles.NONE, "- /enchantingtable or /et"),
+                            Text.of(TextColors.BLUE, TextStyles.NONE, "- /workbench or /wb"),
+                            Text.of(TextColors.BLUE, TextStyles.NONE, "- /bp, /backpack")
+                    )
+                    .header(Text.of(TextColors.BLUE, TextStyles.BOLD, "Author - POQDavid"))
+                    .padding(Text.of("="))
+                    .sendTo(src);
+        } else {
+            throw new CommandPermissionException(Text.of("You don't have permission to use this command."));
+        }
+
         return CommandResult.success();
     }
 

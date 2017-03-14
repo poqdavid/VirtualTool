@@ -26,7 +26,6 @@ package io.github.poqdavid.virtualtool.Utils;
 
 import io.github.poqdavid.virtualtool.VirtualTool;
 import org.spongepowered.api.Game;
-import org.spongepowered.api.Server;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
@@ -40,11 +39,11 @@ import org.spongepowered.api.text.Text;
 /**
  * Created by David on 2/7/2017.
  */
-public class Inventory {
+public class Invs {
     private Game game;
     private VirtualTool vt;
 
-    public Inventory(Game game, VirtualTool vt) {
+    public Invs(Game game, VirtualTool vt) {
         this.game = game;
         this.vt = vt;
     }
@@ -57,8 +56,7 @@ public class Inventory {
 
     public CommandResult Open(CommandSource src, CommandContext args, String invArch) {
         if (invArch == "enderchest") {
-            final Server server = vt.getGame().getServer();
-            final Player player = server.getPlayer(((Player) src.getCommandSource().get()).getUniqueId()).get();
+            Player player = Plugin.getPlayer(src, vt);
             return this.Open(src, args, player.getEnderChestInventory());
         }
         return CommandResult.empty();
@@ -69,14 +67,14 @@ public class Inventory {
     }
 
     public CommandResult Open(CommandSource src, CommandContext args, org.spongepowered.api.item.inventory.Inventory i) {
-
+        Player player = Plugin.getPlayer(src, vt);
         if (src.getCommandSource().isPresent() && src.getCommandSource().get() instanceof Player) {
-            final Server server = vt.getGame().getServer();
-            final Player player = server.getPlayer(((Player) src.getCommandSource().get()).getUniqueId()).get();
+
             player.openInventory(i, Cause.of(NamedCause.of("plugin", vt), NamedCause.source(player)));
             return CommandResult.success();
         }
         return CommandResult.empty();
     }
+
 
 }
