@@ -50,9 +50,8 @@ public class MainCMD implements CommandExecutor {
         this.inv = inv;
     }
 
-
     public static Text getDescription() {
-        return Text.of("/vt");
+        return Text.of("/virtualtool, /vt");
     }
 
     public static String[] getAlias() {

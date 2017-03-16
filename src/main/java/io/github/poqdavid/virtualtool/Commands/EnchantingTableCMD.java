@@ -53,7 +53,7 @@ public class EnchantingTableCMD implements CommandExecutor {
     }
 
     public static Text getDescription() {
-        return Text.of("/enchantingtable or /et");
+        return Text.of("/enchantingtable, /et");
     }
 
     public static String[] getAlias() {

@@ -52,7 +52,7 @@ public class EnderChestCMD implements CommandExecutor {
     }
 
     public static Text getDescription() {
-        return Text.of("/ec or /vt ec");
+        return Text.of("/enderchest, /ec");
     }
 
     public static String[] getAlias() {

@@ -53,7 +53,7 @@ public class WorkbenchCMD implements CommandExecutor {
     }
 
     public static Text getDescription() {
-        return Text.of("/workbench or /wb");
+        return Text.of("/workbench, /wb");
     }
 
     public static String[] getAlias() {

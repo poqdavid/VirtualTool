@@ -37,8 +37,12 @@ import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.service.pagination.PaginationList;
 import org.spongepowered.api.service.pagination.PaginationService;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Created by David on 10/23/2016.
@@ -63,17 +67,35 @@ public class HelpCMD implements CommandExecutor {
         if (src.hasPermission(VTPermissions.COMMAND_HELP)) {
             PaginationService paginationService = vt.getInstance().getGame().getServiceManager().provide(PaginationService.class).get();
             PaginationList.Builder builder = paginationService.builder();
+            URL url1 = null;
+            try {
+                url1 = new URL("https://github.com/poqdavid/VirtualTool/");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            URL url2 = null;
+            try {
+                url2 = new URL("http://pocketpixels.net/");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            Text h1 = Text.builder("Author: ").color(TextColors.BLUE).style(TextStyles.BOLD).build();
+            Text h2 = Text.builder("POQDavid").color(TextColors.GRAY).style(TextStyles.BOLD).onHover(TextActions.showText(Text.of(url1.toString()))).onClick(TextActions.openUrl(url1)).build();
+            Text h3 = Text.builder(",").color(TextColors.BLUE).style(TextStyles.BOLD).build();
+            Text h4 = Text.builder(" and Special thanks to ").color(TextColors.GRAY).style(TextStyles.BOLD).build();
+            Text h5 = Text.builder("Pocket").color(TextColors.YELLOW).style(TextStyles.BOLD).onHover(TextActions.showText(Text.of(url2.toString()))).onClick(TextActions.openUrl(url2)).build();
+            Text h6 = Text.builder("Pixels").color(TextColors.BLUE).style(TextStyles.BOLD).onHover(TextActions.showText(Text.of(url2.toString()))).onClick(TextActions.openUrl(url2)).build();
             builder.title(Text.of(TextColors.DARK_AQUA, "VirtualTool - V" + vt.getVersion()))
+                    .header(Text.of(h1, h2, h3, h4, h5, h6))
                     .contents(
                             Text.of(TextColors.BLUE, TextStyles.ITALIC, ""),
                             Text.of(TextColors.BLUE, TextStyles.BOLD, "Commands"),
-                            Text.of(TextColors.BLUE, TextStyles.NONE, "- /anvil"),
-                            Text.of(TextColors.BLUE, TextStyles.NONE, "- /enderchest or /ec"),
-                            Text.of(TextColors.BLUE, TextStyles.NONE, "- /enchantingtable or /et"),
-                            Text.of(TextColors.BLUE, TextStyles.NONE, "- /workbench or /wb"),
-                            Text.of(TextColors.BLUE, TextStyles.NONE, "- /bp, /backpack")
+                            Text.of(TextColors.BLUE, "- /anvil"),
+                            Text.of(TextColors.BLUE, "- /enderchest, /ec"),
+                            Text.of(TextColors.BLUE, "- /enchantingtable, /et"),
+                            Text.of(TextColors.BLUE, "- /workbench, /wb"),
+                            Text.of(TextColors.BLUE, "- /backpack, /bp")
                     )
-                    .header(Text.of(TextColors.BLUE, TextStyles.BOLD, "Author - POQDavid"))
                     .padding(Text.of("="))
                     .sendTo(src);
         } else {

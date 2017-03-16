@@ -38,7 +38,6 @@ import org.spongepowered.api.data.persistence.DataTranslators;
 import org.spongepowered.api.entity.living.player.Player;
 
 import java.io.*;
-import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -93,7 +92,7 @@ public class Plugin {
         }
     }
 
-    public static Settings loadfromjson(Path file ,Settings defob) {
+    public static Settings loadfromjson(Path file, Settings defob) {
         if (!Files.exists(file)) {
             try {
                 savetojson(file, defob);

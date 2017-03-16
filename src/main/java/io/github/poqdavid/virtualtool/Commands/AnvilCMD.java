@@ -53,11 +53,11 @@ public class AnvilCMD implements CommandExecutor {
     }
 
     public static Text getDescription() {
-        return Text.of("/anvil or /av");
+        return Text.of("/anvil");
     }
 
     public static String[] getAlias() {
-        return new String[]{"anvil", "av"};
+        return new String[]{"anvil"};
     }
 
     @Override

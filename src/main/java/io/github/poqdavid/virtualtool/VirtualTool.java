@@ -129,10 +129,14 @@ public class VirtualTool {
     @Listener
     public void onGamePreInit(@Nullable final GamePreInitializationEvent event) {
         this.logger.info("Plugin Initializing...");
-       // if (Sponge.getServiceManager().getRegistration(PermissionService.class).get().getPlugin().getId().equalsIgnoreCase("sponge")) {
-        //    this.logger.error("Unable to initialize plugin. VirtualTool requires a PermissionService like  LuckPerms, PEX, PermissionsManager.");
-       //     return;
-      //  }
+    }
+
+    @Listener
+    public void onGameInit(@Nullable final GameInitializationEvent event) {
+        if (Sponge.getServiceManager().getRegistration(PermissionService.class).get().getPlugin().getId().equalsIgnoreCase("sponge")) {
+            this.logger.error("Unable to initialize plugin. VirtualTool requires a PermissionService like  LuckPerms, PEX, PermissionsManager.");
+            return;
+        }
         this.permservice = this.game.getServiceManager().getRegistration(PermissionService.class).get().getProvider();
         this.permdescbuilder = this.permservice.newDescriptionBuilder(this.getPluginContainer()).orElse(null);
         if (this.permdescbuilder != null) {
@@ -194,6 +198,22 @@ public class VirtualTool {
                     .register();
 
             this.permdescbuilder
+                    .id(VTPermissions.COMMAND_BACKPACK_ADMIN_READ)
+                    .description(Text.of("Allows to read content of other backpacks"))
+                    .assign(PermissionDescription.ROLE_USER, false)
+                    .assign(PermissionDescription.ROLE_STAFF, false)
+                    .assign(PermissionDescription.ROLE_ADMIN, false)
+                    .register();
+
+            this.permdescbuilder
+                    .id(VTPermissions.COMMAND_BACKPACK_ADMIN_MODIFY)
+                    .description(Text.of("Allows to modify other backpacks"))
+                    .assign(PermissionDescription.ROLE_USER, false)
+                    .assign(PermissionDescription.ROLE_STAFF, false)
+                    .assign(PermissionDescription.ROLE_ADMIN, false)
+                    .register();
+
+            this.permdescbuilder
                     .id(VTPermissions.COMMAND_BACKPACK_SIZE_ONE)
                     .description(Text.of("Sets users backpack size to 1 row"))
                     .assign(PermissionDescription.ROLE_USER, true)
@@ -241,10 +261,6 @@ public class VirtualTool {
                     .register();
         }
 
-    }
-
-    @Listener
-    public void onGameInit(@Nullable final GameInitializationEvent event) {
         try {
             if (!Files.exists(this.configdirpath)) {
                 Files.createDirectories(this.configdirpath);

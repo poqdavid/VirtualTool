@@ -28,6 +28,7 @@ package io.github.poqdavid.virtualtool.Commands;
 import io.github.poqdavid.virtualtool.Utils.Invs;
 import io.github.poqdavid.virtualtool.VirtualTool;
 import org.spongepowered.api.Game;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.text.Text;
 
@@ -81,6 +82,7 @@ public class CommandManager {
         backpackCmd = CommandSpec.builder()
                 .description(BackpackCMD.getDescription())
                 .executor(new BackpackCMD(this.game, this.inv, this.vt))
+                .arguments(GenericArguments.optional(GenericArguments.player(Text.of("player"))), GenericArguments.flags().flag("m").buildWith(GenericArguments.none()))
                 .build();
 
         CommandSpec vtCommand = CommandSpec.builder()

@@ -1,21 +1,30 @@
-# VirtualTool
-A plugin for minecraft to provide virtual gui for all possible items
+# VirtualTool [![Build Status](https://travis-ci.org/poqdavid/VirtualTool.svg?branch=master)](https://travis-ci.org/poqdavid/VirtualTool)
+A plugin for minecraft to provide virtual gui for all possible items.
+
+##Features
+- [ ] Virtual Anvil
+- [ ] Virtual EnderChest
+- [ ] Virtual EnchantingTable
+- [ ] Virtual Workbench
+- [x] Virtual Backpack
 
 ## Commands
-    /anvil, /av
+    /anvil
     /enderchest, /ec
     /enchantingtable, /et
     /workbench, /wb
-	/backpack, /bp
+	/backpack  <player> [-m <m>], /bp  <player> [-m <m>]
 
 ## Premissions
     VirtualTool.command.anvil
-    VirtualTool.command.backpack
     VirtualTool.command.help
     VirtualTool.command.main
     VirtualTool.command.enderchest
     VirtualTool.command.enchantingtable
     VirtualTool.command.workbench
+    VirtualTool.command.backpack
+    VirtualTool.command.backpackadminread
+    VirtualTool.command.backpackadminmodify
     VirtualTool.command.backpacksize.one
     VirtualTool.command.backpacksize.two
     VirtualTool.command.backpacksize.three
@@ -24,7 +33,8 @@ A plugin for minecraft to provide virtual gui for all possible items
     VirtualTool.command.backpacksize.six
 	
 ## Configuration
-```
+**Config path:** (\config\virtualtool\config.json)
+```json
 {
   "commands": {
     "enable_enderchest": true,
@@ -35,3 +45,4 @@ A plugin for minecraft to provide virtual gui for all possible items
   }
 }
 ```
+Special Thanks to **PocketPixels** for the help with building this plugin.

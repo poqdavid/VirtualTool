@@ -32,12 +32,14 @@ public class VTPermissions {
 /*  Permissions:
 
     VirtualTool.command.anvil
-    VirtualTool.command.backpack
     VirtualTool.command.help
     VirtualTool.command.main
     VirtualTool.command.enderchest
     VirtualTool.command.enchantingtable
     VirtualTool.command.workbench
+    VirtualTool.command.backpack
+    VirtualTool.command.backpackadminread
+    VirtualTool.command.backpackadminmodify
     VirtualTool.command.backpacksize.one
     VirtualTool.command.backpacksize.two
     VirtualTool.command.backpacksize.three
@@ -48,12 +50,14 @@ public class VTPermissions {
 
     //Commands
     public static final String COMMAND_ANVIL = "VirtualTool.command.anvil";
-    public static final String COMMAND_BACKPACK = "VirtualTool.command.backpack";
     public static final String COMMAND_HELP = "VirtualTool.command.help";
     public static final String COMMAND_MAIN = "VirtualTool.command.main";
     public static final String COMMAND_ENDERCHEST = "VirtualTool.command.enderchest";
     public static final String COMMAND_ENCHANTINGTABLE = "VirtualTool.command.enchantingtable";
     public static final String COMMAND_WORKBENCH = "VirtualTool.command.workbench";
+    public static final String COMMAND_BACKPACK = "VirtualTool.command.backpack";
+    public static final String COMMAND_BACKPACK_ADMIN_READ = "VirtualTool.command.backpackadminread";
+    public static final String COMMAND_BACKPACK_ADMIN_MODIFY = "VirtualTool.command.backpackadminmodify";
 
     //Backpack sizes
     public static final String COMMAND_BACKPACK_SIZE_ONE = "VirtualTool.command.backpacksize.one";
