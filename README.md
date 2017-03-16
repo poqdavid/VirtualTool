@@ -1,5 +1,4 @@
-# VirtualTool [![Build Status](https://travis-ci.org/poqdavid/VirtualTool.svg?branch=master)](https://travis-ci.org/poqdavid/VirtualTool)
-A plugin for minecraft to provide virtual gui for all possible items.
+[![Build Status](https://travis-ci.org/poqdavid/VirtualTool.svg?branch=master)](https://travis-ci.org/poqdavid/VirtualTool)
 
 ## Features
 - [ ] Virtual Anvil
