@@ -45,4 +45,4 @@ A plugin for minecraft to provide virtual gui for all possible items.
   }
 }
 ```
-Special Thanks to **PocketPixels** for the help with building this plugin.
+Special Thanks to [**PocketPixels**](http://pocketpixels.net/) for the help with building this plugin.
