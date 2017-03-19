@@ -32,12 +32,14 @@ import org.slf4j.LoggerFactory;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.config.ConfigDir;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.GameReloadEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.game.state.GameStartingServerEvent;
+import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.permission.PermissionDescription;
@@ -47,10 +49,12 @@ import org.spongepowered.api.text.Text;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
 
 @Plugin(id = PluginData.id, name = PluginData.name, version = PluginData.version, description = PluginData.description, url = PluginData.url, authors = {PluginData.author1})
 public class VirtualTool {
@@ -291,6 +295,27 @@ public class VirtualTool {
     @Listener
     public void onServerStart(GameStartedServerEvent event) {
         //this.logger.info("Game Server  Started...");
+    }
+
+    @Listener
+    public void onPlayerJoin(ClientConnectionEvent.Join event) {
+        final Player player = io.github.poqdavid.virtualtool.Utils.Plugin.getPlayer(event.getCause()).get();
+        Path file = Paths.get(this.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".json");
+        if (!Files.exists(file)) {
+            try {
+                Files.createFile(file);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try (FileWriter filew = new FileWriter(file.toString())) {
+                filew.write("{}");
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Listener

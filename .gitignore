@@ -58,3 +58,5 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 /unsed/
+run/forge/
+run/vanilla/

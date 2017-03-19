@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/VirtualTool.iml" filepath="$PROJECT_DIR$/.idea/modules/VirtualTool.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/VirtualTool_api.iml" filepath="$PROJECT_DIR$/.idea/modules/VirtualTool_api.iml" group="VirtualTool" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/VirtualTool_main.iml" filepath="$PROJECT_DIR$/.idea/modules/VirtualTool_main.iml" group="VirtualTool" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/VirtualTool_test.iml" filepath="$PROJECT_DIR$/.idea/modules/VirtualTool_test.iml" group="VirtualTool" />
     </modules>

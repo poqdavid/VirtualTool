@@ -32,6 +32,7 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.NamedCause;
+import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.InventoryArchetype;
 import org.spongepowered.api.item.inventory.property.InventoryTitle;
 import org.spongepowered.api.text.Text;
@@ -49,27 +50,30 @@ public class Invs {
     }
 
     public CommandResult Open(CommandSource src, CommandContext args, InventoryArchetype invArch, Text inventorytitle) {
-
-        return this.Open(src, args, org.spongepowered.api.item.inventory.Inventory.builder().of(invArch).property(InventoryTitle.PROPERTY_NAME, new InventoryTitle(inventorytitle)).build(vt));
+        final Inventory invx = Inventory.builder().of(invArch)
+                .property(InventoryTitle.PROPERTY_NAME, new InventoryTitle(inventorytitle))
+                .build(vt);
+        return this.Open(src, args, invx);
 
     }
 
     public CommandResult Open(CommandSource src, CommandContext args, String invArch) {
         if (invArch == "enderchest") {
-            Player player = Plugin.getPlayer(src, vt);
+            final Player player = Plugin.getPlayer(src, vt);
             return this.Open(src, args, player.getEnderChestInventory());
         }
         return CommandResult.empty();
     }
 
     public CommandResult Open(CommandSource src, CommandContext args, InventoryArchetype invArch) {
-        return this.Open(src, args, org.spongepowered.api.item.inventory.Inventory.builder().of(invArch).build(vt));
+        final Inventory invx = org.spongepowered.api.item.inventory.Inventory.builder().of(invArch)
+                .build(vt);
+        return this.Open(src, args, invx);
     }
 
     public CommandResult Open(CommandSource src, CommandContext args, org.spongepowered.api.item.inventory.Inventory i) {
-        Player player = Plugin.getPlayer(src, vt);
+        final Player player = Plugin.getPlayer(src, vt);
         if (src.getCommandSource().isPresent() && src.getCommandSource().get() instanceof Player) {
-
             player.openInventory(i, Cause.of(NamedCause.of("plugin", vt), NamedCause.source(player)));
             return CommandResult.success();
         }

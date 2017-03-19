@@ -1,5 +1,5 @@
 buildscript {
-    project.gradle.startParameter.setLogLevel(LogLevel.INFO)
+    //project.gradle.startParameter.setLogLevel(LogLevel.INFO)
     repositories {
         mavenCentral()
         jcenter()
@@ -20,6 +20,7 @@ buildscript {
     dependencies {
         classpath 'gradle.plugin.net.minecrell:licenser:0.3'
         classpath "gradle.plugin.org.spongepowered:spongegradle:0.8.1"
+        classpath "gradle.plugin.com.qixalite:SpongeStart:1.6.2"
     }
 }
 apply plugin: 'idea'
@@ -27,6 +28,10 @@ apply plugin: 'groovy'
 apply plugin: 'java'
 apply plugin: "net.minecrell.licenser"
 apply plugin: "org.spongepowered.plugin"
+apply plugin: "com.qixalite.spongestart"
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 
 group = pluginGroup
 version = pluginVersion
@@ -37,6 +42,13 @@ dependencies {
 }
 
 sponge.plugin.id = pluginId
+
+spongestart{
+    eula true
+    minecraft minecraft_version
+    type spongetype
+    spongeForgeVersion spongeforgever
+}
 
 processResources {
     inputs.property "version",
@@ -53,6 +65,7 @@ processResources {
     }
     from 'LICENSE.txt'
 }
+
 license {
     header = file('HEADER.txt')
     newLine = false
@@ -64,12 +77,26 @@ license {
     include '**/*.java'
     include '**/*.groovy'
 }
+
 jar {
     version = "${project.minecraft_version}-${project.version}"
 }
+
 idea {
     module {
         inheritOutputDirs = true
     }
 }
+
+build.doLast {
+    copy {
+        from "$rootProject.projectDir/files/PermissionsEx-Sponge.jar"
+        into "$rootProject.projectDir/run/forge/mods"
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.3'
+}
+
 build.dependsOn(jar)

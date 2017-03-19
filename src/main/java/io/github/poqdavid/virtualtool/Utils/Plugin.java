@@ -36,10 +36,12 @@ import org.spongepowered.api.data.DataManager;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.persistence.DataTranslators;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.cause.Cause;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 
 /**
  * Created by David on 2/12/2017.
@@ -66,6 +68,11 @@ public class Plugin {
     public static Player getPlayer(CommandSource src, VirtualTool vt) {
         final Server server = vt.getGame().getServer();
         return server.getPlayer(((Player) src.getCommandSource().get()).getUniqueId()).get();
+    }
+
+    public static Optional<Player> getPlayer(Cause cause) {
+        final Optional<Player> player = cause.first(Player.class);
+        return player;
     }
 
     public static void savetojson(Path file, Settings jsonob) {

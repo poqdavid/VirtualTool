@@ -32,14 +32,12 @@ import io.github.poqdavid.virtualtool.Utils.Invs;
 import io.github.poqdavid.virtualtool.Utils.Plugin;
 import io.github.poqdavid.virtualtool.VirtualTool;
 import org.spongepowered.api.Game;
-import org.spongepowered.api.Server;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandPermissionException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
-import org.spongepowered.api.entity.living.Humanoid;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.NamedCause;
@@ -153,24 +151,22 @@ public class BackpackCMD implements CommandExecutor {
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        Server server = vt.getGame().getServer();
-        Humanoid humanoid = server.getPlayer(((Player) src.getCommandSource().get()).getUniqueId()).get();
-
-        Player player = (Player) humanoid;
-        Player playerbyarg = args.<Player>getOne("player").orElse(player);
-
-        if (!player.getUniqueId().equals(playerbyarg.getUniqueId())) {
-            if (args.hasAny("m")) {
-                this.openBackpackOther(playerbyarg, player, true);
-            } else {
-                this.openBackpackOther(playerbyarg, player, false);
-            }
-        } else {
-            this.openBackpackOwn(playerbyarg);
-        }
-
         if (src instanceof Player) {
-
+            final Player player_cmd_src = Plugin.getPlayer(src, vt);
+            final Player player_args = args.<Player>getOne("player").orElse(null);
+            if (player_args != null) {
+                if (!player_cmd_src.getUniqueId().equals(player_args.getUniqueId())) {
+                    if (args.hasAny("m")) {
+                        this.openBackpackOther(player_args, player_cmd_src, true);
+                    } else {
+                        this.openBackpackOther(player_args, player_cmd_src, false);
+                    }
+                } else {
+                    this.openBackpackOwn(player_cmd_src);
+                }
+            } else {
+                this.openBackpackOwn(player_cmd_src);
+            }
         } else {
             throw new CommandException(Text.of("You can't use this command if you are not a player!"));
         }
@@ -327,12 +323,10 @@ public class BackpackCMD implements CommandExecutor {
                         }
 
                     } catch (Exception e) {
-                        //e.printStackTrace();
+                        e.printStackTrace();
                         // this.loadStacks();
                     }
-
                 }
-
             }
 
         }
