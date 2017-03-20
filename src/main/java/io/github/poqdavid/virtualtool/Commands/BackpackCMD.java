@@ -78,67 +78,13 @@ public class BackpackCMD implements CommandExecutor {
         this.game = game;
         this.vt = vt;
         this.inv = inv;
-        this.itemspos = new ArrayList<>();
-
-        itemspos.add(new SlotPos(0, 0));
-        itemspos.add(new SlotPos(1, 0));
-        itemspos.add(new SlotPos(2, 0));
-        itemspos.add(new SlotPos(3, 0));
-        itemspos.add(new SlotPos(4, 0));
-        itemspos.add(new SlotPos(5, 0));
-        itemspos.add(new SlotPos(6, 0));
-        itemspos.add(new SlotPos(7, 0));
-        itemspos.add(new SlotPos(8, 0));
-
-        itemspos.add(new SlotPos(0, 1));
-        itemspos.add(new SlotPos(1, 1));
-        itemspos.add(new SlotPos(2, 1));
-        itemspos.add(new SlotPos(3, 1));
-        itemspos.add(new SlotPos(4, 1));
-        itemspos.add(new SlotPos(5, 1));
-        itemspos.add(new SlotPos(6, 1));
-        itemspos.add(new SlotPos(7, 1));
-        itemspos.add(new SlotPos(8, 1));
-
-        itemspos.add(new SlotPos(0, 2));
-        itemspos.add(new SlotPos(1, 2));
-        itemspos.add(new SlotPos(2, 2));
-        itemspos.add(new SlotPos(3, 2));
-        itemspos.add(new SlotPos(4, 2));
-        itemspos.add(new SlotPos(5, 2));
-        itemspos.add(new SlotPos(6, 2));
-        itemspos.add(new SlotPos(7, 2));
-        itemspos.add(new SlotPos(8, 2));
-
-        itemspos.add(new SlotPos(0, 3));
-        itemspos.add(new SlotPos(1, 3));
-        itemspos.add(new SlotPos(2, 3));
-        itemspos.add(new SlotPos(3, 3));
-        itemspos.add(new SlotPos(4, 3));
-        itemspos.add(new SlotPos(5, 3));
-        itemspos.add(new SlotPos(6, 3));
-        itemspos.add(new SlotPos(7, 3));
-        itemspos.add(new SlotPos(8, 3));
-
-        itemspos.add(new SlotPos(0, 4));
-        itemspos.add(new SlotPos(1, 4));
-        itemspos.add(new SlotPos(2, 4));
-        itemspos.add(new SlotPos(3, 4));
-        itemspos.add(new SlotPos(4, 4));
-        itemspos.add(new SlotPos(5, 4));
-        itemspos.add(new SlotPos(6, 4));
-        itemspos.add(new SlotPos(7, 4));
-        itemspos.add(new SlotPos(8, 4));
-
-        itemspos.add(new SlotPos(0, 5));
-        itemspos.add(new SlotPos(1, 5));
-        itemspos.add(new SlotPos(2, 5));
-        itemspos.add(new SlotPos(3, 5));
-        itemspos.add(new SlotPos(4, 5));
-        itemspos.add(new SlotPos(5, 5));
-        itemspos.add(new SlotPos(6, 5));
-        itemspos.add(new SlotPos(7, 5));
-        itemspos.add(new SlotPos(8, 5));
+        this.itemspos = new ArrayList<>(51);
+        
+        for (int x = 0; x <= 5; x++) {
+            for (int y = 0; y <= 8; y++) {
+                itemspos.add(new SlotPos(y, x));
+            }
+        }
     }
 
     public static Text getDescription() {
