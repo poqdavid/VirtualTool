@@ -30,7 +30,7 @@ package io.github.poqdavid.virtualtool;
 public class PluginData {
     public static final String id = "virtualtool";
     public static final String name = "VirtualTool";
-    public static final String version = "1.2";
+    public static final String version = "1.3";
     public static final String description = "A plugin to provide virtual gui for all possible items";
     public static final String organization = "POQDavid";
     public static final String author1 = "POQDavid";

@@ -78,8 +78,8 @@ public class BackpackCMD implements CommandExecutor {
         this.game = game;
         this.vt = vt;
         this.inv = inv;
-        this.itemspos = new ArrayList<>(51);
-        
+        this.itemspos = new ArrayList<>(54);
+
         for (int x = 0; x <= 5; x++) {
             for (int y = 0; y <= 8; y++) {
                 itemspos.add(new SlotPos(y, x));
@@ -119,42 +119,42 @@ public class BackpackCMD implements CommandExecutor {
         return CommandResult.success();
     }
 
-    private void openBackpackOther(Player player, Player playerSrc, Boolean modify) throws CommandException {
-        if (playerSrc.hasPermission(VTPermissions.COMMAND_BACKPACK_ADMIN_READ)) {
-            this.backpackcheck(player);
+    private void openBackpackOther(Player player_args, Player player_cmd_src, Boolean modify) throws CommandException {
+        if (player_cmd_src.hasPermission(VTPermissions.COMMAND_BACKPACK_ADMIN_READ)) {
+            this.backpackcheck(player_args);
             if (modify) {
-                if (playerSrc.hasPermission(VTPermissions.COMMAND_BACKPACK_ADMIN_MODIFY)) {
-                    this.backpackchecklock(player);
-                    this.openBackpackother(player, playerSrc, modify);
+                if (player_cmd_src.hasPermission(VTPermissions.COMMAND_BACKPACK_ADMIN_MODIFY)) {
+                    this.backpackchecklock(player_args);
+                    this.openBackpackother(player_args, player_cmd_src, modify);
                 } else {
                     throw new CommandPermissionException(Text.of("You don't have permission to modify other backpacks."));
                 }
             } else {
-                this.openBackpackother(player, playerSrc, modify);
+                this.openBackpackother(player_args, player_cmd_src, modify);
             }
         } else {
             throw new CommandPermissionException(Text.of("You don't have permission to view other backpacks."));
         }
     }
 
-    private void openBackpackother(Player player, Player playerSrc, Boolean modify) {
-        if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_SIX)) {
-            this.openBackpack(6, player, playerSrc, modify);
+    private void openBackpackother(Player player_args, Player player_cmd_src, Boolean modify) {
+        if (player_args.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_SIX)) {
+            this.openBackpack(6, player_args, player_cmd_src, modify);
         } else {
-            if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_FIVE)) {
-                this.openBackpack(5, player, playerSrc, modify);
+            if (player_args.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_FIVE)) {
+                this.openBackpack(5, player_args, player_cmd_src, modify);
             } else {
-                if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_FOUR)) {
-                    this.openBackpack(4, player, playerSrc, modify);
+                if (player_args.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_FOUR)) {
+                    this.openBackpack(4, player_args, player_cmd_src, modify);
                 } else {
-                    if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_THREE)) {
-                        this.openBackpack(3, player, playerSrc, modify);
+                    if (player_args.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_THREE)) {
+                        this.openBackpack(3, player_args, player_cmd_src, modify);
                     } else {
-                        if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_TWO)) {
-                            this.openBackpack(2, player, playerSrc, modify);
+                        if (player_args.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_TWO)) {
+                            this.openBackpack(2, player_args, player_cmd_src, modify);
                         } else {
-                            if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_ONE)) {
-                                this.openBackpack(1, player, playerSrc, modify);
+                            if (player_args.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_ONE)) {
+                                this.openBackpack(1, player_args, player_cmd_src, modify);
                             }
                         }
                     }
@@ -164,10 +164,8 @@ public class BackpackCMD implements CommandExecutor {
     }
 
     private void openBackpackOwn(Player player) throws CommandException {
-
-        this.backpackchecklock(player);
-
         if (player.hasPermission(VTPermissions.COMMAND_BACKPACK)) {
+            this.backpackchecklock(player);
             if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_SIX)) {
                 this.openBackpack(6, player, player, true);
             } else {
@@ -196,12 +194,15 @@ public class BackpackCMD implements CommandExecutor {
         }
     }
 
-    private void openBackpack(int size, Player player, Player playerSrc, boolean saveit) {
-        this.lockbackpack(player);
+    private void openBackpack(int size, Player player_args, Player player_cmd_src, boolean saveit) {
+        if (saveit) {
+            this.lockbackpack(player_args);
+        }
+
         items = new HashMap<>();
         Text backpacktitle = Text.of("Backpack");
-        if (!playerSrc.getUniqueId().equals(player.getUniqueId())) {
-            backpacktitle = Text.of(player.getName() + "'s " + "Backpack");
+        if (!player_cmd_src.getUniqueId().equals(player_args.getUniqueId())) {
+            backpacktitle = Text.of(player_args.getName() + "'s " + "Backpack");
         }
 
         this.backpack = Inventory.builder()
@@ -211,18 +212,20 @@ public class BackpackCMD implements CommandExecutor {
                 .listener(ClickInventoryEvent.class, event -> {
                     if (saveit) {
                         this.loadStacks();
-                        this.savebackpack(player, items);
+                        this.savebackpack(player_args, items);
                         items.clear();
                     } else {
                         event.setCancelled(true);
                     }
                 })
                 .listener(InteractInventoryEvent.Close.class, event -> {
-                    this.unlockbackpack(player);
+                    if (saveit) {
+                        this.unlockbackpack(player_args);
+                    }
                 })
                 .build(this.vt.getInstance());
-        this.loadbackpack(player);
-        playerSrc.openInventory(this.backpack, Cause.of(NamedCause.of("plugin", this.vt.getInstance()), NamedCause.source(playerSrc)));
+        this.loadbackpack(player_args);
+        player_cmd_src.openInventory(this.backpack, Cause.of(NamedCause.of("plugin", this.vt.getInstance()), NamedCause.source(player_cmd_src)));
     }
 
     private void savebackpack(Player player, Map<String, String> items) {
@@ -280,7 +283,6 @@ public class BackpackCMD implements CommandExecutor {
     }
 
     private void loadbackpack(Player player) {
-
         Path file = Paths.get(this.vt.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".json");
         if (!Files.exists(file)) {
             try {
@@ -295,7 +297,6 @@ public class BackpackCMD implements CommandExecutor {
             }
         }
 
-
         Gson gson = new Gson();
         BufferedReader br = null;
         try {
@@ -306,7 +307,6 @@ public class BackpackCMD implements CommandExecutor {
         Type type = new TypeToken<Map<String, String>>() {
         }.getType();
         Map<String, String> models = gson.fromJson(br, type);
-
 
         for (Map.Entry<String, String> entry : models.entrySet()) {
 
@@ -324,10 +324,20 @@ public class BackpackCMD implements CommandExecutor {
     }
 
     private void backpackcheck(Player player) throws CommandException {
-
         Path file = Paths.get(this.vt.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".json");
         if (!Files.exists(file)) {
             throw new CommandPermissionException(Text.of("Sorry there is no backpack data for " + player.getName()));
+        }
+        else{
+            String content = null;
+            try {
+                content = new String(Files.readAllBytes(file), "UTF-8");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if(content == "{}"){
+                throw new CommandPermissionException(Text.of("Sorry there is no backpack data for " + player.getName()));
+            }
         }
     }
 
