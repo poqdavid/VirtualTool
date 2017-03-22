@@ -27,6 +27,7 @@ package io.github.poqdavid.virtualtool;
 import io.github.poqdavid.virtualtool.Commands.CommandManager;
 import io.github.poqdavid.virtualtool.Permission.VTPermissions;
 import io.github.poqdavid.virtualtool.Utils.Settings;
+import io.github.poqdavid.virtualtool.Utils.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongepowered.api.Game;
@@ -58,6 +59,7 @@ import java.nio.file.Paths;
 
 @Plugin(id = PluginData.id, name = PluginData.name, version = PluginData.version, description = PluginData.description, url = PluginData.url, authors = {PluginData.author1})
 public class VirtualTool {
+    public static VirtualTool virtualtool_static;
     public PermissionService permservice;
     public PermissionDescription.Builder permdescbuilder;
     private VirtualTool virtualtool;
@@ -133,6 +135,7 @@ public class VirtualTool {
     @Listener
     public void onGamePreInit(@Nullable final GamePreInitializationEvent event) {
         this.logger.info("Plugin Initializing...");
+        virtualtool_static = this;
     }
 
     @Listener
@@ -299,7 +302,7 @@ public class VirtualTool {
 
     @Listener
     public void onPlayerJoin(ClientConnectionEvent.Join event) {
-        final Player player = io.github.poqdavid.virtualtool.Utils.Plugin.getPlayer(event.getCause()).get();
+        final Player player = Tools.getPlayer(event.getCause()).get();
         Path file = Paths.get(this.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".json");
         if (!Files.exists(file)) {
             try {

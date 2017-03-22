@@ -67,7 +67,7 @@ public class Settings implements Serializable {
 
     public void Load(Path file) {
         try {
-            Settings sets = Plugin.loadfromjson(file, new Settings());
+            Settings sets = Tools.loadfromjson(file, new Settings());
             this.setCommands(sets.getCommands());
         } catch (Exception e) {
             this.Save(file);
@@ -76,7 +76,7 @@ public class Settings implements Serializable {
     }
 
     public void Save(Path file) {
-        Plugin.savetojson(file, this);
+        Tools.savetojson(file, this);
     }
 
     public Commands getCommands() {

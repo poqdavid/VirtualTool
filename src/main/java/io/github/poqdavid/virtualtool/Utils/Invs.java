@@ -59,7 +59,7 @@ public class Invs {
 
     public CommandResult Open(CommandSource src, CommandContext args, String invArch) {
         if (invArch == "enderchest") {
-            final Player player = Plugin.getPlayer(src, vt);
+            final Player player = Tools.getPlayer(src, vt);
             return this.Open(src, args, player.getEnderChestInventory());
         }
         return CommandResult.empty();
@@ -72,7 +72,7 @@ public class Invs {
     }
 
     public CommandResult Open(CommandSource src, CommandContext args, org.spongepowered.api.item.inventory.Inventory i) {
-        final Player player = Plugin.getPlayer(src, vt);
+        final Player player = Tools.getPlayer(src, vt);
         if (src.getCommandSource().isPresent() && src.getCommandSource().get() instanceof Player) {
             player.openInventory(i, Cause.of(NamedCause.of("plugin", vt), NamedCause.source(player)));
             return CommandResult.success();

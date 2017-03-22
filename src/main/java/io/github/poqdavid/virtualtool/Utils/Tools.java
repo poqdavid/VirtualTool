@@ -46,7 +46,7 @@ import java.util.Optional;
 /**
  * Created by David on 2/12/2017.
  */
-public class Plugin {
+public class Tools {
 
     public static String serializeToJson(DataContainer container) throws IOException {
         StringWriter writer = new StringWriter();
