@@ -24,15 +24,14 @@
  */
 package io.github.poqdavid.virtualtool.Utils;
 
+import com.google.common.base.Charsets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.github.poqdavid.virtualtool.VirtualTool;
-import ninja.leaping.configurate.gson.GsonConfigurationLoader;
+import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import org.spongepowered.api.Server;
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.data.DataContainer;
-import org.spongepowered.api.data.DataManager;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.persistence.DataTranslators;
 import org.spongepowered.api.entity.living.player.Player;
@@ -41,6 +40,7 @@ import org.spongepowered.api.event.cause.Cause;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Base64;
 import java.util.Optional;
 
 /**
@@ -50,19 +50,21 @@ public class Tools {
 
     public static String serializeToJson(DataContainer container) throws IOException {
         StringWriter writer = new StringWriter();
-        GsonConfigurationLoader.builder().build().saveInternal(DataTranslators.CONFIGURATION_NODE.translate(container), writer);
-        return writer.toString();
+        HoconConfigurationLoader loader = HoconConfigurationLoader.builder().setSink(() -> new BufferedWriter(writer)).build();
+        loader.save(DataTranslators.CONFIGURATION_NODE.translate(container));
+
+        return Base64.getEncoder().encodeToString(writer.toString().getBytes(Charsets.UTF_8));
     }
 
     public static DataContainer deSerializeJson(String json) {
-        DataView target = null;
+        StringReader reader = new StringReader(new String(Base64.getDecoder().decode(json), Charsets.UTF_8));
+        DataView view = null;
         try {
-            target = DataTranslators.CONFIGURATION_NODE.translate(GsonConfigurationLoader.builder().setSource(() -> new BufferedReader(new StringReader(json))).build().load());
+            view = DataTranslators.CONFIGURATION_NODE.translate(HoconConfigurationLoader.builder().setSource(() -> new BufferedReader(reader)).build().load());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        DataManager manager = Sponge.getGame().getDataManager();
-        return target.getContainer();
+        return view.getContainer();
     }
 
     public static Player getPlayer(CommandSource src, VirtualTool vt) {
@@ -76,7 +78,7 @@ public class Tools {
     }
 
     public static void savetojson(Path file, Settings jsonob) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
         String json = gson.toJson(jsonob, jsonob.getClass());
         if (!Files.exists(file)) {
             try {

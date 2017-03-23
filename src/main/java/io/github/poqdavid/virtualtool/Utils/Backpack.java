@@ -28,6 +28,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import io.github.poqdavid.virtualtool.VirtualTool;
+import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.item.inventory.ClickInventoryEvent;
 import org.spongepowered.api.event.item.inventory.InteractInventoryEvent;
@@ -115,7 +116,7 @@ public class Backpack {
     }
 
     private void savebackpack(Player player, Map<String, String> items) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
         String json = gson.toJson(items);
         if (!Files.exists(this.vt.getConfigPath())) {
             try {
@@ -196,8 +197,10 @@ public class Backpack {
         Map<String, String> models = gson.fromJson(br, type);
 
         for (Map.Entry<String, String> entry : models.entrySet()) {
-
-            this.inventory.query(SlotPos.of(Integer.parseInt(entry.getKey().split(",")[0].toString()), Integer.parseInt(entry.getKey().split(",")[1].toString()))).set(ItemStack.builder().fromContainer(Tools.deSerializeJson(entry.getValue())).build());
+            DataContainer dc  = Tools.deSerializeJson(entry.getValue());
+            ItemStack itemst = ItemStack.builder().fromContainer(dc).build();
+            itemst.setRawData(dc);
+            this.inventory.query(SlotPos.of(Integer.parseInt(entry.getKey().split(",")[0].toString()), Integer.parseInt(entry.getKey().split(",")[1].toString()))).set(itemst);
         }
     }
 
