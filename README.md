@@ -1,11 +1,11 @@
 [![GitHub stars](https://img.shields.io/github/stars/poqdavid/VirtualTool.svg)](https://github.com/poqdavid/VirtualTool/stargazers) [![GitHub issues](https://img.shields.io/github/issues/poqdavid/VirtualTool.svg)](https://github.com/poqdavid/VirtualTool/issues) [![Build Status](https://travis-ci.org/poqdavid/VirtualTool.svg?branch=master)](https://travis-ci.org/poqdavid/VirtualTool)
 
 ## Features
-&nbsp; &nbsp; ☑ Virtual Anvil </br>
-&nbsp; &nbsp; ☑ Virtual EnderChest </br>
-&nbsp; &nbsp; ☑ Virtual EnchantingTable </br>
-&nbsp; &nbsp; ☑ Virtual Workbench </br>
-&nbsp; &nbsp; ☑ Virtual Backpack
+- ☑ Virtual Anvil
+- ☑ Virtual EnderChest
+- ☑ Virtual EnchantingTable
+- ☑ Virtual Workbench
+- ☑ Virtual Backpack
 
 ## Commands
     /anvil
