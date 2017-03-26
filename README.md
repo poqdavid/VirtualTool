@@ -12,7 +12,7 @@
     /enderchest, /ec
     /enchantingtable, /et
     /workbench, /wb
-	/backpack  <player> [-m <m>], /bp  <player> [-m <m>]
+    /backpack  <player> [-m <m>], /bp  <player> [-m <m>]
 
 ## Premissions
     VirtualTool.command.anvil
