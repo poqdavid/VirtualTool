@@ -28,6 +28,7 @@ import com.google.common.base.Charsets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.github.poqdavid.virtualtool.VirtualTool;
+import net.minecraft.entity.player.EntityPlayerMP;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import org.spongepowered.api.Server;
 import org.spongepowered.api.command.CommandSource;
@@ -70,6 +71,11 @@ public class Tools {
     public static Player getPlayer(CommandSource src, VirtualTool vt) {
         final Server server = vt.getGame().getServer();
         return server.getPlayer(((Player) src.getCommandSource().get()).getUniqueId()).get();
+    }
+
+    public static EntityPlayerMP getPlayerE(CommandSource src, VirtualTool vt) {
+        final Server server = vt.getGame().getServer();
+        return (EntityPlayerMP) server.getPlayer(((Player) src.getCommandSource().get()).getUniqueId()).get();
     }
 
     public static Optional<Player> getPlayer(Cause cause) {
@@ -120,5 +126,4 @@ public class Tools {
 
         return gson.fromJson(br, defob.getClass());
     }
-
 }

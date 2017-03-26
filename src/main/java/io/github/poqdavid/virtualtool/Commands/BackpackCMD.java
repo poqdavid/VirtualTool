@@ -80,20 +80,25 @@ public class BackpackCMD implements CommandExecutor {
                 if (player_args != null) {
                     if (!player_cmd_src.getUniqueId().equals(player_args.getUniqueId())) {
                         if (player_cmd_src.hasPermission(VTPermissions.COMMAND_BACKPACK_ADMIN_READ)) {
-                            if (args.hasAny("m")) {
-                                if (player_cmd_src.hasPermission(VTPermissions.COMMAND_BACKPACK_ADMIN_MODIFY)) {
-                                    this.backpackcheck(player_args);
-                                    this.backpackchecklock(player_args);
-                                    this.lockbackpack(player_args);
-                                    final Backpack backpack = new Backpack(player_args, player_cmd_src, this.getBackpackSize(player_args), true, this.vt);
-                                    player_cmd_src.openInventory(backpack.getbackpack(), Cause.of(NamedCause.of("plugin", this.vt.getInstance()), NamedCause.source(player_cmd_src)));
+                            if (player_args.hasPermission(VTPermissions.COMMAND_BACKPACK)) {
+                                if (args.hasAny("m")) {
+                                    if (player_cmd_src.hasPermission(VTPermissions.COMMAND_BACKPACK_ADMIN_MODIFY)) {
+                                        this.backpackcheck(player_args);
+                                        this.backpackchecklock(player_args);
+                                        this.lockbackpack(player_args);
+                                        final Backpack backpack = new Backpack(player_args, player_cmd_src, this.getBackpackSize(player_args), true, this.vt);
+                                        player_cmd_src.openInventory(backpack.getbackpack(), Cause.of(NamedCause.of("plugin", this.vt.getInstance()), NamedCause.source(player_cmd_src)));
+                                    } else {
+                                        throw new CommandPermissionException(Text.of("You don't have permission to modify other backpacks."));
+                                    }
                                 } else {
-                                    throw new CommandPermissionException(Text.of("You don't have permission to modify other backpacks."));
+                                    this.backpackcheck(player_args);
+                                    final Backpack backpack = new Backpack(player_args, player_cmd_src, this.getBackpackSize(player_args), false, vt);
+                                    player_cmd_src.openInventory(backpack.getbackpack(), Cause.of(NamedCause.of("plugin", this.vt.getInstance()), NamedCause.source(player_cmd_src)));
                                 }
-                            } else {
-                                this.backpackcheck(player_args);
-                                final Backpack backpack = new Backpack(player_args, player_cmd_src, this.getBackpackSize(player_args), false, vt);
-                                player_cmd_src.openInventory(backpack.getbackpack(), Cause.of(NamedCause.of("plugin", this.vt.getInstance()), NamedCause.source(player_cmd_src)));
+                            }
+                            else{
+                                throw new CommandPermissionException(Text.of("This user doesn't have permission to use backpack."));
                             }
                         } else {
                             throw new CommandPermissionException(Text.of("You don't have permission to view other backpacks."));
@@ -120,7 +125,7 @@ public class BackpackCMD implements CommandExecutor {
     }
 
     public int getBackpackSize(Player player) {
-        int tempsize = 0;
+        int tempsize = 1;
         if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_SIX)) {
             tempsize = 6;
         } else {

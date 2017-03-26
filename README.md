@@ -2,10 +2,10 @@
 A plugin for minecraft to provide virtual gui for all possible items.
 
 ## Features
-- [ ] Virtual Anvil
-- [ ] Virtual EnderChest
-- [ ] Virtual EnchantingTable
-- [ ] Virtual Workbench
+- [x] Virtual Anvil
+- [x] Virtual EnderChest
+- [x] Virtual EnchantingTable
+- [x] Virtual Workbench
 - [x] Virtual Backpack
 
 ## Commands

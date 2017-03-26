@@ -15,13 +15,12 @@ buildscript {
             name = 'forge'
             url = 'http://files.minecraftforge.net/maven'
         }
-
     }
     dependencies {
         classpath 'gradle.plugin.net.minecrell:licenser:0.3'
         classpath "gradle.plugin.org.spongepowered:spongegradle:0.8.1"
         classpath "gradle.plugin.com.qixalite:SpongeStart:1.6.2"
-        //classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
     }
 }
 apply plugin: 'idea'
@@ -30,7 +29,7 @@ apply plugin: 'java'
 apply plugin: "net.minecrell.licenser"
 apply plugin: "org.spongepowered.plugin"
 apply plugin: "com.qixalite.spongestart"
-//apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'net.minecraftforge.gradle.forge'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
@@ -45,11 +44,11 @@ dependencies {
 
 sponge.plugin.id = pluginId
 
-/*minecraft {
+minecraft {
     forgeVersion = forge_build
     runDir = forge_rundir
     mappings = forge_mapping_stable //check http://export.mcpbot.bspk.rs/
-}*/
+}
 
 spongestart{
     eula true

@@ -22,17 +22,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package io.github.poqdavid.virtualtool;
+package io.github.poqdavid.virtualtool.Utils.Containers;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ContainerEnchantment;
+import net.minecraft.util.math.BlockPos;
 
 /**
- * Created by David on 10/26/2016.
+ * Created by David on 3/26/2017.
  */
-public class PluginData {
-    public static final String id = "virtualtool";
-    public static final String name = "VirtualTool";
-    public static final String version = "2.0";
-    public static final String description = "A plugin to provide virtual gui for all possible items";
-    public static final String organization = "POQDavid";
-    public static final String author1 = "POQDavid";
-    public static final String url = "http://poqdavid.github.io/VirtualTool";
+public class VirtualEnchantingTable extends ContainerEnchantment {
+    public VirtualEnchantingTable(EntityPlayer entityHuman) {
+        super(entityHuman.inventory, entityHuman.world, new BlockPos(0, 0, 0));
+    }
+
+    @Override
+    public boolean canInteractWith(EntityPlayer playerIn) {
+        return true;
+    }
 }

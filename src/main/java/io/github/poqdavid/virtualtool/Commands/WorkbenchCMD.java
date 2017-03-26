@@ -25,7 +25,9 @@
 package io.github.poqdavid.virtualtool.Commands;
 
 import io.github.poqdavid.virtualtool.Permission.VTPermissions;
+import io.github.poqdavid.virtualtool.Utils.Containers.VirtualWorkbench;
 import io.github.poqdavid.virtualtool.Utils.Invs;
+import io.github.poqdavid.virtualtool.Utils.Tools;
 import io.github.poqdavid.virtualtool.VirtualTool;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.command.CommandException;
@@ -35,7 +37,6 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.item.inventory.InventoryArchetypes;
 import org.spongepowered.api.text.Text;
 
 /**
@@ -64,7 +65,7 @@ public class WorkbenchCMD implements CommandExecutor {
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         if (src instanceof Player) {
             if (src.hasPermission(VTPermissions.COMMAND_WORKBENCH)) {
-                return inv.Open(src, args, InventoryArchetypes.WORKBENCH);
+                return inv.Open(src, new VirtualWorkbench(Tools.getPlayerE(src, this.vt)), "minecraft:crafting_table", "Workbench");
             } else {
                 throw new CommandPermissionException(Text.of("You don't have permission to use this command."));
             }

@@ -25,6 +25,10 @@
 package io.github.poqdavid.virtualtool.Utils;
 
 import io.github.poqdavid.virtualtool.VirtualTool;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.Container;
+import net.minecraft.network.play.server.SPacketOpenWindow;
+import net.minecraft.util.text.TextComponentString;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -80,5 +84,14 @@ public class Invs {
         return CommandResult.empty();
     }
 
-
+    public CommandResult Open(CommandSource src, Container opencon, String inventoryTypeIn, String title) {
+        final Player player = Tools.getPlayer(src, vt);
+        final EntityPlayerMP MPlayer = (EntityPlayerMP) player;
+        MPlayer.getNextWindowId();
+        MPlayer.connection.sendPacket(new SPacketOpenWindow(MPlayer.currentWindowId, inventoryTypeIn, new TextComponentString(title)));
+        MPlayer.openContainer = opencon;
+        MPlayer.openContainer.windowId = MPlayer.currentWindowId;
+        MPlayer.openContainer.addListener(MPlayer);
+        return CommandResult.success();
+    }
 }

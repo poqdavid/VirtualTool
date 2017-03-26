@@ -197,7 +197,7 @@ public class Backpack {
         Map<String, String> models = gson.fromJson(br, type);
 
         for (Map.Entry<String, String> entry : models.entrySet()) {
-            DataContainer dc  = Tools.deSerializeJson(entry.getValue());
+            DataContainer dc = Tools.deSerializeJson(entry.getValue());
             ItemStack itemst = ItemStack.builder().fromContainer(dc).build();
             itemst.setRawData(dc);
             this.inventory.query(SlotPos.of(Integer.parseInt(entry.getKey().split(",")[0].toString()), Integer.parseInt(entry.getKey().split(",")[1].toString()))).set(itemst);
