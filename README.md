@@ -31,6 +31,22 @@ A plugin for minecraft to provide virtual gui for all possible items.
     VirtualTool.command.backpacksize.four
     VirtualTool.command.backpacksize.five
     VirtualTool.command.backpacksize.six
+    VirtualTool.command.enchantingtablepower.0
+    VirtualTool.command.enchantingtablepower.1
+    VirtualTool.command.enchantingtablepower.2
+    VirtualTool.command.enchantingtablepower.3
+    VirtualTool.command.enchantingtablepower.4
+    VirtualTool.command.enchantingtablepower.5
+    VirtualTool.command.enchantingtablepower.6
+    VirtualTool.command.enchantingtablepower.7
+    VirtualTool.command.enchantingtablepower.8
+    VirtualTool.command.enchantingtablepower.9
+    VirtualTool.command.enchantingtablepower.10
+    VirtualTool.command.enchantingtablepower.11
+    VirtualTool.command.enchantingtablepower.12
+    VirtualTool.command.enchantingtablepower.13
+    VirtualTool.command.enchantingtablepower.14
+    VirtualTool.command.enchantingtablepower.15
 	
 ## Configuration
 **Config path:** (\config\virtualtool\config.json)

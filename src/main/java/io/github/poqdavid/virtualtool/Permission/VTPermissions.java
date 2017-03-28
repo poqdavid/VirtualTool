@@ -46,6 +46,24 @@ public class VTPermissions {
     VirtualTool.command.backpacksize.four
     VirtualTool.command.backpacksize.five
     VirtualTool.command.backpacksize.six
+
+    VirtualTool.command.enchantingtablepower.0
+    VirtualTool.command.enchantingtablepower.1
+    VirtualTool.command.enchantingtablepower.2
+    VirtualTool.command.enchantingtablepower.3
+    VirtualTool.command.enchantingtablepower.4
+    VirtualTool.command.enchantingtablepower.5
+    VirtualTool.command.enchantingtablepower.6
+    VirtualTool.command.enchantingtablepower.7
+    VirtualTool.command.enchantingtablepower.8
+    VirtualTool.command.enchantingtablepower.9
+    VirtualTool.command.enchantingtablepower.10
+    VirtualTool.command.enchantingtablepower.11
+    VirtualTool.command.enchantingtablepower.12
+    VirtualTool.command.enchantingtablepower.13
+    VirtualTool.command.enchantingtablepower.14
+    VirtualTool.command.enchantingtablepower.15
+
 */
 
     //Commands
@@ -67,4 +85,21 @@ public class VTPermissions {
     public static final String COMMAND_BACKPACK_SIZE_FIVE = "VirtualTool.command.backpacksize.five";
     public static final String COMMAND_BACKPACK_SIZE_SIX = "VirtualTool.command.backpacksize.six";
 
+    //Enchantment powers
+    public static final String COMMAND_ENCHANTINGTABLE_POWER_0 = "VirtualTool.command.enchantingtablepower.0";
+    public static final String COMMAND_ENCHANTINGTABLE_POWER_1 = "VirtualTool.command.enchantingtablepower.1";
+    public static final String COMMAND_ENCHANTINGTABLE_POWER_2 = "VirtualTool.command.enchantingtablepower.2";
+    public static final String COMMAND_ENCHANTINGTABLE_POWER_3 = "VirtualTool.command.enchantingtablepower.3";
+    public static final String COMMAND_ENCHANTINGTABLE_POWER_4 = "VirtualTool.command.enchantingtablepower.4";
+    public static final String COMMAND_ENCHANTINGTABLE_POWER_5 = "VirtualTool.command.enchantingtablepower.5";
+    public static final String COMMAND_ENCHANTINGTABLE_POWER_6 = "VirtualTool.command.enchantingtablepower.6";
+    public static final String COMMAND_ENCHANTINGTABLE_POWER_7 = "VirtualTool.command.enchantingtablepower.7";
+    public static final String COMMAND_ENCHANTINGTABLE_POWER_8 = "VirtualTool.command.enchantingtablepower.8";
+    public static final String COMMAND_ENCHANTINGTABLE_POWER_9 = "VirtualTool.command.enchantingtablepower.9";
+    public static final String COMMAND_ENCHANTINGTABLE_POWER_10 = "VirtualTool.command.enchantingtablepower.10";
+    public static final String COMMAND_ENCHANTINGTABLE_POWER_11 = "VirtualTool.command.enchantingtablepower.11";
+    public static final String COMMAND_ENCHANTINGTABLE_POWER_12 = "VirtualTool.command.enchantingtablepower.12";
+    public static final String COMMAND_ENCHANTINGTABLE_POWER_13 = "VirtualTool.command.enchantingtablepower.13";
+    public static final String COMMAND_ENCHANTINGTABLE_POWER_14 = "VirtualTool.command.enchantingtablepower.14";
+    public static final String COMMAND_ENCHANTINGTABLE_POWER_15 = "VirtualTool.command.enchantingtablepower.15";
 }

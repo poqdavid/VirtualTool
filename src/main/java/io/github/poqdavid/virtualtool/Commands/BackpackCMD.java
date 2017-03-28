@@ -96,8 +96,7 @@ public class BackpackCMD implements CommandExecutor {
                                     final Backpack backpack = new Backpack(player_args, player_cmd_src, this.getBackpackSize(player_args), false, vt);
                                     player_cmd_src.openInventory(backpack.getbackpack(), Cause.of(NamedCause.of("plugin", this.vt.getInstance()), NamedCause.source(player_cmd_src)));
                                 }
-                            }
-                            else{
+                            } else {
                                 throw new CommandPermissionException(Text.of("This user doesn't have permission to use backpack."));
                             }
                         } else {

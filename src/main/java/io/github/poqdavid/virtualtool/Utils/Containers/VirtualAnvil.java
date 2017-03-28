@@ -26,7 +26,6 @@ package io.github.poqdavid.virtualtool.Utils.Containers;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerRepair;
-import net.minecraft.util.math.BlockPos;
 
 /**
  * Created by David on 3/26/2017.
@@ -34,7 +33,7 @@ import net.minecraft.util.math.BlockPos;
 public final class VirtualAnvil extends ContainerRepair {
 
     public VirtualAnvil(EntityPlayer entityHuman) {
-        super(entityHuman.inventory, entityHuman.world, new BlockPos(0, 0, 0), entityHuman);
+        super(entityHuman.inventory, entityHuman.world, entityHuman.getPosition(), entityHuman);
     }
 
     @Override

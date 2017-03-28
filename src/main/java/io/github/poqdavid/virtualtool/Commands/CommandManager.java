@@ -77,6 +77,7 @@ public class CommandManager {
         enchantingtableCmd = CommandSpec.builder()
                 .description(EnchantingTableCMD.getDescription())
                 .executor(new EnchantingTableCMD(this.game, this.inv, this.vt))
+                .arguments(GenericArguments.optional(GenericArguments.integer(Text.of("power"))))
                 .build();
 
         backpackCmd = CommandSpec.builder()

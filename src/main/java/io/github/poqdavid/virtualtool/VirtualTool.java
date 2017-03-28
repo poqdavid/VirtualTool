@@ -155,7 +155,6 @@ public class VirtualTool {
                     .assign(PermissionDescription.ROLE_STAFF, true)
                     .assign(PermissionDescription.ROLE_ADMIN, true)
                     .register();
-
             this.permdescbuilder
                     .id(VTPermissions.COMMAND_HELP)
                     .description(Text.of("Allows the use of /vt help"))
@@ -163,7 +162,6 @@ public class VirtualTool {
                     .assign(PermissionDescription.ROLE_STAFF, true)
                     .assign(PermissionDescription.ROLE_ADMIN, true)
                     .register();
-
             this.permdescbuilder
                     .id(VTPermissions.COMMAND_ANVIL)
                     .description(Text.of("Allows the use of /anvil, /av"))
@@ -171,7 +169,6 @@ public class VirtualTool {
                     .assign(PermissionDescription.ROLE_STAFF, true)
                     .assign(PermissionDescription.ROLE_ADMIN, true)
                     .register();
-
             this.permdescbuilder
                     .id(VTPermissions.COMMAND_BACKPACK)
                     .description(Text.of("Allows the use of /backpack, /bp"))
@@ -179,7 +176,6 @@ public class VirtualTool {
                     .assign(PermissionDescription.ROLE_STAFF, true)
                     .assign(PermissionDescription.ROLE_ADMIN, true)
                     .register();
-
             this.permdescbuilder
                     .id(VTPermissions.COMMAND_ENCHANTINGTABLE)
                     .description(Text.of("Allows the use of /enchantingtable or /et"))
@@ -187,7 +183,6 @@ public class VirtualTool {
                     .assign(PermissionDescription.ROLE_STAFF, true)
                     .assign(PermissionDescription.ROLE_ADMIN, true)
                     .register();
-
             this.permdescbuilder
                     .id(VTPermissions.COMMAND_ENDERCHEST)
                     .description(Text.of("Allows the use of /enderchest, /ec"))
@@ -195,7 +190,6 @@ public class VirtualTool {
                     .assign(PermissionDescription.ROLE_STAFF, true)
                     .assign(PermissionDescription.ROLE_ADMIN, true)
                     .register();
-
             this.permdescbuilder
                     .id(VTPermissions.COMMAND_WORKBENCH)
                     .description(Text.of("Allows the use of /workbench or /wb"))
@@ -203,7 +197,6 @@ public class VirtualTool {
                     .assign(PermissionDescription.ROLE_STAFF, true)
                     .assign(PermissionDescription.ROLE_ADMIN, true)
                     .register();
-
             this.permdescbuilder
                     .id(VTPermissions.COMMAND_BACKPACK_ADMIN_READ)
                     .description(Text.of("Allows to read content of other backpacks"))
@@ -211,7 +204,6 @@ public class VirtualTool {
                     .assign(PermissionDescription.ROLE_STAFF, false)
                     .assign(PermissionDescription.ROLE_ADMIN, false)
                     .register();
-
             this.permdescbuilder
                     .id(VTPermissions.COMMAND_BACKPACK_ADMIN_MODIFY)
                     .description(Text.of("Allows to modify other backpacks"))
@@ -220,6 +212,7 @@ public class VirtualTool {
                     .assign(PermissionDescription.ROLE_ADMIN, false)
                     .register();
 
+            //Backpack sizes
             this.permdescbuilder
                     .id(VTPermissions.COMMAND_BACKPACK_SIZE_ONE)
                     .description(Text.of("Sets users backpack size to 1 row"))
@@ -227,7 +220,6 @@ public class VirtualTool {
                     .assign(PermissionDescription.ROLE_STAFF, false)
                     .assign(PermissionDescription.ROLE_ADMIN, false)
                     .register();
-
             this.permdescbuilder
                     .id(VTPermissions.COMMAND_BACKPACK_SIZE_TWO)
                     .description(Text.of("Sets users backpack size to 2 row"))
@@ -235,7 +227,6 @@ public class VirtualTool {
                     .assign(PermissionDescription.ROLE_STAFF, false)
                     .assign(PermissionDescription.ROLE_ADMIN, false)
                     .register();
-
             this.permdescbuilder
                     .id(VTPermissions.COMMAND_BACKPACK_SIZE_THREE)
                     .description(Text.of("Sets users backpack size to 3 row"))
@@ -243,7 +234,6 @@ public class VirtualTool {
                     .assign(PermissionDescription.ROLE_STAFF, false)
                     .assign(PermissionDescription.ROLE_ADMIN, false)
                     .register();
-
             this.permdescbuilder
                     .id(VTPermissions.COMMAND_BACKPACK_SIZE_FOUR)
                     .description(Text.of("Sets users backpack size to 4 row"))
@@ -258,11 +248,124 @@ public class VirtualTool {
                     .assign(PermissionDescription.ROLE_STAFF, false)
                     .assign(PermissionDescription.ROLE_ADMIN, false)
                     .register();
-
             this.permdescbuilder
                     .id(VTPermissions.COMMAND_BACKPACK_SIZE_SIX)
                     .description(Text.of("Sets users backpack size to 6 row"))
                     .assign(PermissionDescription.ROLE_USER, false)
+                    .assign(PermissionDescription.ROLE_STAFF, true)
+                    .assign(PermissionDescription.ROLE_ADMIN, true)
+                    .register();
+
+            //Enchantment powers
+            this.permdescbuilder
+                    .id(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_0)
+                    .description(Text.of("Sets enchanting table's power to 0"))
+                    .assign(PermissionDescription.ROLE_USER, false)
+                    .assign(PermissionDescription.ROLE_STAFF, false)
+                    .assign(PermissionDescription.ROLE_ADMIN, false)
+                    .register();
+            this.permdescbuilder
+                    .id(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_1)
+                    .description(Text.of("Sets enchanting table's power to 1"))
+                    .assign(PermissionDescription.ROLE_USER, false)
+                    .assign(PermissionDescription.ROLE_STAFF, false)
+                    .assign(PermissionDescription.ROLE_ADMIN, false)
+                    .register();
+            this.permdescbuilder
+                    .id(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_2)
+                    .description(Text.of("Sets enchanting table's power to 2"))
+                    .assign(PermissionDescription.ROLE_USER, false)
+                    .assign(PermissionDescription.ROLE_STAFF, false)
+                    .assign(PermissionDescription.ROLE_ADMIN, false)
+                    .register();
+            this.permdescbuilder
+                    .id(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_3)
+                    .description(Text.of("Sets enchanting table's power to 3"))
+                    .assign(PermissionDescription.ROLE_USER, false)
+                    .assign(PermissionDescription.ROLE_STAFF, false)
+                    .assign(PermissionDescription.ROLE_ADMIN, false)
+                    .register();
+            this.permdescbuilder
+                    .id(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_4)
+                    .description(Text.of("Sets enchanting table's power to 4"))
+                    .assign(PermissionDescription.ROLE_USER, false)
+                    .assign(PermissionDescription.ROLE_STAFF, false)
+                    .assign(PermissionDescription.ROLE_ADMIN, false)
+                    .register();
+            this.permdescbuilder
+                    .id(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_5)
+                    .description(Text.of("Sets enchanting table's power to 5"))
+                    .assign(PermissionDescription.ROLE_USER, false)
+                    .assign(PermissionDescription.ROLE_STAFF, false)
+                    .assign(PermissionDescription.ROLE_ADMIN, false)
+                    .register();
+            this.permdescbuilder
+                    .id(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_6)
+                    .description(Text.of("Sets enchanting table's power to 6"))
+                    .assign(PermissionDescription.ROLE_USER, false)
+                    .assign(PermissionDescription.ROLE_STAFF, false)
+                    .assign(PermissionDescription.ROLE_ADMIN, false)
+                    .register();
+            this.permdescbuilder
+                    .id(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_7)
+                    .description(Text.of("Sets enchanting table's power to 7"))
+                    .assign(PermissionDescription.ROLE_USER, false)
+                    .assign(PermissionDescription.ROLE_STAFF, false)
+                    .assign(PermissionDescription.ROLE_ADMIN, false)
+                    .register();
+            this.permdescbuilder
+                    .id(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_8)
+                    .description(Text.of("Sets enchanting table's power to 8"))
+                    .assign(PermissionDescription.ROLE_USER, false)
+                    .assign(PermissionDescription.ROLE_STAFF, false)
+                    .assign(PermissionDescription.ROLE_ADMIN, false)
+                    .register();
+            this.permdescbuilder
+                    .id(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_9)
+                    .description(Text.of("Sets enchanting table's power to 9"))
+                    .assign(PermissionDescription.ROLE_USER, false)
+                    .assign(PermissionDescription.ROLE_STAFF, false)
+                    .assign(PermissionDescription.ROLE_ADMIN, false)
+                    .register();
+            this.permdescbuilder
+                    .id(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_10)
+                    .description(Text.of("Sets enchanting table's power to 10"))
+                    .assign(PermissionDescription.ROLE_USER, false)
+                    .assign(PermissionDescription.ROLE_STAFF, false)
+                    .assign(PermissionDescription.ROLE_ADMIN, false)
+                    .register();
+            this.permdescbuilder
+                    .id(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_11)
+                    .description(Text.of("Sets enchanting table's power to 11"))
+                    .assign(PermissionDescription.ROLE_USER, false)
+                    .assign(PermissionDescription.ROLE_STAFF, false)
+                    .assign(PermissionDescription.ROLE_ADMIN, false)
+                    .register();
+            this.permdescbuilder
+                    .id(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_12)
+                    .description(Text.of("Sets enchanting table's power to 12"))
+                    .assign(PermissionDescription.ROLE_USER, false)
+                    .assign(PermissionDescription.ROLE_STAFF, false)
+                    .assign(PermissionDescription.ROLE_ADMIN, false)
+                    .register();
+            this.permdescbuilder
+                    .id(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_13)
+                    .description(Text.of("Sets enchanting table's power to 13"))
+                    .assign(PermissionDescription.ROLE_USER, false)
+                    .assign(PermissionDescription.ROLE_STAFF, false)
+                    .assign(PermissionDescription.ROLE_ADMIN, false)
+                    .register();
+            this.permdescbuilder
+                    .id(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_14)
+                    .description(Text.of("Sets enchanting table's power to 14"))
+                    .assign(PermissionDescription.ROLE_USER, false)
+                    .assign(PermissionDescription.ROLE_STAFF, false)
+                    .assign(PermissionDescription.ROLE_ADMIN, false)
+                    .register();
+            this.permdescbuilder
+                    .id(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_15)
+                    .description(Text.of("Sets enchanting table's power to 15"))
+                    .assign(PermissionDescription.ROLE_USER, true)
                     .assign(PermissionDescription.ROLE_STAFF, true)
                     .assign(PermissionDescription.ROLE_ADMIN, true)
                     .register();

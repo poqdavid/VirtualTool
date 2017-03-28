@@ -24,16 +24,95 @@
  */
 package io.github.poqdavid.virtualtool.Utils.Containers;
 
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentData;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.ContainerEnchantment;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
+
+import java.util.List;
+import java.util.Random;
 
 /**
  * Created by David on 3/26/2017.
  */
 public class VirtualEnchantingTable extends ContainerEnchantment {
-    public VirtualEnchantingTable(EntityPlayer entityHuman) {
-        super(entityHuman.inventory, entityHuman.world, new BlockPos(0, 0, 0));
+    private final Random rand;
+    private final World worldPointer;
+    private final BlockPos position;
+    private final EntityPlayer entityHumans;
+    private final float power;
+
+    public VirtualEnchantingTable(EntityPlayer entityHuman, float power) {
+        super(entityHuman.inventory, entityHuman.world, entityHuman.getPosition());
+        this.worldPointer = entityHuman.world;
+        this.position = entityHuman.getPosition();
+        this.rand = new Random();
+        this.entityHumans = entityHuman;
+        this.power = power;
+    }
+
+    private List<EnchantmentData> getEnchantmentList(ItemStack stack, int p_178148_2_, int p_178148_3_) {
+        this.rand.setSeed((long) (this.xpSeed + p_178148_2_));
+        List<EnchantmentData> list = EnchantmentHelper.buildEnchantmentList(this.rand, stack, p_178148_3_, false);
+
+        if (stack.getItem() == Items.BOOK && list.size() > 1) {
+            list.remove(this.rand.nextInt(list.size()));
+        }
+
+        return list;
+    }
+
+    @Override
+    public void onCraftMatrixChanged(IInventory inventoryIn) {
+        if (inventoryIn == this.tableInventory) {
+            ItemStack itemstack = inventoryIn.getStackInSlot(0);
+
+            if (itemstack != null && itemstack.isItemEnchantable()) {
+                if (!this.worldPointer.isRemote) {
+                    int l = 0;
+
+                    this.rand.setSeed((long) this.xpSeed);
+
+                    for (int i1 = 0; i1 < 3; ++i1) {
+                        this.enchantLevels[i1] = EnchantmentHelper.calcItemStackEnchantability(this.rand, i1, (int) this.power, itemstack);
+                        this.enchantClue[i1] = -1;
+                        this.worldClue[i1] = -1;
+
+                        if (this.enchantLevels[i1] < i1 + 1) {
+                            this.enchantLevels[i1] = 0;
+                        }
+                    }
+
+                    for (int j1 = 0; j1 < 3; ++j1) {
+                        if (this.enchantLevels[j1] > 0) {
+                            List<EnchantmentData> list = this.getEnchantmentList(itemstack, j1, this.enchantLevels[j1]);
+
+                            if (list != null && !list.isEmpty()) {
+                                EnchantmentData enchantmentdata = (EnchantmentData) list.get(this.rand.nextInt(list.size()));
+                                this.enchantClue[j1] = Enchantment.getEnchantmentID(enchantmentdata.enchantmentobj);
+                                this.worldClue[j1] = enchantmentdata.enchantmentLevel;
+                            }
+                        }
+                    }
+
+                    this.detectAndSendChanges();
+                }
+            } else {
+                for (int i = 0; i < 3; ++i) {
+                    this.enchantLevels[i] = 0;
+                    this.enchantClue[i] = -1;
+                    this.worldClue[i] = -1;
+                }
+            }
+        }
     }
 
     @Override
