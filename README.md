@@ -11,7 +11,7 @@ A plugin for minecraft to provide virtual gui for all possible items.
 ## Commands
     /anvil
     /enderchest, /ec
-    /enchantingtable, /et
+    /enchantingtable <power 0-15>, /et <power 0-15>
     /workbench, /wb
 	/backpack  <player> [-m <m>], /bp  <player> [-m <m>]
 
