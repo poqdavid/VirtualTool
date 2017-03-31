@@ -38,6 +38,7 @@ public class VTPermissions {
     VirtualTool.command.enchantingtable
     VirtualTool.command.workbench
     VirtualTool.command.backpack
+    VirtualTool.command.backpacklock
     VirtualTool.command.backpackadminread
     VirtualTool.command.backpackadminmodify
     VirtualTool.command.backpacksize.one
@@ -74,6 +75,7 @@ public class VTPermissions {
     public static final String COMMAND_ENCHANTINGTABLE = "VirtualTool.command.enchantingtable";
     public static final String COMMAND_WORKBENCH = "VirtualTool.command.workbench";
     public static final String COMMAND_BACKPACK = "VirtualTool.command.backpack";
+    public static final String COMMAND_BACKPACKLOCK = "VirtualTool.command.backpacklock";
     public static final String COMMAND_BACKPACK_ADMIN_READ = "VirtualTool.command.backpackadminread";
     public static final String COMMAND_BACKPACK_ADMIN_MODIFY = "VirtualTool.command.backpackadminmodify";
 

@@ -41,6 +41,7 @@ import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.game.state.GameStartingServerEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
+import org.spongepowered.api.event.service.ChangeServiceProviderEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.permission.PermissionDescription;
@@ -136,6 +137,14 @@ public class VirtualTool {
     public void onGamePreInit(@Nullable final GamePreInitializationEvent event) {
         this.logger.info("Plugin Initializing...");
         virtualtool_static = this;
+        Tools.unlockallbackpacks(this);
+    }
+
+    @Listener
+    public void onChangeServiceProvider(ChangeServiceProviderEvent event) {
+        if (event.getService().equals(PermissionService.class)) {
+            this.permservice = (PermissionService) event.getNewProviderRegistration().getProvider();
+        }
     }
 
     @Listener
@@ -144,7 +153,7 @@ public class VirtualTool {
             this.logger.error("Unable to initialize plugin. VirtualTool requires a PermissionService like  LuckPerms, PEX, PermissionsManager.");
             return;
         }
-        this.permservice = this.game.getServiceManager().getRegistration(PermissionService.class).get().getProvider();
+
         this.permdescbuilder = this.permservice.newDescriptionBuilder(this.getPluginContainer()).orElse(null);
         if (this.permdescbuilder != null) {
 
@@ -174,6 +183,13 @@ public class VirtualTool {
                     .description(Text.of("Allows the use of /backpack, /bp"))
                     .assign(PermissionDescription.ROLE_USER, true)
                     .assign(PermissionDescription.ROLE_STAFF, true)
+                    .assign(PermissionDescription.ROLE_ADMIN, true)
+                    .register();
+            this.permdescbuilder
+                    .id(VTPermissions.COMMAND_BACKPACKLOCK)
+                    .description(Text.of("Allows the use of /backpacklock, /bplock"))
+                    .assign(PermissionDescription.ROLE_USER, false)
+                    .assign(PermissionDescription.ROLE_STAFF, false)
                     .assign(PermissionDescription.ROLE_ADMIN, true)
                     .register();
             this.permdescbuilder
@@ -426,7 +442,9 @@ public class VirtualTool {
 
     @Listener
     public void onGameReload(@Nullable final GameReloadEvent event) {
-        //this.logger.info("Reloading...");
-        //this.logger.info("Reloaded!");
+        this.logger.info("Reloading...");
+        this.settings.Load(this.configfullpath);
+        Tools.unlockallbackpacks(this);
+        this.logger.info("Reloaded!");
     }
 }

@@ -31,6 +31,7 @@ import io.github.poqdavid.virtualtool.VirtualTool;
 import net.minecraft.entity.player.EntityPlayerMP;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import org.spongepowered.api.Server;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataView;
@@ -41,6 +42,7 @@ import org.spongepowered.api.event.cause.Cause;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.Optional;
 
@@ -125,5 +127,70 @@ public class Tools {
         }
 
         return gson.fromJson(br, defob.getClass());
+    }
+
+    public static void lockbackpack(Player player, VirtualTool vt) {
+        if (!Files.exists(vt.getConfigPath())) {
+            try {
+                Files.createDirectories(vt.getConfigPath());
+            } catch (IOException io) {
+                io.printStackTrace();
+            }
+        }
+
+        Path file = Paths.get(vt.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".lock");
+        if (!Files.exists(file)) {
+            try {
+                Files.createFile(file);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void unlockbackpack(Player player, VirtualTool vt) {
+
+        if (!Files.exists(vt.getConfigPath())) {
+            try {
+                Files.createDirectories(vt.getConfigPath());
+            } catch (IOException io) {
+                io.printStackTrace();
+            }
+        }
+
+        Path file = Paths.get(vt.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".lock");
+        if (!Files.exists(file)) {
+            try {
+                Files.createFile(file);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        try {
+            Files.delete(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Boolean backpackchecklock(Player player, VirtualTool vt) throws CommandException {
+        final Path file = Paths.get(vt.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".lock");
+        return Files.exists(file);
+    }
+
+    public static void unlockallbackpacks(VirtualTool vt) {
+        try {
+            File[] files = new File(vt.getConfigPath() + "/backpacks").listFiles((dir, name) -> name.endsWith(".lock"));
+            for (File file : files) {
+                if (file.isFile()) {
+                    file.delete();
+                }
+            }
+        } catch (Exception e) {
+        }
     }
 }

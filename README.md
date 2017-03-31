@@ -14,6 +14,7 @@ A plugin for minecraft to provide virtual gui for all possible items.
     /enchantingtable <power 0-15>, /et <power 0-15>
     /workbench, /wb
 	/backpack  <player> [-m <m>], /bp  <player> [-m <m>]
+	/backpacklock  <player> [-l <l>] [-u <u>], /bplock  <player> [-l <l>] [-u <u>]
 
 ## Premissions
     VirtualTool.command.anvil
@@ -23,6 +24,7 @@ A plugin for minecraft to provide virtual gui for all possible items.
     VirtualTool.command.enchantingtable
     VirtualTool.command.workbench
     VirtualTool.command.backpack
+    VirtualTool.command.backpacklock
     VirtualTool.command.backpackadminread
     VirtualTool.command.backpackadminmodify
     VirtualTool.command.backpacksize.one

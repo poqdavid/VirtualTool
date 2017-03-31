@@ -42,6 +42,7 @@ public class CommandManager {
     public static CommandSpec workbenchCmd;
     public static CommandSpec enchantingtableCmd;
     public static CommandSpec backpackCmd;
+    public static CommandSpec backpacklockCmd;
     private Game game;
     private VirtualTool vt;
     private Invs inv;
@@ -86,6 +87,12 @@ public class CommandManager {
                 .arguments(GenericArguments.optional(GenericArguments.playerOrSource(Text.of("player"))), GenericArguments.flags().flag("m").buildWith(GenericArguments.none()))
                 .build();
 
+        backpacklockCmd = CommandSpec.builder()
+                .description(BackpackLockCMD.getDescription())
+                .executor(new BackpackLockCMD(this.game, this.inv, this.vt))
+                .arguments(GenericArguments.player(Text.of("player")), GenericArguments.flags().flag("l").flag("u").buildWith(GenericArguments.none()))
+                .build();
+
         CommandSpec vtCommand = CommandSpec.builder()
                 .description(MainCMD.getDescription())
                 .executor(new MainCMD(this.game, this.inv, this.vt))
@@ -95,6 +102,7 @@ public class CommandManager {
         //--Main---
         game.getCommandManager().register(vt, vtCommand, MainCMD.getAlias());
         //--Tools--
+        game.getCommandManager().register(vt, backpacklockCmd, BackpackLockCMD.getAlias());
         if (vt.getSettings().getCommands().isEnderchestEnabled()) {
             game.getCommandManager().register(vt, enderchestCmd, EnderChestCMD.getAlias());
         }
