@@ -24,11 +24,12 @@
  */
 package io.github.poqdavid.virtualtool.Utils;
 
+import com.google.common.base.Charsets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import io.github.poqdavid.virtualtool.VirtualTool;
-import org.spongepowered.api.data.DataContainer;
+import org.apache.commons.io.FileUtils;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.item.inventory.ClickInventoryEvent;
 import org.spongepowered.api.event.item.inventory.InteractInventoryEvent;
@@ -41,7 +42,8 @@ import org.spongepowered.api.item.inventory.property.InventoryTitle;
 import org.spongepowered.api.item.inventory.property.SlotPos;
 import org.spongepowered.api.text.Text;
 
-import java.io.*;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -126,7 +128,7 @@ public class Backpack {
             }
         }
 
-        Path file = Paths.get(this.vt.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".json");
+        Path file = Paths.get(this.vt.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".backpack");
         if (!Files.exists(file)) {
             try {
                 Files.createFile(file);
@@ -155,7 +157,8 @@ public class Backpack {
                 if (!backpack.query(slotp).peek().get().getItem().equals(ItemTypes.NONE)) {
                     try {
                         if (backpack.query(slotp).peek().isPresent()) {
-                            items.put(slotp.getX() + "," + slotp.getY(), Tools.serializeToJson(backpack.query(slotp).peek().get().toContainer()));
+                            items.put(slotp.getX() + "," + slotp.getY(), Tools.ItemStackToBase64(backpack.query(slotp).peek().get()));
+                            //items.put(slotp.getX() + "," + slotp.getY(), Tools.serializeToJson(backpack.query(slotp).peek().get().toContainer()));
                         }
 
                     } catch (Exception e) {
@@ -171,7 +174,7 @@ public class Backpack {
     }
 
     private void loadbackpack(Player player) {
-        Path file = Paths.get(this.vt.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".json");
+        Path file = Paths.get(this.vt.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".backpack");
         if (!Files.exists(file)) {
             try {
                 Files.createFile(file);
@@ -186,20 +189,18 @@ public class Backpack {
         }
 
         Gson gson = new Gson();
-        BufferedReader br = null;
-        try {
-            br = new BufferedReader(new FileReader(file.toString()));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
         Type type = new TypeToken<Map<String, String>>() {
         }.getType();
-        Map<String, String> models = gson.fromJson(br, type);
+
+        Map<String, String> models = null;
+        try {
+            models = gson.fromJson(FileUtils.readFileToString(file.toFile(), Charsets.UTF_8), type);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         for (Map.Entry<String, String> entry : models.entrySet()) {
-            DataContainer dc = Tools.deSerializeJson(entry.getValue());
-            ItemStack itemst = ItemStack.builder().fromContainer(dc).build();
-            itemst.setRawData(dc);
+            ItemStack itemst = Tools.Base64ToItemStack(entry.getValue());
             this.inventory.query(SlotPos.of(Integer.parseInt(entry.getKey().split(",")[0].toString()), Integer.parseInt(entry.getKey().split(",")[1].toString()))).set(itemst);
         }
     }
@@ -215,20 +216,12 @@ public class Backpack {
         }
 
         Path file = Paths.get(this.vt.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".lock");
-        if (!Files.exists(file)) {
+        if (Files.exists(file)) {
             try {
-                Files.createFile(file);
-
+                Files.delete(file);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-
-
-        try {
-            Files.delete(file);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 

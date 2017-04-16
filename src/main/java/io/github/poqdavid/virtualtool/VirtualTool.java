@@ -60,10 +60,9 @@ import java.nio.file.Paths;
 
 @Plugin(id = PluginData.id, name = PluginData.name, version = PluginData.version, description = PluginData.description, url = PluginData.url, authors = {PluginData.author1})
 public class VirtualTool {
-    public static VirtualTool virtualtool_static;
+    private static VirtualTool virtualtool;
     public PermissionService permservice;
     public PermissionDescription.Builder permdescbuilder;
-    private VirtualTool virtualtool;
     private Logger logger;
     private Path configdirpath;
     private Path configfullpath;
@@ -83,23 +82,16 @@ public class VirtualTool {
         this.backpackDir = Paths.get(this.configdirpath + "/backpacks");
         this.configfullpath = Paths.get(this.getConfigPath() + "/config.json");
         this.settings = new Settings();
-        this.setVirtualTool(this);
     }
 
-    public void setVirtualTool(VirtualTool virtualtool) {
-        if (this.virtualtool == null) {
-            this.virtualtool = virtualtool;
-        }
+    @Nonnull
+    public static VirtualTool getInstance() {
+        return virtualtool;
     }
 
     @Nonnull
     public Path getConfigPath() {
         return this.configdirpath;
-    }
-
-    @Nonnull
-    public VirtualTool getInstance() {
-        return this.virtualtool;
     }
 
     @Nonnull
@@ -136,7 +128,7 @@ public class VirtualTool {
     @Listener
     public void onGamePreInit(@Nullable final GamePreInitializationEvent event) {
         this.logger.info("Plugin Initializing...");
-        virtualtool_static = this;
+        virtualtool = this;
         Tools.unlockallbackpacks(this);
     }
 
@@ -410,6 +402,7 @@ public class VirtualTool {
     @Listener
     public void onServerStarting(GameStartingServerEvent event) {
         this.logger.info("Loading...");
+        Tools.ConvertBPS(this);
         this.cmdManager = new CommandManager(game, this);
         this.logger.info("Loaded!");
     }
@@ -422,7 +415,7 @@ public class VirtualTool {
     @Listener
     public void onPlayerJoin(ClientConnectionEvent.Join event) {
         final Player player = Tools.getPlayer(event.getCause()).get();
-        Path file = Paths.get(this.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".json");
+        Path file = Paths.get(this.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".backpack");
         if (!Files.exists(file)) {
             try {
                 Files.createFile(file);

@@ -160,7 +160,7 @@ public class BackpackCMD implements CommandExecutor {
     }
 
     private void backpackcheck(Player player) throws CommandException {
-        Path file = Paths.get(this.vt.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".json");
+        Path file = Paths.get(this.vt.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".backpack");
         if (!Files.exists(file)) {
             throw new CommandPermissionException(Text.of("Sorry there is no backpack data for " + player.getName()));
         } else {
