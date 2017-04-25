@@ -31,7 +31,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ContainerEnchantment;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -57,7 +56,7 @@ public class VirtualEnchantingTable extends ContainerEnchantment {
         this.power = power;
     }
 
-    private List<EnchantmentData> getEnchantmentList(ItemStack stack, int p_178148_2_, int p_178148_3_) {
+    private List<EnchantmentData> getEnchantmentList(net.minecraft.item.ItemStack stack, int p_178148_2_, int p_178148_3_) {
         this.rand.setSeed((long) (this.xpSeed + p_178148_2_));
         List<EnchantmentData> list = EnchantmentHelper.buildEnchantmentList(this.rand, stack, p_178148_3_, false);
 
@@ -71,7 +70,7 @@ public class VirtualEnchantingTable extends ContainerEnchantment {
     @Override
     public void onCraftMatrixChanged(IInventory inventoryIn) {
         if (inventoryIn == this.tableInventory) {
-            ItemStack itemstack = inventoryIn.getStackInSlot(0);
+            net.minecraft.item.ItemStack itemstack = inventoryIn.getStackInSlot(0);
 
             if (itemstack != null && itemstack.isItemEnchantable()) {
                 if (!this.worldPointer.isRemote) {

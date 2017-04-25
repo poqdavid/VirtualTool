@@ -26,6 +26,7 @@ package io.github.poqdavid.virtualtool.Utils.Containers;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerWorkbench;
+import net.minecraft.util.math.BlockPos;
 
 /**
  * Created by David on 3/26/2017.
@@ -34,6 +35,10 @@ public class VirtualWorkbench extends ContainerWorkbench {
 
     public VirtualWorkbench(EntityPlayer entityHuman) {
         super(entityHuman.inventory, entityHuman.world, entityHuman.getPosition());
+    }
+
+    public VirtualWorkbench(EntityPlayer entityHuman, BlockPos blockPosIn) {
+        super(entityHuman.inventory, entityHuman.world, blockPosIn);
     }
 
     @Override

@@ -41,6 +41,7 @@ import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.NamedCause;
 import org.spongepowered.api.text.Text;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -85,16 +86,16 @@ public class BackpackCMD implements CommandExecutor {
                                     if (player_cmd_src.hasPermission(VTPermissions.COMMAND_BACKPACK_ADMIN_MODIFY)) {
                                         this.backpackcheck(player_args);
                                         this.backpackchecklock(player_args);
-                                        this.lockbackpack(player_args);
+                                        Tools.lockbackpack(player_args, true, this.vt);
                                         final Backpack backpack = new Backpack(player_args, player_cmd_src, this.getBackpackSize(player_args), true, this.vt);
-                                        player_cmd_src.openInventory(backpack.getbackpack(), Cause.of(NamedCause.of("plugin", this.vt.getInstance()), NamedCause.source(player_cmd_src)));
+                                        player_cmd_src.openInventory(backpack.getbackpack(), Cause.of(NamedCause.of("plugin", VirtualTool.getInstance()), NamedCause.source(player_cmd_src)));
                                     } else {
                                         throw new CommandPermissionException(Text.of("You don't have permission to modify other backpacks."));
                                     }
                                 } else {
                                     this.backpackcheck(player_args);
                                     final Backpack backpack = new Backpack(player_args, player_cmd_src, this.getBackpackSize(player_args), false, vt);
-                                    player_cmd_src.openInventory(backpack.getbackpack(), Cause.of(NamedCause.of("plugin", this.vt.getInstance()), NamedCause.source(player_cmd_src)));
+                                    player_cmd_src.openInventory(backpack.getbackpack(), Cause.of(NamedCause.of("plugin", VirtualTool.getInstance()), NamedCause.source(player_cmd_src)));
                                 }
                             } else {
                                 throw new CommandPermissionException(Text.of("This user doesn't have permission to use backpack."));
@@ -104,15 +105,15 @@ public class BackpackCMD implements CommandExecutor {
                         }
                     } else {
                         this.backpackchecklock(player_cmd_src);
-                        this.lockbackpack(player_cmd_src);
+                        Tools.lockbackpack(player_cmd_src, false, this.vt);
                         final Backpack backpack = new Backpack(player_cmd_src, player_cmd_src, this.getBackpackSize(player_cmd_src), true, vt);
-                        player_cmd_src.openInventory(backpack.getbackpack(), Cause.of(NamedCause.of("plugin", this.vt.getInstance()), NamedCause.source(player_cmd_src)));
+                        player_cmd_src.openInventory(backpack.getbackpack(), Cause.of(NamedCause.of("plugin", VirtualTool.getInstance()), NamedCause.source(player_cmd_src)));
                     }
                 } else {
                     this.backpackchecklock(player_cmd_src);
-                    this.lockbackpack(player_cmd_src);
+                    Tools.lockbackpack(player_cmd_src, false, this.vt);
                     final Backpack backpack = new Backpack(player_cmd_src, player_cmd_src, this.getBackpackSize(player_cmd_src), true, vt);
-                    player_cmd_src.openInventory(backpack.getbackpack(), Cause.of(NamedCause.of("plugin", this.vt.getInstance()), NamedCause.source(player_cmd_src)));
+                    player_cmd_src.openInventory(backpack.getbackpack(), Cause.of(NamedCause.of("plugin", VirtualTool.getInstance()), NamedCause.source(player_cmd_src)));
                 }
             } else {
                 throw new CommandPermissionException(Text.of("You don't have permission to use this command."));
@@ -153,14 +154,14 @@ public class BackpackCMD implements CommandExecutor {
 
     private void backpackchecklock(Player player) throws CommandException {
 
-        Path file = Paths.get(this.vt.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".lock");
+        Path file = Paths.get(this.vt.getConfigPath() + File.separator + "backpacks" + File.separator + player.getUniqueId().toString() + ".lock");
         if (Files.exists(file)) {
             throw new CommandPermissionException(Text.of("Sorry currently your backpack is locked."));
         }
     }
 
     private void backpackcheck(Player player) throws CommandException {
-        Path file = Paths.get(this.vt.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".backpack");
+        Path file = Paths.get(this.vt.getConfigPath() + File.separator + "backpacks" + File.separator + player.getUniqueId().toString() + ".backpack");
         if (!Files.exists(file)) {
             throw new CommandPermissionException(Text.of("Sorry there is no backpack data for " + player.getName()));
         } else {
@@ -172,27 +173,6 @@ public class BackpackCMD implements CommandExecutor {
             }
             if (content == "{}") {
                 throw new CommandPermissionException(Text.of("Sorry there is no backpack data for " + player.getName()));
-            }
-        }
-    }
-
-    private void lockbackpack(Player player) {
-
-        if (!Files.exists(this.vt.getConfigPath())) {
-            try {
-                Files.createDirectories(this.vt.getConfigPath());
-            } catch (IOException io) {
-                io.printStackTrace();
-            }
-        }
-
-        Path file = Paths.get(this.vt.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".lock");
-        if (!Files.exists(file)) {
-            try {
-                Files.createFile(file);
-
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
     }

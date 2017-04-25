@@ -69,6 +69,7 @@ public class EnchantingTableCMD implements CommandExecutor {
                 final Integer et_lvl = args.<Integer>getOne("power").orElse(maxPower);
                 if (et_lvl >= maxPower) {
                     final VirtualEnchantingTable VET = new VirtualEnchantingTable(Tools.getPlayerE(src, this.vt), maxPower.floatValue());
+
                     return inv.Open(src, VET, "minecraft:enchanting_table", "Enchant");
                 } else {
                     final VirtualEnchantingTable VET = new VirtualEnchantingTable(Tools.getPlayerE(src, this.vt), et_lvl.floatValue());

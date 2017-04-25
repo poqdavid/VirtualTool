@@ -26,18 +26,28 @@ package io.github.poqdavid.virtualtool.Utils.Containers;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerRepair;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 /**
  * Created by David on 3/26/2017.
  */
 public final class VirtualAnvil extends ContainerRepair {
 
+    private final World world;
+
     public VirtualAnvil(EntityPlayer entityHuman) {
-        super(entityHuman.inventory, entityHuman.world, entityHuman.getPosition(), entityHuman);
+        this(entityHuman, entityHuman.getPosition());
+    }
+
+    public VirtualAnvil(EntityPlayer entityHuman, BlockPos blockPosIn) {
+        super(entityHuman.inventory, entityHuman.world, blockPosIn, entityHuman);
+        this.world = entityHuman.world;
     }
 
     @Override
     public boolean canInteractWith(EntityPlayer playerIn) {
         return true;
     }
+
 }

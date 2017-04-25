@@ -26,6 +26,7 @@ package io.github.poqdavid.virtualtool.Utils;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import io.github.poqdavid.virtualtool.VirtualTool;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -61,22 +62,22 @@ public class Settings implements Serializable {
     }
 
 
-    public Settings(Path file) {
-        this.Load(file);
+    public Settings(Path file, VirtualTool vt) {
+        this.Load(file, vt);
     }
 
-    public void Load(Path file) {
+    public void Load(Path file, VirtualTool vt) {
         try {
-            Settings sets = Tools.loadfromjson(file, new Settings());
+            Settings sets = Tools.loadfromjson(file, new Settings(), vt);
             this.setCommands(sets.getCommands());
         } catch (Exception e) {
-            this.Save(file);
-            this.Load(file);
+            this.Save(file, vt);
+            this.Load(file, vt);
         }
     }
 
-    public void Save(Path file) {
-        Tools.savetojson(file, this);
+    public void Save(Path file, VirtualTool vt) {
+        Tools.savetojson(file, this, vt);
     }
 
     public Commands getCommands() {

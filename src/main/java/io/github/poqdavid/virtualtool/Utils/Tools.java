@@ -29,6 +29,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import io.github.poqdavid.virtualtool.VirtualTool;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import org.apache.commons.io.FileUtils;
@@ -36,7 +37,6 @@ import org.spongepowered.api.Server;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.data.DataContainer;
-import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.persistence.DataFormats;
 import org.spongepowered.api.data.persistence.DataTranslators;
 import org.spongepowered.api.entity.living.player.Player;
@@ -59,13 +59,13 @@ import java.util.Optional;
 public class Tools {
 
     public static String ContainerToBase64(DataContainer container) {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        try {
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             DataFormats.NBT.writeTo(out, container);
+            return Base64.getEncoder().encodeToString(out.toByteArray());
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-        return Base64.getEncoder().encodeToString(out.toByteArray());
     }
 
     public static String ItemStackToBase64(ItemStack itemStack) {
@@ -85,39 +85,42 @@ public class Tools {
     }
 
     public static DataContainer Base64ToContainer(byte[] base64) {
-        DataContainer container = null;
-
         try (ByteArrayInputStream in = new ByteArrayInputStream(base64)) {
-            container = DataFormats.NBT.readFrom(in);
+            return DataFormats.NBT.readFrom(in);
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-
-        return container;
     }
 
     public static String serializeToJson(DataContainer container) throws IOException {
-        StringWriter writer = new StringWriter();
-        HoconConfigurationLoader loader = HoconConfigurationLoader.builder().setSink(() -> new BufferedWriter(writer)).build();
-        loader.save(DataTranslators.CONFIGURATION_NODE.translate(container));
-
-        return Base64.getEncoder().encodeToString(writer.toString().getBytes(Charsets.UTF_8));
+        try (StringWriter writer = new StringWriter()) {
+            HoconConfigurationLoader loader = HoconConfigurationLoader.builder().setSink(() -> new BufferedWriter(writer)).build();
+            loader.save(DataTranslators.CONFIGURATION_NODE.translate(container));
+            return Base64.getEncoder().encodeToString(writer.toString().getBytes(Charsets.UTF_8));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 
     public static DataContainer deSerializeJson(String json) {
-        StringReader reader = new StringReader(new String(Base64.getDecoder().decode(json), Charsets.UTF_8));
-        DataView view = null;
-        try {
-            view = DataTranslators.CONFIGURATION_NODE.translate(HoconConfigurationLoader.builder().setSource(() -> new BufferedReader(reader)).build().load());
+        try (StringReader reader = new StringReader(new String(Base64.getDecoder().decode(json), Charsets.UTF_8))) {
+            return DataTranslators.CONFIGURATION_NODE.translate(HoconConfigurationLoader.builder().setSource(() -> new BufferedReader(reader)).build().load()).getContainer();
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-        return view.getContainer();
     }
 
     public static Player getPlayer(CommandSource src, VirtualTool vt) {
         final Server server = vt.getGame().getServer();
         return server.getPlayer(((Player) src.getCommandSource().get()).getUniqueId()).get();
+    }
+
+    public static Player getPlayer(EntityPlayer entityHuman) {
+        final Server server = VirtualTool.getInstance().getGame().getServer();
+        return server.getPlayer(((Player) entityHuman).getUniqueId()).get();
     }
 
     public static EntityPlayerMP getPlayerE(CommandSource src, VirtualTool vt) {
@@ -130,149 +133,195 @@ public class Tools {
         return player;
     }
 
-    public static void savetojson(Path file, Settings jsonob) {
+    public static void savetojson(Path file, Settings jsonob, VirtualTool vt) {
         Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-        String json = gson.toJson(jsonob, jsonob.getClass());
-        if (!Files.exists(file)) {
-            try {
-                Files.createFile(file);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        try (FileWriter filew = new FileWriter(file.toString())) {
-            if (jsonob == null) {
-                filew.write("{}");
-            } else {
-                filew.write(json.toString());
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (jsonob == null) {
+            WriteFile(file.toFile(), "{}", vt);
+        } else {
+            WriteFile(file.toFile(), gson.toJson(jsonob, jsonob.getClass()), vt);
         }
     }
 
-    public static Settings loadfromjson(Path file, Settings defob) {
+    public static Settings loadfromjson(Path file, Settings defob, VirtualTool vt) {
+
         if (!Files.exists(file)) {
             try {
-                savetojson(file, defob);
+                savetojson(file, defob, vt);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
         Gson gson = new Gson();
+        Settings out = null;
         BufferedReader br = null;
+
         try {
             br = new BufferedReader(new FileReader(file.toString()));
+            out = gson.fromJson(br, defob.getClass());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
-        return gson.fromJson(br, defob.getClass());
+        return out;
     }
 
-    public static void lockbackpack(Player player, VirtualTool vt) {
-        if (!Files.exists(vt.getConfigPath())) {
+    public static boolean WriteFile(File file, String content, VirtualTool vt) {
+        FileWriter filew = null;
+
+        if (file.getParentFile().mkdirs()) {
+            vt.getLogger().error("Created missing directories");
+        }
+
+        if (file.exists()) {
             try {
-                Files.createDirectories(vt.getConfigPath());
-            } catch (IOException io) {
-                io.printStackTrace();
+                filew = new FileWriter(file.toString(), false);
+                filew.write(content);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            } finally {
+                if (filew != null) {
+                    try {
+                        filew.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return false;
+                    }
+                }
+            }
+        } else {
+            try {
+                if (file.createNewFile()) {
+                    if (!content.equals("lock")) {
+                        vt.getLogger().info("Created new file: " + file.getName());
+                    }
+                    WriteFile(file, content, vt);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
             }
         }
 
-        Path file = Paths.get(vt.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".lock");
-        if (!Files.exists(file)) {
-            try {
-                Files.createFile(file);
+        return true;
+    }
 
-            } catch (IOException e) {
-                e.printStackTrace();
+    public static boolean lockbackpack(Player player, boolean log, VirtualTool vt) {
+        if (WriteFile(Paths.get(vt.getBackpackPath() + File.separator + player.getUniqueId().toString() + ".lock").toFile(), "lock", vt)) {
+            if (log) {
+                vt.getLogger().info(player.getName() + " backpack's locked");
             }
+            return true;
+        } else {
+            if (log) {
+                vt.getLogger().error(player.getName() + " backpack's is locked or failed getting locked");
+            }
+            return false;
         }
     }
 
-    public static void unlockbackpack(Player player, VirtualTool vt) {
-
-        if (!Files.exists(vt.getConfigPath())) {
-            try {
-                Files.createDirectories(vt.getConfigPath());
-            } catch (IOException io) {
-                io.printStackTrace();
+    public static boolean unlockbackpack(Player player, boolean log, VirtualTool vt) {
+        Path file = Paths.get(vt.getConfigPath() + File.separator + "backpacks" + File.separator + player.getUniqueId().toString() + ".lock");
+        File f = new File(file.toString());
+        if (f.isFile()) {
+            if (f.exists()) {
+                if (f.delete()) {
+                    if (log) {
+                        vt.getLogger().info("Removed lock: " + f.getName());
+                    }
+                    return true;
+                } else {
+                    if (log) {
+                        vt.getLogger().error("Failed to remove lock: " + f.getName());
+                    }
+                    return false;
+                }
             }
         }
-
-        Path file = Paths.get(vt.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".lock");
-        if (!Files.exists(file)) {
-            try {
-                Files.createFile(file);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        try {
-            Files.delete(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return false;
     }
 
     public static Boolean backpackchecklock(Player player, VirtualTool vt) throws CommandException {
-        final Path file = Paths.get(vt.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".lock");
+        final Path file = Paths.get(vt.getBackpackPath() + File.separator + player.getUniqueId().toString() + ".lock");
         return Files.exists(file);
     }
 
-    public static void unlockallbackpacks(VirtualTool vt) {
+    public static void Backpack_unlockall(VirtualTool vt) {
         try {
-            File[] files = new File(vt.getConfigPath() + "/backpacks").listFiles((dir, name) -> name.endsWith(".lock"));
-            assert files != null;
-            for (File file : files) {
-                if (file.isFile()) {
-
-                    if (file.delete()) {
-                        vt.getLogger().error("Removed lock: " + file.getName());
-                    } else {
-                        vt.getLogger().error("Failed to remove lock: " + file.getName());
+            File[] files = new File(vt.getBackpackPath().toString()).listFiles((dir, name) -> name.endsWith(".lock"));
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile()) {
+                        if (file.exists()) {
+                            if (file.delete()) {
+                                vt.getLogger().info("Removed lock: " + file.getName());
+                            } else {
+                                vt.getLogger().error("Failed to remove lock: " + file.getName());
+                            }
+                        }
                     }
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     public static void ConvertBPS(VirtualTool vt) {
         try {
-            File[] files = new File(vt.getConfigPath() + "/backpacks").listFiles((dir, name) -> name.endsWith(".json"));
-            assert files != null;
-            for (File file : files) {
-                if (file.isFile()) {
-                    Gson gson = new Gson();
+            final File[] files = new File(vt.getBackpackPath().toString()).listFiles((dir, name) -> name.endsWith(".json"));
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile()) {
+                        if (file.exists()) {
+                            final Path newBPPath = Paths.get(file.toPath().toString().replace(".json", ".backpack"));
+                            final File newBPFile = newBPPath.toFile();
+                            if (newBPFile.exists()) {
+                                if (file.delete()) {
+                                    vt.getLogger().error("Removed old backpack file: " + file.getName());
+                                } else {
+                                    vt.getLogger().error("Failed to remove old backpack file: " + file.getName());
+                                }
+                            } else {
+                                Gson gson = new Gson();
 
-                    Type type = new TypeToken<Map<String, String>>() {
-                    }.getType();
+                                Type type = new TypeToken<Map<String, String>>() {
+                                }.getType();
 
-                    Map<String, String> models = gson.fromJson(FileUtils.readFileToString(file, Charsets.UTF_8), type);
+                                Map<String, String> models = gson.fromJson(FileUtils.readFileToString(file, Charsets.UTF_8), type);
 
-                    Map<String, String> models2 = new HashMap<>();
-                    for (Map.Entry<String, String> entry : models.entrySet()) {
-                        DataContainer dc = Tools.deSerializeJson(entry.getValue());
-                        ItemStack itemst = ItemStack.builder().fromContainer(dc).build();
-                        itemst.setRawData(dc);
-                        models2.put(entry.getKey(), Tools.ItemStackToBase64(itemst));
-                    }
+                                Map<String, String> models2 = new HashMap<>();
 
+                                if (models != null) {
+                                    for (Map.Entry<String, String> entry : models.entrySet()) {
+                                        DataContainer dc = Tools.deSerializeJson(entry.getValue());
+                                        ItemStack itemst = ItemStack.builder().fromContainer(dc).build();
+                                        itemst.setRawData(dc);
+                                        models2.put(entry.getKey(), Tools.ItemStackToBase64(itemst));
+                                    }
+                                }
 
-                    SaveConvertedBackpack(Paths.get(file.toPath().toString().replace(".json", ".backpack")), models2);
-
-                    if (file.delete()) {
-                        vt.getLogger().error("Removed old backpack file: " + file.getName());
-                    } else {
-                        vt.getLogger().error("Failed to remove old backpack file: " + file.getName());
+                                if (SaveConvertedBackpack(newBPFile, models2, vt)) {
+                                    if (file.delete()) {
+                                        vt.getLogger().error("Removed old backpack file: " + file.getName());
+                                    } else {
+                                        vt.getLogger().error("Failed to remove old backpack file: " + file.getName());
+                                    }
+                                } else {
+                                    vt.getLogger().error("Failed to convert backpack file: " + file.getPath());
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -281,20 +330,84 @@ public class Tools {
         }
     }
 
-    private static void SaveConvertedBackpack(Path file, Map<String, String> items) {
+    public static void ConvertBP(Player player, VirtualTool vt) {
+        final Path filePath = Paths.get(vt.getBackpackPath() + File.separator + player.getUniqueId().toString() + ".backpack");
+        final File file = filePath.toFile();
+        try {
+            if (file != null) {
+                if (file.isFile()) {
+                    if (file.exists()) {
+                        final Path newBPPath = Paths.get(file.toPath().toString().replace(".json", ".backpack"));
+                        final File newBPFile = newBPPath.toFile();
+                        if (newBPFile.exists()) {
+                            if (file.delete()) {
+                                vt.getLogger().error("Removed old backpack file: " + file.getName());
+                            } else {
+                                vt.getLogger().error("Failed to remove old backpack file: " + file.getName());
+                            }
+                        } else {
+                            Gson gson = new Gson();
 
-        Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-        String json = gson.toJson(items);
+                            Type type = new TypeToken<Map<String, String>>() {
+                            }.getType();
 
-        try (FileWriter filew = new FileWriter(file.toString())) {
-            if (items.isEmpty()) {
-                filew.write("{}");
-            } else {
-                filew.write(json.toString());
+                            Map<String, String> models = gson.fromJson(FileUtils.readFileToString(file, Charsets.UTF_8), type);
+
+                            Map<String, String> models2 = new HashMap<>();
+
+                            if (models != null) {
+                                for (Map.Entry<String, String> entry : models.entrySet()) {
+                                    DataContainer dc = Tools.deSerializeJson(entry.getValue());
+                                    ItemStack itemst = ItemStack.builder().fromContainer(dc).build();
+                                    itemst.setRawData(dc);
+                                    models2.put(entry.getKey(), Tools.ItemStackToBase64(itemst));
+                                }
+                            }
+
+                            if (SaveConvertedBackpack(newBPFile, models2, vt)) {
+                                if (file.delete()) {
+                                    vt.getLogger().error("Removed old backpack file: " + file.getName());
+                                } else {
+                                    vt.getLogger().error("Failed to remove old backpack file: " + file.getName());
+                                }
+                            } else {
+                                vt.getLogger().error("Failed to convert backpack file: " + file.getName());
+                            }
+                        }
+                    }
+                }
             }
-
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    private static boolean SaveConvertedBackpack(File file, Map<String, String> items, VirtualTool vt) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+
+        if (items == null || items.isEmpty()) {
+            return WriteFile(file, "{}", vt);
+        } else {
+            return WriteFile(file, gson.toJson(items), vt);
+        }
+    }
+
+    public static void MakeNewBP(Player player, VirtualTool vt) {
+        final Path filePath = Paths.get(vt.getBackpackPath() + File.separator + player.getUniqueId().toString() + ".backpack");
+        final File file = filePath.toFile();
+
+        final Path oldfilePath = Paths.get(vt.getBackpackPath() + File.separator + player.getUniqueId().toString() + ".json");
+        final File oldfile = oldfilePath.toFile();
+
+        if (oldfile.exists()) {
+            Tools.ConvertBP(player, vt);
+        } else {
+            if (!file.exists()) {
+                if (!Tools.WriteFile(file, "{}", vt)) {
+                    vt.getLogger().error("Failed to create backpack file on player join for " + player.getName());
+                }
+            }
+        }
+    }
+
 }

@@ -65,7 +65,9 @@ public class AnvilCMD implements CommandExecutor {
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         if (src instanceof Player) {
             if (src.hasPermission(VTPermissions.COMMAND_ANVIL)) {
-                return inv.Open(src, new VirtualAnvil(Tools.getPlayerE(src, this.vt)), "minecraft:anvil", "Virtual Anvil");
+                final VirtualAnvil VA = new VirtualAnvil(Tools.getPlayerE(src, this.vt));
+
+                return inv.Open(src, VA, "minecraft:anvil", "Virtual Anvil");
             } else {
                 throw new CommandPermissionException(Text.of("You don't have permission to use this command."));
             }

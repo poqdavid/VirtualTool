@@ -92,6 +92,7 @@ public class Invs {
         MPlayer.openContainer = opencon;
         MPlayer.openContainer.windowId = MPlayer.currentWindowId;
         MPlayer.openContainer.addListener(MPlayer);
+
         return CommandResult.success();
     }
 }

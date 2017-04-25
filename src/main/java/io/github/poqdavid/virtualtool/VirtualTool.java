@@ -51,7 +51,6 @@ import org.spongepowered.api.text.Text;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -79,9 +78,10 @@ public class VirtualTool {
         this.pluginContainer = container;
         this.logger = LoggerFactory.getLogger(PluginData.name);
         this.configdirpath = path.resolve(PluginData.id);
-        this.backpackDir = Paths.get(this.configdirpath + "/backpacks");
-        this.configfullpath = Paths.get(this.getConfigPath() + "/config.json");
+        this.backpackDir = Paths.get(this.getConfigPath().toString(), "backpacks");
+        this.configfullpath = Paths.get(this.getConfigPath().toString(), "config.json");
         this.settings = new Settings();
+
     }
 
     @Nonnull
@@ -92,6 +92,11 @@ public class VirtualTool {
     @Nonnull
     public Path getConfigPath() {
         return this.configdirpath;
+    }
+
+    @Nonnull
+    public Path getBackpackPath() {
+        return this.backpackDir;
     }
 
     @Nonnull
@@ -129,7 +134,8 @@ public class VirtualTool {
     public void onGamePreInit(@Nullable final GamePreInitializationEvent event) {
         this.logger.info("Plugin Initializing...");
         virtualtool = this;
-        Tools.unlockallbackpacks(this);
+        Tools.ConvertBPS(this);
+        Tools.Backpack_unlockall(this);
     }
 
     @Listener
@@ -387,22 +393,14 @@ public class VirtualTool {
             this.logger.error("Error on creating root plugin directory: {}", ex);
         }
 
-        try {
-            if (!Files.exists(this.backpackDir)) {
-                Files.createDirectories(this.backpackDir);
-            }
-        } catch (final IOException ex) {
-            this.logger.error("Error on creating backpack directory: {}", ex);
-        }
 
-        this.settings.Load(this.configfullpath);
+        this.settings.Load(this.configfullpath, this);
         this.logger.info("Plugin Initialized successfully!");
     }
 
     @Listener
     public void onServerStarting(GameStartingServerEvent event) {
         this.logger.info("Loading...");
-        Tools.ConvertBPS(this);
         this.cmdManager = new CommandManager(game, this);
         this.logger.info("Loaded!");
     }
@@ -415,29 +413,14 @@ public class VirtualTool {
     @Listener
     public void onPlayerJoin(ClientConnectionEvent.Join event) {
         final Player player = Tools.getPlayer(event.getCause()).get();
-        Path file = Paths.get(this.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".backpack");
-        if (!Files.exists(file)) {
-            try {
-                Files.createFile(file);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try (FileWriter filew = new FileWriter(file.toString())) {
-                filew.write("{}");
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        Tools.MakeNewBP(player, this);
     }
 
     @Listener
     public void onGameReload(@Nullable final GameReloadEvent event) {
         this.logger.info("Reloading...");
-        this.settings.Load(this.configfullpath);
-        Tools.unlockallbackpacks(this);
+        this.settings.Load(this.getConfigPath(), this);
+        Tools.Backpack_unlockall(this);
         this.logger.info("Reloaded!");
     }
 }

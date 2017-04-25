@@ -204,7 +204,7 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/VirtualTool.iml" filepath="$PROJECT_DIR$/.idea/modules/VirtualTool.iml" />
+      <module fileurl="file://$PROJECT_DIR$/VirtualTool.iml" filepath="$PROJECT_DIR$/VirtualTool.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/VirtualTool_api.iml" filepath="$PROJECT_DIR$/.idea/modules/VirtualTool_api.iml" group="VirtualTool" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/VirtualTool_main.iml" filepath="$PROJECT_DIR$/.idea/modules/VirtualTool_main.iml" group="VirtualTool" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/VirtualTool_test.iml" filepath="$PROJECT_DIR$/.idea/modules/VirtualTool_test.iml" group="VirtualTool" />
@@ -887,13 +887,13 @@
     </library>
     <library name="Gradle: org.spongepowered:spongeapi:5.2.0-SNAPSHOT">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.spongepowered/spongeapi/5.2.0-SNAPSHOT/cd72959ea38425a0a7b1552f919a7d20e80925a7/spongeapi-5.2.0-SNAPSHOT.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.spongepowered/spongeapi/5.2.0-SNAPSHOT/ea148198577801474dc5ee0b2dca4e158d660d79/spongeapi-5.2.0-SNAPSHOT.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.spongepowered/spongeapi/5.2.0-SNAPSHOT/df4db64f5bcb2acf6c753827914e06c25f4f680b/spongeapi-5.2.0-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.spongepowered/spongeapi/5.2.0-SNAPSHOT/e0a4a33a5bf143bf826af10a674d093f1bedeba0/spongeapi-5.2.0-SNAPSHOT-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.spongepowered/spongeapi/5.2.0-SNAPSHOT/687cedfcb01972254bd156cc03b82a37543098ea/spongeapi-5.2.0-SNAPSHOT-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.spongepowered/spongeapi/5.2.0-SNAPSHOT/f33a45d706c733c519ff8df3e742ac660a4c1cde/spongeapi-5.2.0-SNAPSHOT-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.yaml:snakeyaml:1.16">

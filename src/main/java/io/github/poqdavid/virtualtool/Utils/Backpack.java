@@ -42,10 +42,9 @@ import org.spongepowered.api.item.inventory.property.InventoryTitle;
 import org.spongepowered.api.item.inventory.property.SlotPos;
 import org.spongepowered.api.text.Text;
 
-import java.io.FileWriter;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -69,10 +68,6 @@ public class Backpack {
     private int size;
 
     public Backpack(Player player_args, Player player_cmd_src, int size, Boolean saveit, VirtualTool vt) {
-        //if (saveit) {
-        //    this.lockbackpack(player_args);
-        // }
-
         this.vt = vt;
         this.player_args = player_args;
         this.player_cmd_src = player_cmd_src;
@@ -80,9 +75,9 @@ public class Backpack {
 
         this.itemspos = new ArrayList<>(54);
 
-        for (int x = 0; x <= 5; x++) {
-            for (int y = 0; y <= 8; y++) {
-                itemspos.add(new SlotPos(y, x));
+        for (int y = 0; y <= 5; y++) {
+            for (int x = 0; x <= 8; x++) {
+                itemspos.add(new SlotPos(x, y));
             }
         }
 
@@ -102,55 +97,32 @@ public class Backpack {
                 .property("inventorydimension", InventoryDimension.of(9, this.size))
                 .listener(ClickInventoryEvent.class, (ClickInventoryEvent event) -> {
                     if (saveit) {
-
-                        this.savebackpack(this.player_args, this.loadStacks(this.inventory));
+                        this.savebackpack(this.player_args, this.loadStacks(this.player_args, this.inventory), this.vt);
                     } else {
                         event.setCancelled(true);
                     }
                 })
                 .listener(InteractInventoryEvent.Close.class, event -> {
                     if (saveit) {
-                        this.unlockbackpack(this.player_args);
+                        Tools.unlockbackpack(this.player_args, false, this.vt);
                     }
                 })
-                .build(this.vt.getInstance());
-        this.loadbackpack(this.player_args);
+                .build(VirtualTool.getInstance());
+        this.loadbackpack(this.player_args, this.vt);
     }
 
-    private void savebackpack(Player player, Map<String, String> items) {
+    private void savebackpack(Player player, Map<String, String> items, VirtualTool vt) {
         Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-        String json = gson.toJson(items);
-        if (!Files.exists(this.vt.getConfigPath())) {
-            try {
-                Files.createDirectories(this.vt.getConfigPath());
-            } catch (IOException io) {
-                io.printStackTrace();
-            }
-        }
 
-        Path file = Paths.get(this.vt.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".backpack");
-        if (!Files.exists(file)) {
-            try {
-                Files.createFile(file);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        try (FileWriter filew = new FileWriter(file.toString())) {
-            if (items.isEmpty()) {
-                filew.write("{}");
-            } else {
-                filew.write(json.toString());
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        Path file = Paths.get(this.vt.getBackpackPath() + File.separator + player.getUniqueId().toString() + ".backpack");
+        if (items == null || items.isEmpty()) {
+            Tools.WriteFile(file.toFile(), "{}", this.vt);
+        } else {
+            Tools.WriteFile(file.toFile(), gson.toJson(items), this.vt);
         }
     }
 
-    private Map<String, String> loadStacks(Inventory backpack) {
+    private Map<String, String> loadStacks(Player player, Inventory backpack) {
         final Map<String, String> items = new HashMap<>();
         for (SlotPos slotp : this.itemspos) {
             if (backpack.query(slotp).size() > 0) {
@@ -158,35 +130,25 @@ public class Backpack {
                     try {
                         if (backpack.query(slotp).peek().isPresent()) {
                             items.put(slotp.getX() + "," + slotp.getY(), Tools.ItemStackToBase64(backpack.query(slotp).peek().get()));
-                            //items.put(slotp.getX() + "," + slotp.getY(), Tools.serializeToJson(backpack.query(slotp).peek().get().toContainer()));
                         }
-
                     } catch (Exception e) {
+                        VirtualTool.getInstance().getLogger().error("Failed to load a stack data from inventory for this user: " + player.getName() + " SlotPos: " + slotp.getX() + "X," + slotp.getY() + "Y");
                         e.printStackTrace();
-                        // this.loadStacks();
                     }
                 }
             }
-
         }
-
         return items;
     }
 
-    private void loadbackpack(Player player) {
-        Path file = Paths.get(this.vt.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".backpack");
-        if (!Files.exists(file)) {
-            try {
-                Files.createFile(file);
-                try (FileWriter filew = new FileWriter(file.toString())) {
-                    filew.write("{}");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    private void loadbackpack(Player player, VirtualTool vt) {
+        Path filePath = Paths.get(vt.getBackpackPath() + File.separator + player.getUniqueId().toString() + ".backpack");
+        File file = filePath.toFile();
+
+        if (!file.exists()) {
+            Tools.WriteFile(file, "{}", vt);
         }
+
 
         Gson gson = new Gson();
         Type type = new TypeToken<Map<String, String>>() {
@@ -194,33 +156,25 @@ public class Backpack {
 
         Map<String, String> models = null;
         try {
-            models = gson.fromJson(FileUtils.readFileToString(file.toFile(), Charsets.UTF_8), type);
+            models = gson.fromJson(FileUtils.readFileToString(file, Charsets.UTF_8), type);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        for (Map.Entry<String, String> entry : models.entrySet()) {
-            ItemStack itemst = Tools.Base64ToItemStack(entry.getValue());
-            this.inventory.query(SlotPos.of(Integer.parseInt(entry.getKey().split(",")[0].toString()), Integer.parseInt(entry.getKey().split(",")[1].toString()))).set(itemst);
-        }
-    }
-
-    private void unlockbackpack(Player player) {
-
-        if (!Files.exists(this.vt.getConfigPath())) {
-            try {
-                Files.createDirectories(this.vt.getConfigPath());
-            } catch (IOException io) {
-                io.printStackTrace();
-            }
-        }
-
-        Path file = Paths.get(this.vt.getConfigPath() + "/backpacks/" + player.getUniqueId().toString() + ".lock");
-        if (Files.exists(file)) {
-            try {
-                Files.delete(file);
-            } catch (IOException e) {
-                e.printStackTrace();
+        if (models != null) {
+            for (Map.Entry<String, String> entry : models.entrySet()) {
+                if (entry != null) {
+                    if (entry.getValue() != null) {
+                        final SlotPos sp = SlotPos.of(Integer.parseInt(entry.getKey().split(",")[0].toString()), Integer.parseInt(entry.getKey().split(",")[1].toString()));
+                        try {
+                            final ItemStack itemst = Tools.Base64ToItemStack(entry.getValue());
+                            this.inventory.query(sp).set(itemst);
+                        } catch (Exception ex) {
+                            VirtualTool.getInstance().getLogger().error("Failed to load a stack data from file for this user: " + player.getName() + " SlotPos: " + sp.getX() + "X," + sp.getY() + "Y");
+                            ex.printStackTrace();
+                        }
+                    }
+                }
             }
         }
     }

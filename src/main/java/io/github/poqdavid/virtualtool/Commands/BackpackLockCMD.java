@@ -93,12 +93,19 @@ public class BackpackLockCMD implements CommandExecutor {
     }
 
     private void bplock(Player player_args, CommandSource src) {
-        Tools.lockbackpack(player_args, this.vt);
-        src.sendMessage(Text.of("Backpack for " + player_args.getName() + " is now locked"));
+        if (Tools.lockbackpack(player_args, true, this.vt)) {
+            src.sendMessage(Text.of("Backpack for " + player_args.getName() + " is now locked"));
+        } else {
+            src.sendMessage(Text.of("Backpack lock for " + player_args.getName() + " didn't work"));
+        }
     }
 
     private void bpunlock(Player player_args, CommandSource src) {
-        Tools.unlockbackpack(player_args, this.vt);
-        src.sendMessage(Text.of("Backpack for " + player_args.getName() + " is now unlocked"));
+        if (Tools.unlockbackpack(player_args, true, this.vt)) {
+            src.sendMessage(Text.of("Backpack for " + player_args.getName() + " is now unlocked"));
+        } else {
+            src.sendMessage(Text.of("Backpack unlock for " + player_args.getName() + " didn't work"));
+            src.sendMessage(Text.of("This can be a error or just there is no lock"));
+        }
     }
 }
