@@ -125,31 +125,19 @@ public class BackpackCMD implements CommandExecutor {
     }
 
     public int getBackpackSize(Player player) {
-        int tempsize = 1;
-        if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_SIX)) {
-            tempsize = 6;
-        } else {
-            if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_FIVE)) {
-                tempsize = 5;
-            } else {
-                if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_FOUR)) {
-                    tempsize = 4;
-                } else {
-                    if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_THREE)) {
-                        tempsize = 3;
-                    } else {
-                        if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_TWO)) {
-                            tempsize = 2;
-                        } else {
-                            if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_ONE)) {
-                                tempsize = 1;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return tempsize;
+        if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_SIX))
+            return 6;
+        if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_FIVE))
+            return 5;
+        if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_FOUR))
+            return 4;
+        if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_THREE))
+            return 3;
+        if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_TWO))
+            return 2;
+        if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_ONE))
+            return 1;
+        return 1;
     }
 
     private void backpackchecklock(Player player) throws CommandException {
