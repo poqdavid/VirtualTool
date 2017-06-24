@@ -71,8 +71,9 @@ public class Settings implements Serializable {
             Settings sets = Tools.loadfromjson(file, new Settings(), vt);
             this.setCommands(sets.getCommands());
         } catch (Exception e) {
-            this.Save(file, vt);
-            this.Load(file, vt);
+            //this.Save(file, vt);
+            //this.Load(file, vt);
+            e.printStackTrace();
         }
     }
 
