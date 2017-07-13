@@ -85,72 +85,38 @@ public class EnchantingTableCMD implements CommandExecutor {
     }
 
     public Integer getEnchantingTablePower(Player player) {
-        Integer tempPower = 15;
-        if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_15)) {
-            tempPower = 15;
-        } else {
-            if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_14)) {
-                tempPower = 14;
-            } else {
-                if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_13)) {
-                    tempPower = 13;
-                } else {
-                    if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_12)) {
-                        tempPower = 12;
-                    } else {
-                        if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_11)) {
-                            tempPower = 11;
-                        } else {
-                            if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_10)) {
-                                tempPower = 10;
-                            } else {
-                                if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_9)) {
-                                    tempPower = 9;
-                                } else {
-                                    if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_8)) {
-                                        tempPower = 8;
-                                    } else {
-                                        if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_7)) {
-                                            tempPower = 7;
-                                        } else {
-                                            if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_6)) {
-                                                tempPower = 6;
-                                            } else {
-                                                if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_5)) {
-                                                    tempPower = 5;
-                                                } else {
-                                                    if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_4)) {
-                                                        tempPower = 4;
-                                                    } else {
-                                                        if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_3)) {
-                                                            tempPower = 3;
-                                                        } else {
-                                                            if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_2)) {
-                                                                tempPower = 2;
-                                                            } else {
-                                                                if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_1)) {
-                                                                    tempPower = 1;
-                                                                } else {
-                                                                    if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_0)) {
-                                                                        tempPower = 0;
-                                                                    } else {
-
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return tempPower;
+        if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_15))
+            return 15;
+        if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_14))
+            return 14;
+        if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_13))
+            return 13;
+        if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_12))
+            return 12;
+        if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_11))
+            return 11;
+        if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_10))
+            return 10;
+        if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_9))
+            return 9;
+        if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_8))
+            return 8;
+        if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_7))
+            return 7;
+        if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_6))
+            return 6;
+        if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_5))
+            return 5;
+        if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_4))
+            return 4;
+        if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_3))
+            return 3;
+        if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_2))
+            return 2;
+        if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_1))
+            return 1;
+        if (player.hasPermission(VTPermissions.COMMAND_ENCHANTINGTABLE_POWER_0))
+            return 0;
+        return 15;
     }
 }
