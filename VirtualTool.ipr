@@ -78,8 +78,7 @@
     <option name="OPEN_IN_BROWSER" value="true" />
   </component>
   <component name="KotlinCommonCompilerArguments">
-    <option name="languageVersion" value="1.1" />
-    <option name="apiVersion" value="1.1" />
+    <option name="coroutinesWarn" value="false" />
   </component>
   <component name="Palette2">
     <group name="Swing">
@@ -223,60 +222,60 @@
   <component name="libraryTable">
     <library name="Gradle: aopalliance:aopalliance:1.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/aopalliance/aopalliance/1.0/235ba8b489512805ac13a8f9ea77a1ca5ebe3e8/aopalliance-1.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/aopalliance/aopalliance/1.0/aopalliance-1.0.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/aopalliance/aopalliance/1.0/4a4b6d692e17846a9f3da036438a7ac491d3c814/aopalliance-1.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/aopalliance/aopalliance/1.0/aopalliance-1.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.flowpowered:flow-math:1.0.3">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.flowpowered/flow-math/1.0.3/d98020239e5015091ad3be927cef9dea0d61a234/flow-math-1.0.3.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/flowpowered/flow-math/1.0.3/flow-math-1.0.3.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.flowpowered/flow-math/1.0.3/dd797ff4c236e2d731236b80bd833121d795b199/flow-math-1.0.3-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/flowpowered/flow-math/1.0.3/flow-math-1.0.3-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.flowpowered/flow-math/1.0.3/84f8cdd18ffa4b9b3168442dbd260405f9093141/flow-math-1.0.3-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/flowpowered/flow-math/1.0.3/flow-math-1.0.3-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.flowpowered:flow-noise:1.0.1-SNAPSHOT">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.flowpowered/flow-noise/1.0.1-SNAPSHOT/bfddff85287441521fb66ec22b59a463190966e1/flow-noise-1.0.1-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/flowpowered/flow-noise/1.0.1-SNAPSHOT/flow-noise-1.0.1-SNAPSHOT.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.flowpowered/flow-noise/1.0.1-SNAPSHOT/3f716b31bd0258998c80ae7861d918d5d4e68632/flow-noise-1.0.1-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/flowpowered/flow-noise/1.0.1-SNAPSHOT/flow-noise-1.0.1-SNAPSHOT-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.flowpowered/flow-noise/1.0.1-SNAPSHOT/3de7a5baf65b8fd79302f92bf0b90a0110294d1a/flow-noise-1.0.1-SNAPSHOT-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/flowpowered/flow-noise/1.0.1-SNAPSHOT/flow-noise-1.0.1-SNAPSHOT-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.github.ben-manes.caffeine:caffeine:2.3.2">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.ben-manes.caffeine/caffeine/2.3.2/6f9664767932063367a611dcfc239c4efdba9b05/caffeine-2.3.2.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/github/ben-manes/caffeine/caffeine/2.3.2/caffeine-2.3.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.ben-manes.caffeine/caffeine/2.3.2/5344b65b4d2441aec9fae639c5fe9aa251a2416d/caffeine-2.3.2-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/github/ben-manes/caffeine/caffeine/2.3.2/caffeine-2.3.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.ben-manes.caffeine/caffeine/2.3.2/54415c77ab29ccd68af524de623f92b841795090/caffeine-2.3.2-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/github/ben-manes/caffeine/caffeine/2.3.2/caffeine-2.3.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.github.ben-manes.caffeine:guava:2.3.2">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.ben-manes.caffeine/guava/2.3.2/f6419041c6d5e7a422bffd0ea57670eb4290fd8f/guava-2.3.2.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/github/ben-manes/caffeine/guava/2.3.2/guava-2.3.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.ben-manes.caffeine/guava/2.3.2/f027191f89fec01a529c88b898bafbdd9e079d4f/guava-2.3.2-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/github/ben-manes/caffeine/guava/2.3.2/guava-2.3.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.ben-manes.caffeine/guava/2.3.2/1c2efdaf6663db76688b7e678da84396f5a4cbff/guava-2.3.2-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/github/ben-manes/caffeine/guava/2.3.2/guava-2.3.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.google.code.findbugs:jsr305:1.3.9">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/1.3.9/40719ea6961c0cb6afaeb6a921eaa1f6afd4cfdf/jsr305-1.3.9.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/code/findbugs/jsr305/1.3.9/jsr305-1.3.9.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
@@ -292,35 +291,35 @@
     </library>
     <library name="Gradle: com.google.code.gson:gson:2.2.4">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.2.4/a60a5e993c98c864010053cb901b7eab25306568/gson-2.2.4.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.2.4/gson-2.2.4.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.2.4/edf793f307583c05c23d2bff956e1a10ead8702c/gson-2.2.4-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.2.4/gson-2.2.4-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.2.4/a6dc5db8a12928e583bd3f23e72d3ab611ecd58f/gson-2.2.4-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.2.4/gson-2.2.4-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.google.guava:guava:17.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/17.0/9c6ef172e8de35fd8d4d8783e4821e57cdef7445/guava-17.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/guava/guava/17.0/guava-17.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/17.0/18a375325d213ba5ae90706790fbbb3fd51b9a01/guava-17.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/guava/guava/17.0/guava-17.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/17.0/7ca0efbeb87ca845b5d7a0ac9c21a4b7b95f7b28/guava-17.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/guava/guava/17.0/guava-17.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.google.inject:guice:4.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.inject/guice/4.0/f990a43d3725781b6db7cd0acf0a8b62dfd1649/guice-4.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/inject/guice/4.0/guice-4.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.inject/guice/4.0/779faccc0065fe6efea2ed9752ff1ab046262df7/guice-4.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/inject/guice/4.0/guice-4.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.inject/guice/4.0/961359f8352b791c6443a207c847e25d6d3ca7cd/guice-4.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/inject/guice/4.0/guice-4.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: com.ibm.icu:icu4j-core-mojang:51.2">
@@ -422,13 +421,13 @@
     </library>
     <library name="Gradle: com.typesafe:config:1.3.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.typesafe/config/1.3.0/f533aa6ea13e443b50e639d070986c42d03efc35/config-1.3.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/typesafe/config/1.3.0/config-1.3.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.typesafe/config/1.3.0/b50295228b3f18cb52608a75b4bb347f2726f9b6/config-1.3.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/typesafe/config/1.3.0/config-1.3.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.typesafe/config/1.3.0/b7f40ce00f9c552576c2675ba81b19365b74f83a/config-1.3.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/typesafe/config/1.3.0/config-1.3.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: commons-codec:commons-codec:1.9">
@@ -447,15 +446,6 @@
       <JAVADOC />
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/f2d8698c46d1167ff24b06a840a87d91a02db891/commons-io-2.4-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Gradle: commons-logging:commons-logging:1.1.3">
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.1.3/f6f66e966c70a83ffbdb6f17a0919eaf7c8aca7f/commons-logging-1.1.3.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.1.3/28bb0405fddaf04f15058fbfbe01fe2780d7d3b6/commons-logging-1.1.3-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: io.netty:netty-all:4.0.23.Final">
@@ -487,13 +477,13 @@
     </library>
     <library name="Gradle: javax.inject:javax.inject:1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/javax/inject/javax.inject/1/javax.inject-1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/70ec961c25111ed9015d1af77772d96383c2d238/javax.inject-1-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/javax/inject/javax.inject/1/javax.inject-1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/a00123f261762a7c5e0ec916a2c7c8298d29c400/javax.inject-1-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/javax/inject/javax.inject/1/javax.inject-1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: javax.validation:validation-api:1.1.0.Final">
@@ -598,57 +588,48 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sf.jopt-simple/jopt-simple/4.6/9cd14a61d7aa7d554f251ef285a6f2c65caf7b65/jopt-simple-4.6-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Gradle: net.sf.trove4j:trove4j:3.0.3">
-      <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sf.trove4j/trove4j/3.0.3/42ccaf4761f0dfdfa805c9e340d99a755907e2dd/trove4j-3.0.3.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sf.trove4j/trove4j/3.0.3/109c5be93362e6e651e417c51d1863477a22969c/trove4j-3.0.3-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Gradle: ninja.leaping.configurate:configurate-core:3.2">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ninja.leaping.configurate/configurate-core/3.2/166fb82311704208782b4e1faf99dbeac9c84d00/configurate-core-3.2.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/ninja/leaping/configurate/configurate-core/3.2/configurate-core-3.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ninja.leaping.configurate/configurate-core/3.2/77fc512edd9d10ca4652dc3d173d93d6dde4f38d/configurate-core-3.2-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/ninja/leaping/configurate/configurate-core/3.2/configurate-core-3.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ninja.leaping.configurate/configurate-core/3.2/21db4604fdf82f38ed536f7132412f068cd9ff4d/configurate-core-3.2-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/ninja/leaping/configurate/configurate-core/3.2/configurate-core-3.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: ninja.leaping.configurate:configurate-gson:3.2">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ninja.leaping.configurate/configurate-gson/3.2/ace93d4dff2cab93aad3d0544bd08055b3be376e/configurate-gson-3.2.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/ninja/leaping/configurate/configurate-gson/3.2/configurate-gson-3.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ninja.leaping.configurate/configurate-gson/3.2/a9b6410bbf28f0cecf3ce858070cc0d5a7c0ef74/configurate-gson-3.2-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/ninja/leaping/configurate/configurate-gson/3.2/configurate-gson-3.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ninja.leaping.configurate/configurate-gson/3.2/91a43d6c1f69bcb8cb88d940fd0f649e1bcbe83/configurate-gson-3.2-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/ninja/leaping/configurate/configurate-gson/3.2/configurate-gson-3.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: ninja.leaping.configurate:configurate-hocon:3.2">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ninja.leaping.configurate/configurate-hocon/3.2/9dd0eabf3b1f24a439f28ceba53cb75ab2ac17c5/configurate-hocon-3.2.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/ninja/leaping/configurate/configurate-hocon/3.2/configurate-hocon-3.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ninja.leaping.configurate/configurate-hocon/3.2/558246de58e9909a990f8cefee7ab460e3b60be2/configurate-hocon-3.2-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/ninja/leaping/configurate/configurate-hocon/3.2/configurate-hocon-3.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ninja.leaping.configurate/configurate-hocon/3.2/1f4bd852e412e119db43b33dbe47d12fcbb097fe/configurate-hocon-3.2-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/ninja/leaping/configurate/configurate-hocon/3.2/configurate-hocon-3.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: ninja.leaping.configurate:configurate-yaml:3.2">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ninja.leaping.configurate/configurate-yaml/3.2/66baeded1dc8e86847dd876c7c7292b96b91ec26/configurate-yaml-3.2.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/ninja/leaping/configurate/configurate-yaml/3.2/configurate-yaml-3.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ninja.leaping.configurate/configurate-yaml/3.2/4458b3c9b59a4e4cd1c64b9a20b2e9f96eb3310d/configurate-yaml-3.2-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/ninja/leaping/configurate/configurate-yaml/3.2/configurate-yaml-3.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ninja.leaping.configurate/configurate-yaml/3.2/2b8764e00134fc6c1e88e8747135aca5a8ce7ad0/configurate-yaml-3.2-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/ninja/leaping/configurate/configurate-yaml/3.2/configurate-yaml-3.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.apache.commons:commons-compress:1.8.1">
@@ -662,13 +643,13 @@
     </library>
     <library name="Gradle: org.apache.commons:commons-lang3:3.3.2">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.3.2/90a3822c38ec8c996e84c16a3477ef632cbc87a3/commons-lang3-3.3.2.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.3.2/commons-lang3-3.3.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.3.2/43ffe692648166363bceadc63ac76c7d19b4ebd7/commons-lang3-3.3.2-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.3.2/commons-lang3-3.3.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.3.2/d2a489573c0ed2c4942b3660decad5d65087b406/commons-lang3-3.3.2-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.3.2/commons-lang3-3.3.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.apache.httpcomponents:httpclient:4.3.3">
@@ -766,13 +747,13 @@
     </library>
     <library name="Gradle: org.ow2.asm:asm:5.0.3">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/5.0.3/dcc2193db20e19e1feca8b1240dbbc4e190824fa/asm-5.0.3.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/ow2/asm/asm/5.0.3/asm-5.0.3.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/5.0.3/c87547fa477f7dc22c5e3c5ddfc6dfac726e5b15/asm-5.0.3-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/ow2/asm/asm/5.0.3/asm-5.0.3-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/5.0.3/f0f24f6666c1a15c7e202e91610476bd4ce59368/asm-5.0.3-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/ow2/asm/asm/5.0.3/asm-5.0.3-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.scala-lang.modules:scala-parser-combinators_2.11:1.0.1">
@@ -867,44 +848,44 @@
     </library>
     <library name="Gradle: org.slf4j:slf4j-api:1.7.21">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.21/139535a69a4239db087de9bab0bee568bf8e0b70/slf4j-api-1.7.21.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.21/slf4j-api-1.7.21.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.21/72e00d8dc052190c5d0aca77f9a9c5124ec3a1c1/slf4j-api-1.7.21-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.21/slf4j-api-1.7.21-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.21/f285ac123f201fb4b028bac556928d7cf527ef48/slf4j-api-1.7.21-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.21/slf4j-api-1.7.21-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.spongepowered:plugin-meta:0.2.1-SNAPSHOT">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.spongepowered/plugin-meta/0.2.1-SNAPSHOT/b8c22d921c089156256818b4a6471a2846ba5bca/plugin-meta-0.2.1-SNAPSHOT.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/spongepowered/plugin-meta/0.2.1-SNAPSHOT/plugin-meta-0.2.1-SNAPSHOT.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.spongepowered/plugin-meta/0.2.1-SNAPSHOT/663e859b53c2e805d36d4d36f2fe43ad6702fd23/plugin-meta-0.2.1-SNAPSHOT-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/spongepowered/plugin-meta/0.2.1-SNAPSHOT/plugin-meta-0.2.1-SNAPSHOT-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.spongepowered:spongeapi:5.2.0-SNAPSHOT">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.spongepowered/spongeapi/5.2.0-SNAPSHOT/ea148198577801474dc5ee0b2dca4e158d660d79/spongeapi-5.2.0-SNAPSHOT.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.spongepowered/spongeapi/5.2.0-SNAPSHOT/d4d37e7f8368073ff88797a6af9079dfee82aa1a/spongeapi-5.2.0-SNAPSHOT.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.spongepowered/spongeapi/5.2.0-SNAPSHOT/e0a4a33a5bf143bf826af10a674d093f1bedeba0/spongeapi-5.2.0-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.spongepowered/spongeapi/5.2.0-SNAPSHOT/d307cab8610cb2028af62a176317863ed01a4316/spongeapi-5.2.0-SNAPSHOT-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.spongepowered/spongeapi/5.2.0-SNAPSHOT/f33a45d706c733c519ff8df3e742ac660a4c1cde/spongeapi-5.2.0-SNAPSHOT-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.spongepowered/spongeapi/5.2.0-SNAPSHOT/7b5a3dba1e16da9482261b0aa4faa7ebe730d0d2/spongeapi-5.2.0-SNAPSHOT-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.yaml:snakeyaml:1.16">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.yaml/snakeyaml/1.16/d64fb662c9e42789149f5078a62a22edda786c6a/snakeyaml-1.16.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/yaml/snakeyaml/1.16/snakeyaml-1.16.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.yaml/snakeyaml/1.16/96a30023990af3da1fe0137f8875d0bea4272123/snakeyaml-1.16-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/yaml/snakeyaml/1.16/snakeyaml-1.16-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.yaml/snakeyaml/1.16/ad03b39efb3749be4c8d2eae23d6dee72c889f3b/snakeyaml-1.16-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/yaml/snakeyaml/1.16/snakeyaml-1.16-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: oshi-project:oshi-core:1.1">

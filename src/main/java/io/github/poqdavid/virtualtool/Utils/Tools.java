@@ -58,6 +58,47 @@ import java.util.Optional;
  */
 public class Tools {
 
+    public static boolean WriteFile(File file, String content, VirtualTool vt) {
+        FileWriter filew = null;
+
+        if (file.getParentFile().mkdirs()) {
+            vt.getLogger().error("Created missing directories");
+        }
+
+        if (file.exists()) {
+            try {
+                filew = new FileWriter(file.toString(), false);
+                filew.write(content);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            } finally {
+                if (filew != null) {
+                    try {
+                        filew.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return false;
+                    }
+                }
+            }
+        } else {
+            try {
+                if (file.createNewFile()) {
+                    if (!content.equals("lock")) {
+                        vt.getLogger().info("Created new file: " + file.getName());
+                    }
+                    WriteFile(file, content, vt);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public static String ContainerToBase64(DataContainer container) {
         try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             DataFormats.NBT.writeTo(out, container);
@@ -173,47 +214,6 @@ public class Tools {
         }
 
         return out;
-    }
-
-    public static boolean WriteFile(File file, String content, VirtualTool vt) {
-        FileWriter filew = null;
-
-        if (file.getParentFile().mkdirs()) {
-            vt.getLogger().error("Created missing directories");
-        }
-
-        if (file.exists()) {
-            try {
-                filew = new FileWriter(file.toString(), false);
-                filew.write(content);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return false;
-            } finally {
-                if (filew != null) {
-                    try {
-                        filew.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        return false;
-                    }
-                }
-            }
-        } else {
-            try {
-                if (file.createNewFile()) {
-                    if (!content.equals("lock")) {
-                        vt.getLogger().info("Created new file: " + file.getName());
-                    }
-                    WriteFile(file, content, vt);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                return false;
-            }
-        }
-
-        return true;
     }
 
     public static boolean lockbackpack(Player player, boolean log, VirtualTool vt) {

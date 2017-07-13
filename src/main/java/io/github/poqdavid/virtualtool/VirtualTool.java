@@ -24,12 +24,14 @@
  */
 package io.github.poqdavid.virtualtool;
 
+import com.google.inject.Inject;
 import io.github.poqdavid.virtualtool.Commands.CommandManager;
 import io.github.poqdavid.virtualtool.Permission.VTPermissions;
+import io.github.poqdavid.virtualtool.Utils.CText;
 import io.github.poqdavid.virtualtool.Utils.Settings;
 import io.github.poqdavid.virtualtool.Utils.Tools;
+import io.github.poqdavid.virtualtool.Utils.VTLogger;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.config.ConfigDir;
@@ -50,7 +52,6 @@ import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.inject.Inject;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -60,14 +61,16 @@ import java.nio.file.Paths;
 @Plugin(id = PluginData.id, name = PluginData.name, version = PluginData.version, description = PluginData.description, url = PluginData.url, authors = {PluginData.author1})
 public class VirtualTool {
     private static VirtualTool virtualtool;
+    final private VTLogger logger;
     public PermissionService permservice;
     public PermissionDescription.Builder permdescbuilder;
-    private Logger logger;
     private Path configdirpath;
     private Path configfullpath;
     private Path dataDir;
     private Path backpackDir;
     private PluginContainer pluginContainer;
+
+    @Inject
     private Game game;
     private Settings settings;
     private CommandManager cmdManager;
@@ -76,12 +79,11 @@ public class VirtualTool {
     public VirtualTool(@ConfigDir(sharedRoot = true) Path path, Logger logger, PluginContainer container) {
         this.dataDir = Sponge.getGame().getSavesDirectory().resolve(PluginData.id);
         this.pluginContainer = container;
-        this.logger = LoggerFactory.getLogger(PluginData.name);
+        this.logger = new VTLogger(CText.get(CText.Colors.BLUE, 1, "V") + CText.get(CText.Colors.MAGENTA, 0, "T"));
         this.configdirpath = path.resolve(PluginData.id);
         this.backpackDir = Paths.get(this.getConfigPath().toString(), "backpacks");
         this.configfullpath = Paths.get(this.getConfigPath().toString(), "config.json");
         this.settings = new Settings();
-
     }
 
     @Nonnull
@@ -115,7 +117,7 @@ public class VirtualTool {
     }
 
     @Nonnull
-    public Logger getLogger() {
+    public VTLogger getLogger() {
         return logger;
     }
 
@@ -393,7 +395,6 @@ public class VirtualTool {
             this.logger.error("Error on creating root plugin directory: {}", ex);
         }
 
-
         this.settings.Load(this.configfullpath, this);
         this.logger.info("Plugin Initialized successfully!");
     }
@@ -419,8 +420,9 @@ public class VirtualTool {
     @Listener
     public void onGameReload(@Nullable final GameReloadEvent event) {
         this.logger.info("Reloading...");
-        this.settings.Load(this.getConfigPath(), this);
+        this.settings.Load(this.configfullpath, this);
         Tools.Backpack_unlockall(this);
         this.logger.info("Reloaded!");
     }
+
 }

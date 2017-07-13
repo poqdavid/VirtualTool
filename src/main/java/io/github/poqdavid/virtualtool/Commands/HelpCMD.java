@@ -89,12 +89,12 @@ public class HelpCMD implements CommandExecutor {
                     .header(Text.of(h1, h2, h3, h4, h5, h6))
                     .contents(
                             Text.of(TextColors.BLUE, TextStyles.ITALIC, ""),
-                            Text.of(TextColors.BLUE, TextStyles.BOLD, "Commands"),
-                            Text.of(TextColors.BLUE, "- /anvil"),
-                            Text.of(TextColors.BLUE, "- /enderchest, /ec"),
-                            Text.of(TextColors.BLUE, "- /enchantingtable, /et"),
-                            Text.of(TextColors.BLUE, "- /workbench, /wb"),
-                            Text.of(TextColors.BLUE, "- /backpack, /bp")
+                            Text.of(TextColors.GREEN, TextStyles.BOLD, "Commands"),
+                            Text.of(TextColors.GOLD, "- ", TextColors.GRAY, "/anvil"),
+                            Text.of(TextColors.GOLD, "- ", TextColors.GRAY, "/enderchest, /ec"),
+                            Text.of(TextColors.GOLD, "- ", TextColors.GRAY, "/enchantingtable, /et"),
+                            Text.of(TextColors.GOLD, "- ", TextColors.GRAY, "/workbench, /wb"),
+                            Text.of(TextColors.GOLD, "- ", TextColors.GRAY, "/backpack, /bp")
                     )
                     .padding(Text.of("="))
                     .sendTo(src);

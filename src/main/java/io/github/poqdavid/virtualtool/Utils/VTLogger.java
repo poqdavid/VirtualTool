@@ -22,17 +22,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package io.github.poqdavid.virtualtool;
+package io.github.poqdavid.virtualtool.Utils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Created by David on 10/26/2016.
+ * Created by David on 7/13/2017.
  */
-public class PluginData {
-    public static final String id = "virtualtool";
-    public static final String name = "VirtualTool";
-    public static final String version = "2.8";
-    public static final String description = "A plugin to provide virtual gui for all possible items";
-    public static final String organization = "POQDavid";
-    public static final String author1 = "POQDavid";
-    public static final String url = "http://poqdavid.github.io/VirtualTool";
+public class VTLogger {
+    private Logger logger;
+
+    public VTLogger(String name) {
+        this.logger = LoggerFactory.getLogger(name);
+    }
+
+    public void info(String msg) {
+        this.logger.info(CText.get(CText.Colors.YELLOW, 0, msg));
+    }
+
+    public void error(String msg) {
+        this.logger.error(CText.get(CText.Colors.RED, 0, msg));
+    }
+
+    public void error(String msg, Throwable tw) {
+        this.logger.error(CText.get(CText.Colors.RED, 0, msg), tw);
+    }
 }

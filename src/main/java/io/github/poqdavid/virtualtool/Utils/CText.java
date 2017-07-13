@@ -22,17 +22,56 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package io.github.poqdavid.virtualtool;
+package io.github.poqdavid.virtualtool.Utils;
 
 /**
- * Created by David on 10/26/2016.
+ * Created by David on 5/3/2017.
  */
-public class PluginData {
-    public static final String id = "virtualtool";
-    public static final String name = "VirtualTool";
-    public static final String version = "2.8";
-    public static final String description = "A plugin to provide virtual gui for all possible items";
-    public static final String organization = "POQDavid";
-    public static final String author1 = "POQDavid";
-    public static final String url = "http://poqdavid.github.io/VirtualTool";
+public class CText {
+    public static final int NORMAL = 0;
+    public static final int BRIGHT = 1;
+
+    public static String get(Colors fc, String text) {
+        return "\u001b[0;" + fc.value + "m" + text + "\u001b[m";
+    }
+
+    public static String get(Colors fc, Integer colormod, String text) {
+        return "\u001b[" + colormod + ";" + fc.value + "m" + text + "\u001b[m";
+    }
+
+    public enum Colors {
+        BLACK(30),
+        RED(31),
+        GREEN(32),
+        YELLOW(33),
+        BLUE(34),
+        MAGENTA(35),
+        CYAN(36),
+        WHITE(37),;
+
+        private int value;
+
+        Colors(int i) {
+            this.value = i;
+        }
+    }
+
+    public enum BGColors {
+        BLACK(40),
+        RED(41),
+        GREEN(42),
+        YELLOW(43),
+        BLUE(44),
+        MAGENTA(45),
+        CYAN(46),
+        WHITE(47),;
+
+        private int value;
+
+        BGColors(int i) {
+            this.value = i;
+        }
+    }
+//echo -e "\u001b[0;4m\u001b[0;44m\u001b[31m Blue Background Underline \u001b[0m"
+
 }

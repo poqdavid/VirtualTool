@@ -69,10 +69,11 @@ public class Settings implements Serializable {
     public void Load(Path file, VirtualTool vt) {
         try {
             Settings sets = Tools.loadfromjson(file, new Settings(), vt);
+            vt.getLogger().info("Loading file: " + file.toString());
             this.setCommands(sets.getCommands());
         } catch (Exception e) {
             this.Save(file, vt);
-            this.Load(file, vt);
+            //this.Load(file, vt);
         }
     }
 
