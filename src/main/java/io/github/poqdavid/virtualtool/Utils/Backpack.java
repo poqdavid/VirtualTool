@@ -58,6 +58,7 @@ import java.util.Map;
 public class Backpack {
 
     public List<SlotPos> itemspos;
+    private Path backpackfile_path;
     private Player player_args;
     private Player player_cmd_src;
     private Inventory inventory;
@@ -68,6 +69,9 @@ public class Backpack {
     private int size;
 
     public Backpack(Player player_args, Player player_cmd_src, int size, Boolean saveit, VirtualTool vt) {
+
+        this.backpackfile_path = Paths.get(vt.getBackpackPath() + File.separator + player_args.getUniqueId().toString() + ".backpack");
+
         this.vt = vt;
         this.player_args = player_args;
         this.player_cmd_src = player_cmd_src;
@@ -75,13 +79,20 @@ public class Backpack {
 
         this.itemspos = new ArrayList<>(54);
 
-        for (int y = 0; y <= 5; y++) {
+        for (int y = 0; y <= (size - 1); y++) {
             for (int x = 0; x <= 8; x++) {
                 itemspos.add(new SlotPos(x, y));
             }
         }
 
-        this.items = new HashMap<>();
+        this.items = new HashMap<String, String>();
+
+        try {
+            this.items = loadSlots(this.vt);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         if (!player_cmd_src.getUniqueId().equals(this.player_args.getUniqueId())) {
             this.backpacktitle_text = Text.of(this.player_args.getName() + "'s " + "Backpack");
@@ -108,47 +119,52 @@ public class Backpack {
                     }
                 })
                 .build(VirtualTool.getInstance());
-        this.loadbackpack(this.player_args, this.vt);
+        this.loadBackpack(this.player_args, this.vt);
     }
 
     private void savebackpack(Player player, Map<String, String> items, VirtualTool vt) {
         Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
-        Path file = Paths.get(this.vt.getBackpackPath() + File.separator + player.getUniqueId().toString() + ".backpack");
         if (items == null || items.isEmpty()) {
-            Tools.WriteFile(file.toFile(), "{}", this.vt);
+            Tools.WriteFile(this.backpackfile_path.toFile(), "{}", this.vt);
         } else {
-            Tools.WriteFile(file.toFile(), gson.toJson(items), this.vt);
+            Tools.WriteFile(this.backpackfile_path.toFile(), gson.toJson(items), this.vt);
         }
     }
 
     private Map<String, String> loadStacks(Player player, Inventory backpack) {
-        final Map<String, String> items = new HashMap<>();
         for (SlotPos slotp : this.itemspos) {
             if (backpack.query(slotp).size() > 0) {
                 if (!backpack.query(slotp).peek().get().getItem().equals(ItemTypes.NONE)) {
                     try {
                         if (backpack.query(slotp).peek().isPresent()) {
-                            items.put(slotp.getX() + "," + slotp.getY(), Tools.ItemStackToBase64(backpack.query(slotp).peek().get()));
+
+                            this.items.put(slotp.getX() + "," + slotp.getY(), Tools.ItemStackToBase64(backpack.query(slotp).peek().get()));
                         }
                     } catch (Exception e) {
                         VirtualTool.getInstance().getLogger().error("Failed to load a stack data from inventory for this user: " + player.getName() + " SlotPos: " + slotp.getX() + "X," + slotp.getY() + "Y");
                         e.printStackTrace();
                     }
+                } else {
+                    if (this.items.containsKey(slotp.getX() + "," + slotp.getY())) {
+                        this.items.remove(slotp.getX() + "," + slotp.getY());
+                    }
+                }
+            } else {
+                if (this.items.containsKey(slotp.getX() + "," + slotp.getY())) {
+                    this.items.remove(slotp.getX() + "," + slotp.getY());
                 }
             }
         }
-        return items;
+        return this.items;
     }
 
-    private void loadbackpack(Player player, VirtualTool vt) {
-        Path filePath = Paths.get(vt.getBackpackPath() + File.separator + player.getUniqueId().toString() + ".backpack");
-        File file = filePath.toFile();
+    private Map<String, String> loadSlots(VirtualTool vt) throws Exception {
+        final File file = this.backpackfile_path.toFile();
 
         if (!file.exists()) {
             Tools.WriteFile(file, "{}", vt);
         }
-
 
         Gson gson = new Gson();
         Type type = new TypeToken<Map<String, String>>() {
@@ -162,7 +178,15 @@ public class Backpack {
         }
 
         if (models != null) {
-            for (Map.Entry<String, String> entry : models.entrySet()) {
+            return models;
+        } else {
+            throw new Exception("There was a error loading backpack file. (" + file.getPath() + ")");
+        }
+    }
+
+    private void loadBackpack(Player player, VirtualTool vt) {
+        if (this.items != null) {
+            for (Map.Entry<String, String> entry : this.items.entrySet()) {
                 if (entry != null) {
                     if (entry.getValue() != null) {
                         final SlotPos sp = SlotPos.of(Integer.parseInt(entry.getKey().split(",")[0].toString()), Integer.parseInt(entry.getKey().split(",")[1].toString()));

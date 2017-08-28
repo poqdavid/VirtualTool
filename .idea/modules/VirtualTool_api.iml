@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id="VirtualTool:api" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="io.github.poqdavid" external.system.module.type="sourceSet" external.system.module.version="2.9" type="JAVA_MODULE" version="4">
+<module external.linked.project.id="VirtualTool:api" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="io.github.poqdavid" external.system.module.type="sourceSet" external.system.module.version="3.0" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="minecraft" name="Minecraft">
       <configuration>
@@ -55,12 +55,39 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/commons-codec/commons-codec/1.9/commons-codec-1.9.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
           <root url="jar://$MAVEN_REPOSITORY$/net/sf/trove4j/trove4j/3.0.3/trove4j-3.0.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
           <root url="jar://$MAVEN_REPOSITORY$/net/sf/trove4j/trove4j/3.0.3/trove4j-3.0.3-sources.jar!/" />
         </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/commons-logging/commons-logging/1.1.3/commons-logging-1.1.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/commons-io/commons-io/2.4/commons-io-2.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
       </library>
     </orderEntry>
     <orderEntry type="module-library">
@@ -102,22 +129,11 @@
     <orderEntry type="library" name="Gradle: com.ibm.icu:icu4j-core-mojang:51.2" level="project" />
     <orderEntry type="library" name="Gradle: net.sf.jopt-simple:jopt-simple:4.6" level="project" />
     <orderEntry type="library" name="Gradle: io.netty:netty-all:4.0.23.Final" level="project" />
-    <orderEntry type="library" name="Gradle: commons-io:commons-io:2.4" level="project" />
-    <orderEntry type="library" name="Gradle: commons-codec:commons-codec:1.9" level="project" />
     <orderEntry type="library" name="Gradle: net.java.jutils:jutils:1.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.mojang:authlib:1.5.22" level="project" />
     <orderEntry type="library" name="Gradle: com.mojang:realms:1.9.8" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.commons:commons-compress:1.8.1" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpclient:4.3.3" level="project" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/commons-logging/commons-logging/1.1.3/commons-logging-1.1.3.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
     <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpcore:4.3.2" level="project" />
     <orderEntry type="library" name="Gradle: it.unimi.dsi:fastutil:7.0.12_mojang" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.logging.log4j:log4j-api:2.0-beta9" level="project" />

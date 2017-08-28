@@ -76,6 +76,7 @@ public class BackpackCMD implements CommandExecutor {
         if (src instanceof Player) {
             final Player player_cmd_src = Tools.getPlayer(src, vt);
             final Player player_args = args.<Player>getOne("player").orElse(null);
+            final Integer bpszie = args.<Integer>getOne("size").orElse(0);
 
             if (player_cmd_src.hasPermission(VTPermissions.COMMAND_BACKPACK)) {
                 if (player_args != null) {
@@ -87,14 +88,14 @@ public class BackpackCMD implements CommandExecutor {
                                         this.backpackcheck(player_args);
                                         this.backpackchecklock(player_args);
                                         Tools.lockbackpack(player_args, true, this.vt);
-                                        final Backpack backpack = new Backpack(player_args, player_cmd_src, this.getBackpackSize(player_args), true, this.vt);
+                                        final Backpack backpack = new Backpack(player_args, player_cmd_src, this.getBackpackSize(player_args, bpszie), true, this.vt);
                                         player_cmd_src.openInventory(backpack.getbackpack(), Cause.of(NamedCause.of("plugin", VirtualTool.getInstance()), NamedCause.source(player_cmd_src)));
                                     } else {
                                         throw new CommandPermissionException(Text.of("You don't have permission to modify other backpacks."));
                                     }
                                 } else {
                                     this.backpackcheck(player_args);
-                                    final Backpack backpack = new Backpack(player_args, player_cmd_src, this.getBackpackSize(player_args), false, vt);
+                                    final Backpack backpack = new Backpack(player_args, player_cmd_src, this.getBackpackSize(player_args, bpszie), false, vt);
                                     player_cmd_src.openInventory(backpack.getbackpack(), Cause.of(NamedCause.of("plugin", VirtualTool.getInstance()), NamedCause.source(player_cmd_src)));
                                 }
                             } else {
@@ -138,6 +139,31 @@ public class BackpackCMD implements CommandExecutor {
         if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_ONE))
             return 1;
         return 1;
+    }
+
+    public int getBackpackSize(Player player, Integer size) {
+        if (size == 0) {
+            if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_SIX))
+                return 6;
+            if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_FIVE))
+                return 5;
+            if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_FOUR))
+                return 4;
+            if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_THREE))
+                return 3;
+            if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_TWO))
+                return 2;
+            if (player.hasPermission(VTPermissions.COMMAND_BACKPACK_SIZE_ONE))
+                return 1;
+            return 1;
+        } else {
+            if (size < 6) {
+                return 6;
+            } else {
+                return size;
+            }
+        }
+
     }
 
     private void backpackchecklock(Player player) throws CommandException {

@@ -84,7 +84,7 @@ public class CommandManager {
         backpackCmd = CommandSpec.builder()
                 .description(BackpackCMD.getDescription())
                 .executor(new BackpackCMD(this.game, this.inv, this.vt))
-                .arguments(GenericArguments.optional(GenericArguments.playerOrSource(Text.of("player"))), GenericArguments.flags().flag("m").buildWith(GenericArguments.none()))
+                .arguments(GenericArguments.optional(GenericArguments.playerOrSource(Text.of("player"))), GenericArguments.optional(GenericArguments.integer(Text.of("size"))), GenericArguments.flags().flag("m").buildWith(GenericArguments.none()))
                 .build();
 
         backpacklockCmd = CommandSpec.builder()
