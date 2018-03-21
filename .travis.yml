@@ -9,6 +9,8 @@ os:
 branches:
   only:
     - master
+    - 1.12.2
+    - 1.10.2
 
 cache:
   directories:
