@@ -1,15 +1,13 @@
 buildscript {
     repositories {
         jcenter()
-        maven {
-            name = "Forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
+        maven { url = "http://files.minecraftforge.net/maven" }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
+
 
 plugins {
     id "groovy"
@@ -22,13 +20,13 @@ plugins {
     id "com.qixalite.spongestart" version "1.6.2"
 
     id "net.minecrell.licenser" version "0.3"
-    id "net.minecraftforge.gradle.forge" version "2.0.2"
 }
-
+apply plugin: 'net.minecraftforge.gradle.forge'
 //project.gradle.startParameter.setLogLevel(LogLevel.INFO)
 
 group = "${getProjectProperty('m_group')}"
-version = "${getProjectProperty('minecraft_version')}-${getProjectProperty('m_major')}.${getProjectProperty('m_minor')}"
+
+version = "${getProjectProperty('minecraft_version')}-${getProjectProperty('m_major')}.${getProjectProperty('m_minor')}-${getProjectProperty('m_api')}-${getProjectProperty('m_suffix')}"
 description = "${getProjectProperty('m_description')}"
 
 if (System.getenv().BUILD_NUMBER != null) {
@@ -37,6 +35,8 @@ if (System.getenv().BUILD_NUMBER != null) {
 
 compileJava {
     sourceCompatibility = targetCompatibility = "1.8"
+    options.encoding = 'UTF-8'
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
 }
 
 repositories {
@@ -74,7 +74,6 @@ dependencies {
     //runtimeOnly("io.github.nucleuspowered:Nucleus:${getProjectProperty('nucleus')}")
 
     compile("javax.validation:validation-api:${getProjectProperty('validation')}")
-    //compile fileTree(dir: "libs", include: "*.jar")
 }
 
 /*shadowJar {
@@ -84,15 +83,15 @@ dependencies {
 }*/
 
 /*blossom {
-    def pluginInfo = "src/main/java/io/github/poqdavid/spongerecords/PluginData.java"
+    def pluginData = "src/main/java/io/github/poqdavid/spongerecords/PluginData.java"
 
-    replaceToken "@ID@", getProjectProperty('m_id'), pluginInfo
-    replaceToken "@NAME@", getProjectProperty('m_name'), pluginInfo
-    replaceToken "@VERSION@", version, pluginInfo
-    replaceToken "@DESCRIPTION@",  getProjectProperty('m_description'), pluginInfo
-    replaceToken "@ORGANIZATION@", getProjectProperty('m_organization'), pluginInfo
-    replaceToken "@AUTHORS@",  getProjectProperty('m_authors'), pluginInfo
-    replaceToken "@URL@",  getProjectProperty('m_url'), pluginInfo
+    replaceToken "xidx", getProjectProperty('m_id'), pluginData
+    replaceToken "XNAMEX", getProjectProperty('m_name'), pluginData
+    replaceToken "@VERSION@", version, pluginData
+    replaceToken "@DESCRIPTION@",  getProjectProperty('m_description'), pluginData
+    replaceToken "@ORGANIZATION@", getProjectProperty('m_organization'), pluginData
+    replaceToken "@AUTHORS@",  getProjectProperty('m_authors'), pluginData
+    replaceToken "@URL@",  getProjectProperty('m_url'), pluginData
 }*/
 
 minecraft {
@@ -104,7 +103,7 @@ minecraft {
     // stable_#            stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not always work.
     // simply re-run your setup task after changing the mappings to update your workspace.
-    mappings = getProjectProperty('mcpVersion')
+     mappings = getProjectProperty('mcpVersion')
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
@@ -118,7 +117,7 @@ spongestart {
 
 processResources {
     // this will ensure that this task is redone when the versions change.
-    inputs.property "version", version
+    inputs.property "version", "${getProjectProperty('m_major')}.${getProjectProperty('m_minor')}"
     inputs.property "mcversion", getProjectProperty('minecraft_version')
     inputs.property "modid", getProjectProperty('m_id')
     inputs.property "description", getProjectProperty('m_description')
@@ -127,7 +126,7 @@ processResources {
         include "mcmod.info"
 
         // replace version and mcversion
-        expand 'version': project.version, 'mcversion': getProjectProperty('minecraft_version')
+        expand 'version': "${getProjectProperty('m_major')}.${getProjectProperty('m_minor')}", 'mcversion': getProjectProperty('minecraft_version')
     }
 
     // copy everything else, thats not the mcmod.info

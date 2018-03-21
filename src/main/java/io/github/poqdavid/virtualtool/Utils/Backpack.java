@@ -40,6 +40,7 @@ import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.property.InventoryDimension;
 import org.spongepowered.api.item.inventory.property.InventoryTitle;
 import org.spongepowered.api.item.inventory.property.SlotPos;
+import org.spongepowered.api.item.inventory.query.QueryOperationTypes;
 import org.spongepowered.api.text.Text;
 
 import java.io.File;
@@ -134,12 +135,12 @@ public class Backpack {
 
     private Map<String, String> loadStacks(Player player, Inventory backpack) {
         for (SlotPos slotp : this.itemspos) {
-            if (backpack.query(slotp).size() > 0) {
-                if (!backpack.query(slotp).peek().get().getItem().equals(ItemTypes.NONE)) {
+            if (backpack.query(QueryOperationTypes.INVENTORY_PROPERTY.of(slotp)).size() > 0) {
+                if (!backpack.query(QueryOperationTypes.INVENTORY_PROPERTY.of(slotp)).peek().get().getType().getType().equals(ItemTypes.NONE)) {
                     try {
-                        if (backpack.query(slotp).peek().isPresent()) {
+                        if (backpack.query(QueryOperationTypes.INVENTORY_PROPERTY.of(slotp)).peek().isPresent()) {
 
-                            this.items.put(slotp.getX() + "," + slotp.getY(), Tools.ItemStackToBase64(backpack.query(slotp).peek().get()));
+                            this.items.put(slotp.getX() + "," + slotp.getY(), Tools.ItemStackToBase64(backpack.query(QueryOperationTypes.INVENTORY_PROPERTY.of(slotp)).peek().get()));
                         }
                     } catch (Exception e) {
                         VirtualTool.getInstance().getLogger().error("Failed to load a stack data from inventory for this user: " + player.getName() + " SlotPos: " + slotp.getX() + "X," + slotp.getY() + "Y");
@@ -192,7 +193,7 @@ public class Backpack {
                         final SlotPos sp = SlotPos.of(Integer.parseInt(entry.getKey().split(",")[0].toString()), Integer.parseInt(entry.getKey().split(",")[1].toString()));
                         try {
                             final ItemStack itemst = Tools.Base64ToItemStack(entry.getValue());
-                            this.inventory.query(sp).set(itemst);
+                            this.inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(sp)).set(itemst);
                         } catch (Exception ex) {
                             VirtualTool.getInstance().getLogger().error("Failed to load a stack data from file for this user: " + player.getName() + " SlotPos: " + sp.getX() + "X," + sp.getY() + "Y");
                             ex.printStackTrace();

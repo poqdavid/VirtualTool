@@ -154,7 +154,7 @@ public class VirtualTool {
             return;
         }
 
-        this.permdescbuilder = this.permservice.newDescriptionBuilder(this.getPluginContainer()).orElse(null);
+        this.permdescbuilder = this.permservice.newDescriptionBuilder(this.getPluginContainer());
         if (this.permdescbuilder != null) {
 
             this.permdescbuilder

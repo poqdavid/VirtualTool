@@ -94,7 +94,7 @@ public class VirtualEnchantingTable extends ContainerEnchantment {
 
                             if (list != null && !list.isEmpty()) {
                                 EnchantmentData enchantmentdata = (EnchantmentData) list.get(this.rand.nextInt(list.size()));
-                                this.enchantClue[j1] = Enchantment.getEnchantmentID(enchantmentdata.enchantmentobj);
+                                this.enchantClue[j1] = Enchantment.getEnchantmentID(enchantmentdata.enchantment);
                                 this.worldClue[j1] = enchantmentdata.enchantmentLevel;
                             }
                         }
