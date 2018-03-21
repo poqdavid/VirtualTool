@@ -1,74 +1,138 @@
 buildscript {
-    //project.gradle.startParameter.setLogLevel(LogLevel.INFO)
     repositories {
-        mavenCentral()
         jcenter()
         maven {
-            name = 'gradle-plugins'
-            url = 'https://plugins.gradle.org/m2'
-        }
-        maven {
-            name = 'sponge'
-            url = 'https://repo.spongepowered.org/maven'
-        }
-        maven {
-            name = 'forge'
-            url = 'http://files.minecraftforge.net/maven'
+            name = "Forge"
+            url = "http://files.minecraftforge.net/maven"
         }
     }
     dependencies {
-        classpath 'gradle.plugin.net.minecrell:licenser:0.3'
-        classpath "gradle.plugin.org.spongepowered:spongegradle:0.8.1"
-        classpath "gradle.plugin.com.qixalite:SpongeStart:1.6.2"
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
     }
 }
-apply plugin: 'idea'
-apply plugin: 'groovy'
-apply plugin: 'java'
-apply plugin: "net.minecrell.licenser"
-apply plugin: "org.spongepowered.plugin"
-apply plugin: "com.qixalite.spongestart"
-apply plugin: 'net.minecraftforge.gradle.forge'
 
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
+plugins {
+    id "groovy"
+    id "java"
+    id "idea"
+    id "signing"
+    //id "ninja.miserable.blossom" version "1.0.1"
+    id "com.github.johnrengelman.shadow" version "2.0.1"
+    id "org.spongepowered.plugin" version "0.8.1"
+    id "com.qixalite.spongestart" version "1.6.2"
 
-group = pluginGroup
-version = pluginVersion
+    id "net.minecrell.licenser" version "0.3"
+    id "net.minecraftforge.gradle.forge" version "2.0.2"
+}
+
+//project.gradle.startParameter.setLogLevel(LogLevel.INFO)
+
+group = "${getProjectProperty('m_group')}"
+version = "${getProjectProperty('minecraft_version')}-${getProjectProperty('m_major')}.${getProjectProperty('m_minor')}"
+description = "${getProjectProperty('m_description')}"
+
+if (System.getenv().BUILD_NUMBER != null) {
+    version += "+${System.getenv().BUILD_NUMBER}"
+}
+
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.8"
+}
+
+repositories {
+    jcenter()
+    maven {
+        name = "Gradle-Plugins"
+        url = "https://plugins.gradle.org/m2"
+    }
+    maven {
+        name = "Sponge"
+        url = "http://repo.spongepowered.org/maven"
+    }
+    maven {
+        name = "Forge"
+        url = "http://files.minecraftforge.net/maven"
+    }
+    maven {
+        name = "Nucleus"
+        url = "http://repo.drnaylor.co.uk/artifactory/list/minecraft"
+    }
+    maven {
+        name = "QuickStart"
+        url = "http://repo.drnaylor.co.uk/artifactory/list/quickstart"
+    }
+    maven {
+        name = "JitPack"
+        url = "https://jitpack.io"
+    }
+}
 
 dependencies {
-    compile 'org.spongepowered:spongeapi:5.2.0-SNAPSHOT'
-    compile group: 'javax.validation', name: 'validation-api', version: '1.1.0.Final'
+    compile("org.spongepowered:spongeapi:${getProjectProperty('spongeapi')}")
+
+    //compile("io.github.nucleuspowered:nucleus-api:${getProjectProperty('nucleus')}")
+    //runtimeOnly("io.github.nucleuspowered:Nucleus:${getProjectProperty('nucleus')}")
+
+    compile("javax.validation:validation-api:${getProjectProperty('validation')}")
+    //compile fileTree(dir: "libs", include: "*.jar")
 }
 
-sponge.plugin.id = pluginId
+/*shadowJar {
+    dependencies {
+        include(dependency("io.github.nucleuspowered:nucleus-api:${getProjectProperty('nucleus')}"))
+    }
+}*/
+
+/*blossom {
+    def pluginInfo = "src/main/java/io/github/poqdavid/spongerecords/PluginData.java"
+
+    replaceToken "@ID@", getProjectProperty('m_id'), pluginInfo
+    replaceToken "@NAME@", getProjectProperty('m_name'), pluginInfo
+    replaceToken "@VERSION@", version, pluginInfo
+    replaceToken "@DESCRIPTION@",  getProjectProperty('m_description'), pluginInfo
+    replaceToken "@ORGANIZATION@", getProjectProperty('m_organization'), pluginInfo
+    replaceToken "@AUTHORS@",  getProjectProperty('m_authors'), pluginInfo
+    replaceToken "@URL@",  getProjectProperty('m_url'), pluginInfo
+}*/
 
 minecraft {
-    forgeVersion = forge_build
-    runDir = forge_rundir
-    mappings = forge_mapping_stable //check http://export.mcpbot.bspk.rs/
+    version = getProjectProperty('forgeVersion')
+    runDir = getProjectProperty('forge_rundir')
+
+    // the mappings can be changed at any time, and must be in the following format.
+    // snapshot_YYYYMMDD   snapshot are built nightly.
+    // stable_#            stables are built at the discretion of the MCP team.
+    // Use non-default mappings at your own risk. they may not always work.
+    // simply re-run your setup task after changing the mappings to update your workspace.
+    mappings = getProjectProperty('mcpVersion')
+    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
-spongestart{
+spongestart {
     eula true
-    minecraft minecraft_version
-    type spongetype
-    spongeForgeVersion spongeforgever
+    minecraft "${getProjectProperty('minecraft_version')}"
+    type "stable"
+    spongeForgeVersion getProjectProperty('spongeforge')
+    forgeServerFolder "${getProjectProperty('spongeforgeServerFolder')}"
 }
 
 processResources {
-    inputs.property "version",
-            project.version
-    inputs.property "mcversion",
-            minecraft_version
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", version
+    inputs.property "mcversion", getProjectProperty('minecraft_version')
+    inputs.property "modid", getProjectProperty('m_id')
+    inputs.property "description", getProjectProperty('m_description')
+    // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand 'version': project.version,
-                'mcversion': minecraft_version
+        include "mcmod.info"
+
+        // replace version and mcversion
+        expand 'version': project.version, 'mcversion': getProjectProperty('minecraft_version')
     }
+
+    // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+        exclude "mcmod.info"
     }
     from 'LICENSE.txt'
 }
@@ -77,16 +141,17 @@ license {
     header = file('HEADER.txt')
     newLine = false
     ext {
-        name = project.name
-        organization = project.organization
-        url = project.url
+        name = getProjectProperty('m_name')
+        organization = getProjectProperty('m_organization')
+        url = getProjectProperty('m_url')
     }
     include '**/*.java'
     include '**/*.groovy'
 }
 
-jar {
-    version = "${project.minecraft_version}-${project.version}"
+signing {
+    required { Project.hasProperty("signing.keyId") }
+    sign configurations.archives, configurations.shadow
 }
 
 idea {
@@ -95,15 +160,19 @@ idea {
     }
 }
 
-build.doLast {
-    copy {
-        from "$rootProject.projectDir/files/PermissionsEx-Sponge.jar"
-        into "$rootProject.projectDir/run/forge/mods"
-    }
-}
-
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.3'
+    gradleVersion = '4.1'
 }
 
-build.dependsOn(jar)
+def String getProjectProperty(String propertyName) {
+    String temp = "null"
+    if (hasProperty(propertyName)) {
+        temp = this.properties[propertyName]
+        project.logger.log(LogLevel.WARN, "Found property: " + propertyName+" value: " + temp)
+    } else {
+        project.logger.log(LogLevel.ERROR, "Property (" + propertyName + ") not found!")
+    }
+    return temp
+}
+
+build.dependsOn(shadowJar)
