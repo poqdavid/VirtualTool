@@ -119,32 +119,43 @@ public class Backpack {
     }
 
     private Map<String, String> loadStacks(Player player) throws Exception {
-        Map<String, String> items = new HashMap<String, String>();
+        Map<String, String> items = loadSlots(this.vt);
 
         for (Inventory slot : this.inventory.slots()) {
-            if (slot.peek().isPresent()) {
+
+            if (slot.getProperty(SlotIndex.class, "slotindex").isPresent()) {
+
+                Integer indx = slot.getProperty(SlotIndex.class, "slotindex").get().getValue();
+                SlotPos slotp = Tools.IndxToSP(indx);
+                items.put(slotp.getX() + "," + slotp.getY(), "EMPTY");
+
                 if (slot.size() > 0) {
-                    if (slot.getProperty(SlotIndex.class, "slotindex").isPresent()) {
-                        Integer indx = slot.getProperty(SlotIndex.class, "slotindex").get().getValue();
 
-                        SlotPos slotp = Tools.IndxToSP(indx);
+                    if (slot.peek().isPresent()) {
 
-                        if (!slot.peek().get().getType().equals(ItemTypes.NONE)) {
-                            try {
+                        if (slot.getProperty(SlotIndex.class, "slotindex").isPresent()) {
 
-                                items.put(slotp.getX() + "," + slotp.getY(), Tools.ItemStackToBase64(slot.peek().get()));
+                            if (!slot.peek().get().getType().equals(ItemTypes.NONE)) {
+                                try {
 
-                            } catch (Exception e) {
-                                VirtualTool.getInstance().getLogger().error("Failed to load a stack data from inventory for this user: " + player.getName() + " SlotPos: " + slotp.getX() + "X," + slotp.getY() + "Y");
-                                e.printStackTrace();
-                                throw new Exception("Failed to load a stack data from inventory for this user: " + player.getName() + " SlotPos: " + slotp.getX() + "X," + slotp.getY() + "Y");
+                                    items.put(slotp.getX() + "," + slotp.getY(), Tools.ItemStackToBase64(slot.peek().get()));
+
+                                } catch (Exception e) {
+                                    VirtualTool.getInstance().getLogger().error("Failed to load a stack data from inventory for this user: " + player.getName() + " SlotPos: " + slotp.getX() + "X," + slotp.getY() + "Y");
+                                    e.printStackTrace();
+                                    throw new Exception("Failed to load a stack data from inventory for this user: " + player.getName() + " SlotPos: " + slotp.getX() + "X," + slotp.getY() + "Y");
+                                }
                             }
+
                         }
+
 
                     }
                 }
 
             }
+
+
         }
 
         return items;
@@ -190,8 +201,14 @@ public class Backpack {
                     if (entry.getValue() != null) {
                         final SlotPos sp = SlotPos.of(Integer.parseInt(entry.getKey().split(",")[0].toString()), Integer.parseInt(entry.getKey().split(",")[1].toString()));
                         try {
-                            final ItemStack itemst = Tools.Base64ToItemStack(entry.getValue());
-                            this.inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(sp)).set(itemst);
+                            if (!entry.getValue().equals("EMPTY")) {
+                                final ItemStack itemst = Tools.Base64ToItemStack(entry.getValue());
+                                this.inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(sp)).set(itemst);
+                            } else {
+                                this.inventory.query(QueryOperationTypes.INVENTORY_PROPERTY.of(sp)).set(ItemStack.empty());
+                            }
+
+
                         } catch (Exception ex) {
                             VirtualTool.getInstance().getLogger().error("Failed to load a stack data from file for this user: " + player.getName() + " SlotPos: " + sp.getX() + "X," + sp.getY() + "Y");
                             ex.printStackTrace();
