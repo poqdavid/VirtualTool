@@ -1,0 +1,18 @@
+[
+  {
+    "modid": "virtualtool",
+    "name": "VirtualTool",
+    "version": "5.0",
+    "description": "A plugin to provide virtual gui for all possible items",
+    "url": "http://poqdavid.github.io/VirtualTool",
+    "authorList": [
+      "POQDavid"
+    ],
+    "dependencies": [
+      "spongeapi@7.1.0-SNAPSHOT"
+    ],
+    "requiredMods": [
+      "spongeapi@7.1.0-SNAPSHOT"
+    ]
+  }
+]
