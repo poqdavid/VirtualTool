@@ -39,6 +39,7 @@ import org.spongepowered.api.item.inventory.InventoryArchetypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.property.InventoryDimension;
 import org.spongepowered.api.item.inventory.property.InventoryTitle;
+import org.spongepowered.api.item.inventory.property.SlotIndex;
 import org.spongepowered.api.item.inventory.property.SlotPos;
 import org.spongepowered.api.item.inventory.query.QueryOperationTypes;
 import org.spongepowered.api.text.Text;
@@ -48,9 +49,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -58,12 +57,10 @@ import java.util.Map;
  */
 public class Backpack {
 
-    public List<SlotPos> itemspos;
     private Path backpackfile_path;
     private Player player_args;
     private Player player_cmd_src;
     private Inventory inventory;
-    private Map<String, String> items;
     private VirtualTool vt;
     private Text backpacktitle_text;
     private String backpacktitle_str;
@@ -77,23 +74,6 @@ public class Backpack {
         this.player_args = player_args;
         this.player_cmd_src = player_cmd_src;
         this.size = size;
-
-        this.itemspos = new ArrayList<>(54);
-
-        for (int y = 0; y <= (size - 1); y++) {
-            for (int x = 0; x <= 8; x++) {
-                itemspos.add(new SlotPos(x, y));
-            }
-        }
-
-        this.items = new HashMap<String, String>();
-
-        try {
-            this.items = loadSlots(this.vt);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
 
         if (!player_cmd_src.getUniqueId().equals(this.player_args.getUniqueId())) {
             this.backpacktitle_text = Text.of(this.player_args.getName() + "'s " + "Backpack");
@@ -109,7 +89,12 @@ public class Backpack {
                 .property("inventorydimension", InventoryDimension.of(9, this.size))
                 .listener(ClickInventoryEvent.class, (ClickInventoryEvent event) -> {
                     if (saveit) {
-                        this.savebackpack(this.player_args, this.loadStacks(this.player_args, this.inventory), this.vt);
+                        try {
+                            Map<String, String> items = this.loadStacks(this.player_args);
+                            this.savebackpack(this.player_args, items, this.vt);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     } else {
                         event.setCancelled(true);
                     }
@@ -133,31 +118,37 @@ public class Backpack {
         }
     }
 
-    private Map<String, String> loadStacks(Player player, Inventory backpack) {
-        for (SlotPos slotp : this.itemspos) {
-            if (backpack.query(QueryOperationTypes.INVENTORY_PROPERTY.of(slotp)).size() > 0) {
-                if (!backpack.query(QueryOperationTypes.INVENTORY_PROPERTY.of(slotp)).peek().get().getType().getType().equals(ItemTypes.NONE)) {
-                    try {
-                        if (backpack.query(QueryOperationTypes.INVENTORY_PROPERTY.of(slotp)).peek().isPresent()) {
+    private Map<String, String> loadStacks(Player player) throws Exception {
+        Map<String, String> items = new HashMap<String, String>();
 
-                            this.items.put(slotp.getX() + "," + slotp.getY(), Tools.ItemStackToBase64(backpack.query(QueryOperationTypes.INVENTORY_PROPERTY.of(slotp)).peek().get()));
+        for (Inventory slot : this.inventory.slots()) {
+            if (slot.peek().isPresent()) {
+                if (slot.size() > 0) {
+                    if (slot.getProperty(SlotIndex.class, "slotindex").isPresent()) {
+                        Integer indx = slot.getProperty(SlotIndex.class, "slotindex").get().getValue();
+
+                        SlotPos slotp = Tools.IndxToSP(indx);
+
+                        if (!slot.peek().get().getType().equals(ItemTypes.NONE)) {
+                            try {
+
+                                items.put(slotp.getX() + "," + slotp.getY(), Tools.ItemStackToBase64(slot.peek().get()));
+
+                            } catch (Exception e) {
+                                VirtualTool.getInstance().getLogger().error("Failed to load a stack data from inventory for this user: " + player.getName() + " SlotPos: " + slotp.getX() + "X," + slotp.getY() + "Y");
+                                e.printStackTrace();
+                                throw new Exception("Failed to load a stack data from inventory for this user: " + player.getName() + " SlotPos: " + slotp.getX() + "X," + slotp.getY() + "Y");
+                            }
                         }
-                    } catch (Exception e) {
-                        VirtualTool.getInstance().getLogger().error("Failed to load a stack data from inventory for this user: " + player.getName() + " SlotPos: " + slotp.getX() + "X," + slotp.getY() + "Y");
-                        e.printStackTrace();
-                    }
-                } else {
-                    if (this.items.containsKey(slotp.getX() + "," + slotp.getY())) {
-                        this.items.remove(slotp.getX() + "," + slotp.getY());
+
                     }
                 }
-            } else {
-                if (this.items.containsKey(slotp.getX() + "," + slotp.getY())) {
-                    this.items.remove(slotp.getX() + "," + slotp.getY());
-                }
+
             }
         }
-        return this.items;
+
+        return items;
+
     }
 
     private Map<String, String> loadSlots(VirtualTool vt) throws Exception {
@@ -186,8 +177,15 @@ public class Backpack {
     }
 
     private void loadBackpack(Player player, VirtualTool vt) {
-        if (this.items != null) {
-            for (Map.Entry<String, String> entry : this.items.entrySet()) {
+        Map<String, String> items = new HashMap<String, String>();
+        try {
+            items = loadSlots(this.vt);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (items != null) {
+            for (Map.Entry<String, String> entry : items.entrySet()) {
                 if (entry != null) {
                     if (entry.getValue() != null) {
                         final SlotPos sp = SlotPos.of(Integer.parseInt(entry.getKey().split(",")[0].toString()), Integer.parseInt(entry.getKey().split(",")[1].toString()));

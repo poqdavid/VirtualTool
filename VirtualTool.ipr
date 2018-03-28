@@ -943,13 +943,13 @@
     </library>
     <library name="Gradle: org.spongepowered:spongeapi:7.1.0-SNAPSHOT">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.spongepowered/spongeapi/7.1.0-SNAPSHOT/ab2217b782b96254ed16b1ad82857c08039c1392/spongeapi-7.1.0-SNAPSHOT.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.spongepowered/spongeapi/7.1.0-SNAPSHOT/f4cd696fda34425c0c45036fd5518333fb806b02/spongeapi-7.1.0-SNAPSHOT.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.spongepowered/spongeapi/7.1.0-SNAPSHOT/2108f4736b580d8d9068623d75755633d62b99c9/spongeapi-7.1.0-SNAPSHOT-javadoc.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.spongepowered/spongeapi/7.1.0-SNAPSHOT/7f97a91131cf901059ecf2ccd78b0a0b3006b496/spongeapi-7.1.0-SNAPSHOT-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.spongepowered/spongeapi/7.1.0-SNAPSHOT/131a1e5a90a0ad6f3ac1d990be80ee82774c1a61/spongeapi-7.1.0-SNAPSHOT-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.spongepowered/spongeapi/7.1.0-SNAPSHOT/ec1e24c98d5a212cdf080253b12da9798cc6f453/spongeapi-7.1.0-SNAPSHOT-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: org.yaml:snakeyaml:1.18">

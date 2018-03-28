@@ -42,6 +42,7 @@ import org.spongepowered.api.data.persistence.DataTranslators;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.item.inventory.property.SlotPos;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -408,6 +409,129 @@ public class Tools {
                 }
             }
         }
+    }
+
+    public static SlotPos IndxToSP(Integer indx) {
+        switch (indx) {
+            case 0:
+                return SlotPos.of(0, 0);
+            case 1:
+                return SlotPos.of(1, 0);
+            case 2:
+                return SlotPos.of(2, 0);
+            case 3:
+                return SlotPos.of(3, 0);
+            case 4:
+                return SlotPos.of(4, 0);
+            case 5:
+                return SlotPos.of(5, 0);
+            case 6:
+                return SlotPos.of(6, 0);
+            case 7:
+                return SlotPos.of(7, 0);
+            case 8:
+                return SlotPos.of(8, 0);
+
+            case 9:
+                return SlotPos.of(0, 1);
+            case 10:
+                return SlotPos.of(1, 1);
+            case 11:
+                return SlotPos.of(2, 1);
+            case 12:
+                return SlotPos.of(3, 1);
+            case 13:
+                return SlotPos.of(4, 1);
+            case 14:
+                return SlotPos.of(5, 1);
+            case 15:
+                return SlotPos.of(6, 1);
+            case 16:
+                return SlotPos.of(7, 1);
+            case 17:
+                return SlotPos.of(8, 1);
+
+            case 18:
+                return SlotPos.of(0, 2);
+            case 19:
+                return SlotPos.of(1, 2);
+            case 20:
+                return SlotPos.of(2, 2);
+            case 21:
+                return SlotPos.of(3, 2);
+            case 22:
+                return SlotPos.of(4, 2);
+            case 23:
+                return SlotPos.of(5, 2);
+            case 24:
+                return SlotPos.of(6, 2);
+            case 25:
+                return SlotPos.of(7, 2);
+            case 26:
+                return SlotPos.of(8, 2);
+
+            case 27:
+                return SlotPos.of(0, 3);
+            case 28:
+                return SlotPos.of(1, 3);
+            case 29:
+                return SlotPos.of(2, 3);
+            case 30:
+                return SlotPos.of(3, 3);
+            case 31:
+                return SlotPos.of(4, 3);
+            case 32:
+                return SlotPos.of(5, 3);
+            case 33:
+                return SlotPos.of(6, 3);
+            case 34:
+                return SlotPos.of(7, 3);
+            case 35:
+                return SlotPos.of(8, 3);
+
+            case 36:
+                return SlotPos.of(0, 4);
+            case 37:
+                return SlotPos.of(1, 4);
+            case 38:
+                return SlotPos.of(2, 4);
+            case 39:
+                return SlotPos.of(3, 4);
+            case 40:
+                return SlotPos.of(4, 4);
+            case 41:
+                return SlotPos.of(5, 4);
+            case 42:
+                return SlotPos.of(6, 4);
+            case 43:
+                return SlotPos.of(7, 4);
+            case 44:
+                return SlotPos.of(8, 4);
+
+            case 45:
+                return SlotPos.of(0, 5);
+            case 46:
+                return SlotPos.of(1, 5);
+            case 47:
+                return SlotPos.of(2, 5);
+            case 48:
+                return SlotPos.of(3, 5);
+            case 49:
+                return SlotPos.of(4, 5);
+            case 50:
+                return SlotPos.of(5, 5);
+            case 51:
+                return SlotPos.of(6, 5);
+            case 52:
+                return SlotPos.of(7, 5);
+            case 53:
+                return SlotPos.of(8, 5);
+
+            default:
+                return null;
+        }
+
+
     }
 
 }
