@@ -65,6 +65,7 @@ public class Backpack {
     private Text backpacktitle_text;
     private String backpacktitle_str;
     private int size;
+    private Boolean saveit;
 
     public Backpack(Player player_args, Player player_cmd_src, int size, Boolean saveit, VirtualTool vt) {
 
@@ -74,6 +75,7 @@ public class Backpack {
         this.player_args = player_args;
         this.player_cmd_src = player_cmd_src;
         this.size = size;
+        this.saveit = saveit;
 
         if (!player_cmd_src.getUniqueId().equals(this.player_args.getUniqueId())) {
             this.backpacktitle_text = Text.of(this.player_args.getName() + "'s " + "Backpack");
@@ -84,26 +86,10 @@ public class Backpack {
         }
 
         this.inventory = Inventory.builder()
-                .of(InventoryArchetypes.DOUBLE_CHEST)
+                .of(InventoryArchetypes.CHEST).withCarrier(this.player_args)
                 .property(InventoryTitle.PROPERTY_NAME, InventoryTitle.of(Text.of(this.backpacktitle_text)))
-                .property("inventorydimension", InventoryDimension.of(9, this.size))
-                .listener(ClickInventoryEvent.class, (ClickInventoryEvent event) -> {
-                    if (saveit) {
-                        try {
-                            Map<String, String> items = this.loadStacks(this.player_args);
-                            this.savebackpack(this.player_args, items, this.vt);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        event.setCancelled(true);
-                    }
-                })
-                .listener(InteractInventoryEvent.Close.class, event -> {
-                    if (saveit) {
-                        Tools.unlockbackpack(this.player_args, false, this.vt);
-                    }
-                })
+                .property(InventoryDimension.PROPERTY_NAME, InventoryDimension.of(9, this.size))
+                .listener(ClickInventoryEvent.class, this::triggerClickEvent)
                 .build(VirtualTool.getInstance());
         this.loadBackpack(this.player_args, this.vt);
     }
@@ -149,12 +135,10 @@ public class Backpack {
 
                         }
 
-
                     }
                 }
 
             }
-
 
         }
 
@@ -216,6 +200,19 @@ public class Backpack {
                     }
                 }
             }
+        }
+    }
+
+    private void triggerClickEvent(ClickInventoryEvent event) {
+        if (this.saveit) {
+            try {
+                Map<String, String> items = this.loadStacks(this.player_args);
+                this.savebackpack(this.player_args, items, this.vt);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            event.setCancelled(true);
         }
     }
 

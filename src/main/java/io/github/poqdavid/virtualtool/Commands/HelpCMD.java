@@ -81,12 +81,9 @@ public class HelpCMD implements CommandExecutor {
             }
             Text h1 = Text.builder("Author: ").color(TextColors.BLUE).style(TextStyles.BOLD).build();
             Text h2 = Text.builder("POQDavid").color(TextColors.GRAY).style(TextStyles.BOLD).onHover(TextActions.showText(Text.of(url1.toString()))).onClick(TextActions.openUrl(url1)).build();
-            Text h3 = Text.builder(",").color(TextColors.BLUE).style(TextStyles.BOLD).build();
-            Text h4 = Text.builder(" and Special thanks to ").color(TextColors.GRAY).style(TextStyles.BOLD).build();
-            Text h5 = Text.builder("Pocket").color(TextColors.YELLOW).style(TextStyles.BOLD).onHover(TextActions.showText(Text.of(url2.toString()))).onClick(TextActions.openUrl(url2)).build();
-            Text h6 = Text.builder("Pixels").color(TextColors.BLUE).style(TextStyles.BOLD).onHover(TextActions.showText(Text.of(url2.toString()))).onClick(TextActions.openUrl(url2)).build();
+
             builder.title(Text.of(TextColors.DARK_AQUA, "VirtualTool - V" + vt.getVersion()))
-                    .header(Text.of(h1, h2, h3, h4, h5, h6))
+                    .header(Text.of(h1, h2))
                     .contents(
                             Text.of(TextColors.BLUE, TextStyles.ITALIC, ""),
                             Text.of(TextColors.GREEN, TextStyles.BOLD, "Commands"),

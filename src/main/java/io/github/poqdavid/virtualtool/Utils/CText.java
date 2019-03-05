@@ -47,7 +47,8 @@ public class CText {
         BLUE(34),
         MAGENTA(35),
         CYAN(36),
-        WHITE(37),;
+        WHITE(37),
+        ;
 
         private int value;
 
@@ -64,7 +65,8 @@ public class CText {
         BLUE(44),
         MAGENTA(45),
         CYAN(46),
-        WHITE(47),;
+        WHITE(47),
+        ;
 
         private int value;
 

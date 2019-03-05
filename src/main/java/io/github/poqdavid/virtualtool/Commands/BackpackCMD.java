@@ -37,7 +37,10 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.property.InventoryTitle;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.serializer.TextSerializers;
 
 import java.io.File;
 import java.io.IOException;
@@ -84,8 +87,8 @@ public class BackpackCMD implements CommandExecutor {
                                 if (args.hasAny("m")) {
                                     if (player_cmd_src.hasPermission(VTPermissions.COMMAND_BACKPACK_ADMIN_MODIFY)) {
                                         this.backpackcheck(player_args);
-                                        this.backpackchecklock(player_args);
-                                        Tools.lockbackpack(player_args, true, this.vt);
+                                        this.backpackchecklock(player_args, player_cmd_src);
+
                                         final Backpack backpack = new Backpack(player_args, player_cmd_src, this.getBackpackSize(player_args, bpszie), true, this.vt);
                                         player_cmd_src.openInventory(backpack.getbackpack());
                                     } else {
@@ -103,14 +106,14 @@ public class BackpackCMD implements CommandExecutor {
                             throw new CommandPermissionException(Text.of("You don't have permission to view other backpacks."));
                         }
                     } else {
-                        this.backpackchecklock(player_cmd_src);
-                        Tools.lockbackpack(player_cmd_src, false, this.vt);
+                        this.backpackchecklock(player_cmd_src, player_cmd_src);
+
                         final Backpack backpack = new Backpack(player_cmd_src, player_cmd_src, this.getBackpackSize(player_cmd_src), true, vt);
                         player_cmd_src.openInventory(backpack.getbackpack());
                     }
                 } else {
-                    this.backpackchecklock(player_cmd_src);
-                    Tools.lockbackpack(player_cmd_src, false, this.vt);
+                    this.backpackchecklock(player_cmd_src, player_cmd_src);
+
                     final Backpack backpack = new Backpack(player_cmd_src, player_cmd_src, this.getBackpackSize(player_cmd_src), true, vt);
                     player_cmd_src.openInventory(backpack.getbackpack());
                 }
@@ -164,12 +167,60 @@ public class BackpackCMD implements CommandExecutor {
 
     }
 
-    private void backpackchecklock(Player player) throws CommandException {
+    private void backpackchecklock(Player player, Player playersrc) throws CommandException {
 
         Path file = Paths.get(this.vt.getConfigPath() + File.separator + "backpacks" + File.separator + player.getUniqueId().toString() + ".lock");
+
         if (Files.exists(file)) {
             throw new CommandPermissionException(Text.of("Sorry currently your backpack is locked."));
+        } else {
+
+            if (isBackpackOpen(player)){
+                throw new CommandPermissionException(Text.of("Sorry currently your backpack is locked!!"));
+            }
         }
+    }
+
+    private Boolean isBackpackOpen(Player player) {
+        String tl = player.getName() + "'s " + "Backpack";
+        if (player.isOnline()) {
+            if (player.isViewingInventory()) {
+                Inventory inv = player.getInventory();
+
+                InventoryTitle title = (InventoryTitle) inv.getInventoryProperty(InventoryTitle.class).orElse(InventoryTitle.of(Text.of("NONE")));
+                String titles = TextSerializers.FORMATTING_CODE.serialize(title.getValue());
+
+                if (titles == "Backpack") {
+                    return true;
+                }
+                else {
+                    return searchInvs(tl);
+                }
+
+            } else {
+
+                return searchInvs(tl);
+            }
+
+        } else {
+            return searchInvs(tl);
+        }
+    }
+
+    private Boolean searchInvs(String title) {
+        for (Player pl : this.vt.getGame().getServer().getOnlinePlayers()) {
+            if (pl.isViewingInventory()) {
+                Inventory inv2 = pl.getInventory();
+
+                InventoryTitle title2 = (InventoryTitle) inv2.getInventoryProperty(InventoryTitle.class).orElse(InventoryTitle.of(Text.of("NONE")));
+                String titles2 = TextSerializers.FORMATTING_CODE.serialize(title2.getValue());
+
+                if (titles2 == title) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void backpackcheck(Player player) throws CommandException {

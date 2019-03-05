@@ -247,9 +247,18 @@ public class Tools {
                     }
                     return false;
                 }
+            } else {
+                if (log) {
+                    vt.getLogger().error("Lock Doesn't exists failed to remove lock: " + f.getName());
+                }
+                return false;
             }
+        } else {
+            if (log) {
+                vt.getLogger().error("Failed to remove lock: " + f.getName() + "!!");
+            }
+            return false;
         }
-        return false;
     }
 
     public static Boolean backpackchecklock(Player player, VirtualTool vt) throws CommandException {
