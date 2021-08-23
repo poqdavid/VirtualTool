@@ -1,3 +1,4 @@
+# **This plugin wont be updated anymore please use https://poqdavid.github.io/NyxBackpack and https://poqdavid.github.io/NyxTools**
 # VirtualTool [![GitHub stars](https://img.shields.io/github/stars/poqdavid/VirtualTool.svg)](https://github.com/poqdavid/VirtualTool/stargazers) [![GitHub issues](https://img.shields.io/github/issues/poqdavid/VirtualTool.svg)](https://github.com/poqdavid/VirtualTool/issues) [![Build Status](https://travis-ci.org/poqdavid/VirtualTool.svg?branch=master)](https://travis-ci.org/poqdavid/VirtualTool)
 A plugin for minecraft to provide virtual gui for all possible items.
 
