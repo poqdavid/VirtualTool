@@ -22,6 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package io.github.poqdavid.virtualtool.Utils;
 
 import com.google.common.base.Charsets;
@@ -32,7 +33,6 @@ import io.github.poqdavid.virtualtool.VirtualTool;
 import org.apache.commons.io.FileUtils;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.item.inventory.ClickInventoryEvent;
-import org.spongepowered.api.event.item.inventory.InteractInventoryEvent;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.InventoryArchetypes;
@@ -57,15 +57,15 @@ import java.util.Map;
  */
 public class Backpack {
 
-    private Path backpackfile_path;
-    private Player player_args;
-    private Player player_cmd_src;
-    private Inventory inventory;
-    private VirtualTool vt;
-    private Text backpacktitle_text;
-    private String backpacktitle_str;
-    private int size;
-    private Boolean saveit;
+    private final Path backpackfile_path;
+    private final Player player_args;
+    private final Player player_cmd_src;
+    private final Inventory inventory;
+    private final VirtualTool vt;
+    private final Text backpacktitle_text;
+    private final String backpacktitle_str;
+    private final int size;
+    private final Boolean saveit;
 
     public Backpack(Player player_args, Player player_cmd_src, int size, Boolean saveit, VirtualTool vt) {
 
@@ -159,6 +159,7 @@ public class Backpack {
 
         Map<String, String> models = null;
         try {
+
             models = gson.fromJson(FileUtils.readFileToString(file, Charsets.UTF_8), type);
         } catch (IOException e) {
             e.printStackTrace();
@@ -183,7 +184,7 @@ public class Backpack {
             for (Map.Entry<String, String> entry : items.entrySet()) {
                 if (entry != null) {
                     if (entry.getValue() != null) {
-                        final SlotPos sp = SlotPos.of(Integer.parseInt(entry.getKey().split(",")[0].toString()), Integer.parseInt(entry.getKey().split(",")[1].toString()));
+                        final SlotPos sp = SlotPos.of(Integer.parseInt(entry.getKey().split(",")[0]), Integer.parseInt(entry.getKey().split(",")[1]));
                         try {
                             if (!entry.getValue().equals("EMPTY")) {
                                 final ItemStack itemst = Tools.Base64ToItemStack(entry.getValue());

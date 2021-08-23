@@ -22,6 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package io.github.poqdavid.virtualtool.Utils;
 
 import org.slf4j.Logger;
@@ -31,7 +32,7 @@ import org.slf4j.LoggerFactory;
  * Created by David on 7/13/2017.
  */
 public class VTLogger {
-    private Logger logger;
+    private final Logger logger;
 
     public VTLogger(String name) {
         this.logger = LoggerFactory.getLogger(name);

@@ -22,6 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package io.github.poqdavid.virtualtool.Commands;
 
 import io.github.poqdavid.virtualtool.Permission.VTPermissions;
@@ -43,9 +44,9 @@ import org.spongepowered.api.text.Text;
  * Created by David on 2/7/2017.
  */
 public class WorkbenchCMD implements CommandExecutor {
-    private Game game;
-    private VirtualTool vt;
-    private Invs inv;
+    private final Game game;
+    private final VirtualTool vt;
+    private final Invs inv;
 
     public WorkbenchCMD(Game game, Invs inv, VirtualTool vt) {
         this.game = game;

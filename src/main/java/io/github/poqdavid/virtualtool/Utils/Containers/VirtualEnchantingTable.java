@@ -22,6 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package io.github.poqdavid.virtualtool.Utils.Containers;
 
 import net.minecraft.enchantment.Enchantment;
@@ -57,7 +58,7 @@ public class VirtualEnchantingTable extends ContainerEnchantment {
     }
 
     private List<EnchantmentData> getEnchantmentList(net.minecraft.item.ItemStack stack, int p_178148_2_, int p_178148_3_) {
-        this.rand.setSeed((long) (this.xpSeed + p_178148_2_));
+        this.rand.setSeed(this.xpSeed + p_178148_2_);
         List<EnchantmentData> list = EnchantmentHelper.buildEnchantmentList(this.rand, stack, p_178148_3_, false);
 
         if (stack.getItem() == Items.BOOK && list.size() > 1) {
@@ -76,7 +77,7 @@ public class VirtualEnchantingTable extends ContainerEnchantment {
                 if (!this.worldPointer.isRemote) {
                     int l = 0;
 
-                    this.rand.setSeed((long) this.xpSeed);
+                    this.rand.setSeed(this.xpSeed);
 
                     for (int i1 = 0; i1 < 3; ++i1) {
                         this.enchantLevels[i1] = EnchantmentHelper.calcItemStackEnchantability(this.rand, i1, (int) this.power, itemstack);
@@ -93,7 +94,7 @@ public class VirtualEnchantingTable extends ContainerEnchantment {
                             List<EnchantmentData> list = this.getEnchantmentList(itemstack, j1, this.enchantLevels[j1]);
 
                             if (list != null && !list.isEmpty()) {
-                                EnchantmentData enchantmentdata = (EnchantmentData) list.get(this.rand.nextInt(list.size()));
+                                EnchantmentData enchantmentdata = list.get(this.rand.nextInt(list.size()));
                                 this.enchantClue[j1] = Enchantment.getEnchantmentID(enchantmentdata.enchantment);
                                 this.worldClue[j1] = enchantmentdata.enchantmentLevel;
                             }

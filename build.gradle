@@ -4,28 +4,24 @@ buildscript {
         maven { url = "http://files.minecraftforge.net/maven" }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:3.+'
     }
 }
-
 
 plugins {
     id "groovy"
     id "java"
     id "idea"
     id "signing"
-    //id "ninja.miserable.blossom" version "1.0.1"
-    id "com.github.johnrengelman.shadow" version "2.0.1"
-    id "org.spongepowered.plugin" version "0.8.1"
-    id "com.qixalite.spongestart2" version "4.0.0"
-
-    id "net.minecrell.licenser" version "0.3"
+    id "com.github.johnrengelman.shadow" version "5.2.0"
+    id "org.spongepowered.plugin" version "0.9.0"
+    id "net.minecrell.licenser" version "0.4.1"
 }
-apply plugin: 'net.minecraftforge.gradle.forge'
-//project.gradle.startParameter.setLogLevel(LogLevel.INFO)
+apply plugin: 'net.minecraftforge.gradle'
 
+
+sponge.plugin.id = "${getProjectProperty('m_id')}"
 group = "${getProjectProperty('m_group')}"
-
 version = "${getProjectProperty('minecraft_version')}-${getProjectProperty('m_major')}.${getProjectProperty('m_minor')}-${getProjectProperty('m_api')}-${getProjectProperty('m_suffix')}"
 description = "${getProjectProperty('m_description')}"
 
@@ -65,53 +61,34 @@ repositories {
         name = "JitPack"
         url = "https://jitpack.io"
     }
+    maven {
+        name = "CodeMC"
+        url = "https://repo.codemc.org/repository/maven-public"
+    }
+}
+
+configurations {
+    compile.extendsFrom shadow
 }
 
 dependencies {
+    minecraft "net.minecraftforge:forge:${getProjectProperty('forgeVersion')}"
     compile("org.spongepowered:spongeapi:${getProjectProperty('spongeapi')}")
 
-    //compile("io.github.nucleuspowered:nucleus-api:${getProjectProperty('nucleus')}")
-    //runtimeOnly("io.github.nucleuspowered:Nucleus:${getProjectProperty('nucleus')}")
+    annotationProcessor("org.spongepowered:spongeapi:${getProjectProperty('spongeapi')}")
 
     compile("javax.validation:validation-api:${getProjectProperty('validation')}")
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+
 }
-
-/*shadowJar {
-    dependencies {
-        include(dependency("io.github.nucleuspowered:nucleus-api:${getProjectProperty('nucleus')}"))
-    }
-}*/
-
-/*blossom {
-    def pluginData = "src/main/java/io/github/poqdavid/spongerecords/PluginData.java"
-
-    replaceToken "xidx", getProjectProperty('m_id'), pluginData
-    replaceToken "XNAMEX", getProjectProperty('m_name'), pluginData
-    replaceToken "@VERSION@", version, pluginData
-    replaceToken "@DESCRIPTION@",  getProjectProperty('m_description'), pluginData
-    replaceToken "@ORGANIZATION@", getProjectProperty('m_organization'), pluginData
-    replaceToken "@AUTHORS@",  getProjectProperty('m_authors'), pluginData
-    replaceToken "@URL@",  getProjectProperty('m_url'), pluginData
-}*/
 
 minecraft {
-    version = getProjectProperty('forgeVersion')
-    runDir = getProjectProperty('forge_rundir')
-
-    // the mappings can be changed at any time, and must be in the following format.
-    // snapshot_YYYYMMDD   snapshot are built nightly.
-    // stable_#            stables are built at the discretion of the MCP team.
-    // Use non-default mappings at your own risk. they may not always work.
-    // simply re-run your setup task after changing the mappings to update your workspace.
-     mappings = getProjectProperty('mcpVersion')
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+    mappings channel: getProjectProperty('mappings_channel'), version: getProjectProperty('mappings_version')
 }
 
-/*spongestart {
-    minecraft "${getProjectProperty('minecraft_version')}"
-    spongeForgeVersion getProjectProperty('spongeforge')
-    forgeServerFolder "${getProjectProperty('spongeforgeServerFolder')}"
-}*/
+artifacts {
+    archives shadowJar
+}
 
 processResources {
     // this will ensure that this task is redone when the versions change.
@@ -136,7 +113,7 @@ processResources {
 
 license {
     header = file('HEADER.txt')
-    newLine = false
+    newLine = true
     ext {
         name = getProjectProperty('m_name')
         organization = getProjectProperty('m_organization')
@@ -157,19 +134,29 @@ idea {
     }
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.1'
+
+task copyJar(type: Copy) {
+    from "build/libs/" + getProjectProperty('m_name') + "-" + version + ".jar"
+    into 'C:/Minecraft/Servers/Sponge/mods'
+    project.logger.log(LogLevel.WARN, 'Copied file: ' + getProjectProperty('m_name') + "-" + version + ".jar")
 }
 
-def String getProjectProperty(String propertyName) {
+shadowJar {
+    configurations = [project.configurations.shadow]
+    relocate "org.bstats", "io.github.poqdavid.nyx.nyxtools.shaded.bstats"
+    classifier = null // Remove "-all" suffix from output file name
+}
+
+String getProjectProperty(String propertyName) {
     String temp = "null"
     if (hasProperty(propertyName)) {
         temp = this.properties[propertyName]
-        project.logger.log(LogLevel.WARN, "Found property: " + propertyName+" value: " + temp)
+        project.logger.log(LogLevel.WARN, "Found property: " + propertyName + " value: " + temp)
     } else {
         project.logger.log(LogLevel.ERROR, "Property (" + propertyName + ") not found!")
     }
     return temp
 }
 
-build.dependsOn(shadowJar)
+build.dependsOn shadowJar
+//build.dependsOn copyJar

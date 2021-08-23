@@ -22,6 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package io.github.poqdavid.virtualtool.Commands;
 
 import io.github.poqdavid.virtualtool.Permission.VTPermissions;
@@ -48,9 +49,9 @@ import java.net.URL;
  * Created by David on 10/23/2016.
  */
 public class HelpCMD implements CommandExecutor {
-    private Game game;
-    private VirtualTool vt;
-    private Invs inv;
+    private final Game game;
+    private final VirtualTool vt;
+    private final Invs inv;
 
     public HelpCMD(Game game, Invs inv, VirtualTool vt) {
         this.game = game;
@@ -65,7 +66,7 @@ public class HelpCMD implements CommandExecutor {
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         if (src.hasPermission(VTPermissions.COMMAND_HELP)) {
-            PaginationService paginationService = vt.getInstance().getGame().getServiceManager().provide(PaginationService.class).get();
+            PaginationService paginationService = VirtualTool.getInstance().getGame().getServiceManager().provide(PaginationService.class).get();
             PaginationList.Builder builder = paginationService.builder();
             URL url1 = null;
             try {

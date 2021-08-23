@@ -22,6 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package io.github.poqdavid.virtualtool.Commands;
 
 import io.github.poqdavid.virtualtool.Permission.VTPermissions;
@@ -44,6 +45,7 @@ import org.spongepowered.api.text.serializer.TextSerializers;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -53,9 +55,9 @@ import java.nio.file.Paths;
  */
 public class BackpackCMD implements CommandExecutor {
 
-    private Game game;
-    private VirtualTool vt;
-    private Invs inv;
+    private final Game game;
+    private final VirtualTool vt;
+    private final Invs inv;
 
     public BackpackCMD(Game game, Invs inv, VirtualTool vt) {
         this.game = game;
@@ -175,7 +177,7 @@ public class BackpackCMD implements CommandExecutor {
             throw new CommandPermissionException(Text.of("Sorry currently your backpack is locked."));
         } else {
 
-            if (isBackpackOpen(player)){
+            if (isBackpackOpen(player)) {
                 throw new CommandPermissionException(Text.of("Sorry currently your backpack is locked!!"));
             }
         }
@@ -187,13 +189,12 @@ public class BackpackCMD implements CommandExecutor {
             if (player.isViewingInventory()) {
                 Inventory inv = player.getInventory();
 
-                InventoryTitle title = (InventoryTitle) inv.getInventoryProperty(InventoryTitle.class).orElse(InventoryTitle.of(Text.of("NONE")));
+                InventoryTitle title = inv.getInventoryProperty(InventoryTitle.class).orElse(InventoryTitle.of(Text.of("NONE")));
                 String titles = TextSerializers.FORMATTING_CODE.serialize(title.getValue());
 
                 if (titles == "Backpack") {
                     return true;
-                }
-                else {
+                } else {
                     return searchInvs(tl);
                 }
 
@@ -212,7 +213,7 @@ public class BackpackCMD implements CommandExecutor {
             if (pl.isViewingInventory()) {
                 Inventory inv2 = pl.getInventory();
 
-                InventoryTitle title2 = (InventoryTitle) inv2.getInventoryProperty(InventoryTitle.class).orElse(InventoryTitle.of(Text.of("NONE")));
+                InventoryTitle title2 = inv2.getInventoryProperty(InventoryTitle.class).orElse(InventoryTitle.of(Text.of("NONE")));
                 String titles2 = TextSerializers.FORMATTING_CODE.serialize(title2.getValue());
 
                 if (titles2 == title) {
@@ -230,7 +231,7 @@ public class BackpackCMD implements CommandExecutor {
         } else {
             String content = null;
             try {
-                content = new String(Files.readAllBytes(file), "UTF-8");
+                content = new String(Files.readAllBytes(file), StandardCharsets.UTF_8);
             } catch (IOException e) {
                 e.printStackTrace();
             }

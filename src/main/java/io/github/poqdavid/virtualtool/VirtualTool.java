@@ -22,6 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package io.github.poqdavid.virtualtool;
 
 import com.google.inject.Inject;
@@ -64,15 +65,15 @@ public class VirtualTool {
     final private VTLogger logger;
     public PermissionService permservice;
     public PermissionDescription.Builder permdescbuilder;
-    private Path configdirpath;
-    private Path configfullpath;
-    private Path dataDir;
-    private Path backpackDir;
-    private PluginContainer pluginContainer;
+    private final Path configdirpath;
+    private final Path configfullpath;
+    private final Path dataDir;
+    private final Path backpackDir;
+    private final PluginContainer pluginContainer;
 
     @Inject
     private Game game;
-    private Settings settings;
+    private final Settings settings;
     private CommandManager cmdManager;
 
     @Inject

@@ -22,6 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package io.github.poqdavid.virtualtool.Utils;
 
 /**
@@ -50,7 +51,7 @@ public class CText {
         WHITE(37),
         ;
 
-        private int value;
+        private final int value;
 
         Colors(int i) {
             this.value = i;
@@ -68,7 +69,7 @@ public class CText {
         WHITE(47),
         ;
 
-        private int value;
+        private final int value;
 
         BGColors(int i) {
             this.value = i;

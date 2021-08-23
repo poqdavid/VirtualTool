@@ -22,6 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package io.github.poqdavid.virtualtool.Utils;
 
 import io.github.poqdavid.virtualtool.VirtualTool;
@@ -43,8 +44,8 @@ import org.spongepowered.api.text.Text;
  * Created by David on 2/7/2017.
  */
 public class Invs {
-    private Game game;
-    private VirtualTool vt;
+    private final Game game;
+    private final VirtualTool vt;
 
     public Invs(Game game, VirtualTool vt) {
         this.game = game;

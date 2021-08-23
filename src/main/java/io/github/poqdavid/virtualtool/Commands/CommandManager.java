@@ -22,6 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package io.github.poqdavid.virtualtool.Commands;
 
 
@@ -43,9 +44,9 @@ public class CommandManager {
     public static CommandSpec enchantingtableCmd;
     public static CommandSpec backpackCmd;
     public static CommandSpec backpacklockCmd;
-    private Game game;
-    private VirtualTool vt;
-    private Invs inv;
+    private final Game game;
+    private final VirtualTool vt;
+    private final Invs inv;
 
     public CommandManager(Game game, VirtualTool vt) {
         this.game = game;
